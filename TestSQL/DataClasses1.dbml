@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="TestData" Class="TestDataBase" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.;Initial Catalog=TestData;Integrated Security=True" SettingsObjectName="TestSQL.Properties.Settings" SettingsPropertyName="TestDataConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Table_1" Member="Table_1">
+    <Type Name="Table_1">
+      <Column Name="NumberID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Table_1_Table_2" Member="Table_2" ThisKey="NumberID" OtherKey="NumberID" Type="Table_2" Cardinality="One" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Table_2" Member="Table_2">
+    <Type Name="Table_2">
+      <Column Name="NumberID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Qwerty" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Table_1_Table_2" Member="Table_1" ThisKey="NumberID" OtherKey="NumberID" Type="Table_1" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
