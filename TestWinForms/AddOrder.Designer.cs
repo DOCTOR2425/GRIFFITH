@@ -31,7 +31,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.AddOrderButton = new System.Windows.Forms.Button();
             this.ServiceGroupBox = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.ClientCheckBox = new System.Windows.Forms.CheckBox();
@@ -75,16 +75,16 @@
             this.textBox3.Size = new System.Drawing.Size(305, 22);
             this.textBox3.TabIndex = 2;
             // 
-            // button1
+            // AddOrderButton
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(665, 639);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(277, 57);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Добавить клиента";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.AddOrderButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.AddOrderButton.Location = new System.Drawing.Point(665, 639);
+            this.AddOrderButton.Name = "AddOrderButton";
+            this.AddOrderButton.Size = new System.Drawing.Size(277, 57);
+            this.AddOrderButton.TabIndex = 3;
+            this.AddOrderButton.Text = "Добавить клиента";
+            this.AddOrderButton.UseVisualStyleBackColor = true;
+            this.AddOrderButton.Click += new System.EventHandler(this.AddOrderButton_Click);
             // 
             // ServiceGroupBox
             // 
@@ -114,7 +114,7 @@
             this.ClientCheckBox.TabIndex = 7;
             this.ClientCheckBox.Text = "Выбор добавленного клиента";
             this.ClientCheckBox.UseVisualStyleBackColor = true;
-            this.ClientCheckBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.ClientCheckBox.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
             // 
             // ClientTextBox
             // 
@@ -251,7 +251,7 @@
             this.Controls.Add(this.ClientTextBox);
             this.Controls.Add(this.ClientCheckBox);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.AddOrderButton);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
@@ -275,7 +275,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button AddOrderButton;
         private System.Windows.Forms.GroupBox ServiceGroupBox;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckBox ClientCheckBox;

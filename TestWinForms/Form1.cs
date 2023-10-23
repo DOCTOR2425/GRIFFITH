@@ -163,13 +163,17 @@ namespace TestWinForms
             addEmployee.ShowDialog();
 
             Grid.DataSource = from employee in Notary.Employee
-                              where employee.DismissalDate == null
                               select new
                               {
                                   Имя = employee.Name,
                                   Зарплата = employee.Salary,
-                                  Найм = employee.HireDate
+                                  Должность = employee.Post,
+                                  Найм = employee.HireDate,
+                                  Статус = employee.DismissalDate == null ? "Работает" :
+                                  "Уволен " + employee.DismissalDate.ToString()
                               };
+            Grid.Columns["Имя"].Width = 180;
+            Grid.Columns["Статус"].Width = 180;
         }
     }
 }

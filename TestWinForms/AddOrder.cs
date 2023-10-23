@@ -9,11 +9,30 @@ namespace TestWinForms
 {
     public partial class AddOrder : Form
     {
-        NotaryBaseDataContext Notary = new NotaryBaseDataContext();
+        readonly NotaryBaseDataContext Notary = new NotaryBaseDataContext();
         List<RadioButton> ServiceRadiobuttons;
         List<RadioButton> ClientRadiobuttons;
         List<RadioButton> DiscountRadiobuttons;
         List<RadioButton> EmployeeRadiobuttons;
+
+        private List<RadioButton> FillGroupBox(GroupBox groupBox, List<string> names)
+        {
+            groupBox.Controls.Clear();
+
+            var list = new List<RadioButton>(names.Count);
+
+            Point GBLoc = groupBox.Location;
+
+            for (int i = 0; i < names.Count; i++)
+            {
+                list.Add(new RadioButton());
+                list[i].Text = names[i];
+                list[i].Parent = groupBox;
+                list[i].Location = new Point(5, GBLoc.Y + 20 * (i + 1));
+            }
+
+            return list;
+        }
 
         private List<RadioButton> FillServiceGroupBox()
         {
@@ -22,37 +41,18 @@ namespace TestWinForms
 
             var services = (from service in Notary.Service
                             where service.NewFlag == 1
-                            select service).ToList();
-            List<RadioButton> radioButtons = new List<RadioButton>(services.Count);
-            radioButtons = new List<RadioButton>(services.Count);
-            Point GBLoc = ServiceGroupBox.Location;
+                            select service.Name).ToList();
 
-            for (int i = 0; i < services.Count; i++)
-            {
-                radioButtons.Add(new RadioButton());
-                radioButtons[i].Text = services[i].Name;
-                radioButtons[i].Parent = ServiceGroupBox;
-                radioButtons[i].Location = new Point(5, GBLoc.Y + 20 * (i + 1));
-            }
-            return radioButtons;
+            return FillGroupBox(ServiceGroupBox, services);
         }
         private List<RadioButton> FillClientGroupBox()
         {
             ClientGroupBox.Parent = panel2;
             panel2.AutoScroll = true;
 
-            var clients = (from client in Notary.Client select client).ToList();
-            List<RadioButton> radioButtons = new List<RadioButton>(clients.Count);
-            Point GBLoc = ClientGroupBox.Location;
+            var clients = (from client in Notary.Client select client.Name).ToList();
 
-            for (int i = 0; i < clients.Count; i++)
-            {
-                radioButtons.Add(new RadioButton());
-                radioButtons[i].Text = clients[i].Name;
-                radioButtons[i].Parent = ClientGroupBox;
-                radioButtons[i].Location = new Point(5, GBLoc.Y + 20 * (i + 1));
-            }
-            return radioButtons;
+            return FillGroupBox(ClientGroupBox, clients);
         }
         private List<RadioButton> FillDiscountGroupBox()
         {
@@ -61,18 +61,9 @@ namespace TestWinForms
 
             var discount = (from disc in Notary.Discount
                             where disc.NewFlag == 1
-                            select disc).ToList();
-            List<RadioButton> radioButtons = new List<RadioButton>(discount.Count);
-            Point GBLoc = DiscountGroupBox.Location;
+                            select disc.Name).ToList();
 
-            for (int i = 0; i < discount.Count; i++)
-            {
-                radioButtons.Add(new RadioButton());
-                radioButtons[i].Text = discount[i].Name;
-                radioButtons[i].Parent = DiscountGroupBox;
-                radioButtons[i].Location = new Point(5, GBLoc.Y + 20 * (i + 1));
-            }
-            return radioButtons;
+            return FillGroupBox(DiscountGroupBox, discount);
         }
         private List<RadioButton> FillEmployeeGroupBox()
         {
@@ -82,19 +73,9 @@ namespace TestWinForms
             var employee = (from emp in Notary.Employee
                             where emp.Post.Contains("Нотариус")
                             where emp.DismissalDate == null
-                            select emp).ToList();
+                            select emp.Name).ToList();
 
-            List<RadioButton> radioButtons = new List<RadioButton>(employee.Count);
-            Point GBLoc = EmployeeGroupBox.Location;
-
-            for (int i = 0; i < employee.Count; i++)
-            {
-                radioButtons.Add(new RadioButton());
-                radioButtons[i].Text = employee[i].Name;
-                radioButtons[i].Parent = EmployeeGroupBox;
-                radioButtons[i].Location = new Point(5, GBLoc.Y + 20 * (i + 1));
-            }
-            return radioButtons;
+            return FillGroupBox(EmployeeGroupBox, employee);
         }
         private bool HasCheced(List<RadioButton> radioButtons)
         {
@@ -110,6 +91,7 @@ namespace TestWinForms
                 if (radioButton.Checked)
                     order.ServiceID = (from service in Notary.Service
                                        where service.Name == radioButton.Text
+                                       where service.NewFlag == 1
                                        select service).ToList().First().ServiceID;
         }
         private void FillDiscount(Order order)
@@ -118,6 +100,7 @@ namespace TestWinForms
                 if (radioButton.Checked)
                     order.DiscountID = (from disc in Notary.Discount
                                         where disc.Name == radioButton.Text
+                                        where disc.NewFlag == 1
                                         select disc).ToList().First().DiscountID;
         }
         private void FillEmployee(Order order)
@@ -139,7 +122,71 @@ namespace TestWinForms
             EmployeeRadiobuttons = FillEmployeeGroupBox();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void CheckBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ClientCheckBox.Checked == true)
+            {
+                textBox1.Enabled = false;
+                textBox2.Enabled = false;
+                textBox3.Enabled = false;
+
+                ClientTextBox.Enabled = true;
+
+                ClientGroupBox.Enabled = true;
+            }
+            else
+            {
+                textBox1.Enabled = true;
+                textBox2.Enabled = true;
+                textBox3.Enabled = true;
+
+                ClientTextBox.Enabled = false;
+
+                ClientGroupBox.Enabled = false;
+            }
+        }
+
+        private void ServiceTextBox_TextChanged(object sender, EventArgs e)
+        {
+            var service = (from serv in Notary.Service
+                           where serv.NewFlag == 1
+                           where serv.Name.Contains(ServiceTextBox.Text)
+                           select serv.Name ).ToList();
+
+            ServiceRadiobuttons = FillGroupBox(ServiceGroupBox, service);
+        }
+
+        private void ClientTextBox_TextChanged(object sender, EventArgs e)
+        {
+            var clients = (from client in Notary.Client
+                           where client.Name.Contains(ClientTextBox.Text)
+                           select client.Name).ToList();
+
+            ClientRadiobuttons = FillGroupBox(ClientGroupBox, clients);
+        }
+
+        private void DiscountTextBox_TextChanged(object sender, EventArgs e)
+        {
+            var discounts = (from disc in Notary.Discount
+                             where disc.NewFlag == 1
+                             where disc.Name.Contains(DiscountTextBox.Text)
+                             select disc.Name).ToList();
+
+            DiscountRadiobuttons = FillGroupBox(DiscountGroupBox, discounts);
+        }
+
+        private void EmployeeTextBox_TextChanged(object sender, EventArgs e)
+        {
+            var employee = (from emp in Notary.Employee
+                            where emp.DismissalDate == null
+                            where emp.Post.Contains("Нотариус")
+                            where emp.Name.Contains(EmployeeTextBox.Text)
+                            select emp.Name).ToList();
+
+            EmployeeRadiobuttons = FillGroupBox(EmployeeGroupBox, employee);
+        }
+
+        private void AddOrderButton_Click(object sender, EventArgs e)
         {
             if (HasCheced(ServiceRadiobuttons) == false)
                 return;
@@ -185,109 +232,6 @@ namespace TestWinForms
 
             Notary.SubmitChanges();
             this.Close();
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ClientCheckBox.Checked == true)
-            {
-                textBox1.Enabled = false;
-                textBox2.Enabled = false;
-                textBox3.Enabled = false;
-
-                ClientTextBox.Enabled = true;
-
-                ClientGroupBox.Enabled = true;
-            }
-            else
-            {
-                textBox1.Enabled = true;
-                textBox2.Enabled = true;
-                textBox3.Enabled = true;
-
-                ClientTextBox.Enabled = false;
-
-                ClientGroupBox.Enabled = false;
-            }
-        }
-
-        private void ServiceTextBox_TextChanged(object sender, EventArgs e)
-        {
-            var service = (from serv in Notary.Service
-                           where serv.NewFlag == 1
-                           where serv.Name.Contains(ServiceTextBox.Text)
-                           select serv).ToList();
-
-            ServiceRadiobuttons = new List<RadioButton>(service.Count);
-            Point GBLoc = ServiceGroupBox.Location;
-            ServiceGroupBox.Controls.Clear();
-
-            for (int i = 0; i < service.Count; i++)
-            {
-                ServiceRadiobuttons.Add(new RadioButton());
-                ServiceRadiobuttons[i].Text = service[i].Name;
-                ServiceRadiobuttons[i].Parent = ServiceGroupBox;
-                ServiceRadiobuttons[i].Location = new Point(5, GBLoc.Y + 20 * (i + 1));
-            }
-        }
-
-        private void ClientTextBox_TextChanged(object sender, EventArgs e)
-        {
-            var clients = (from client in Notary.Client
-                           where client.Name.Contains(ClientTextBox.Text)
-                           select client).ToList();
-
-            ClientRadiobuttons = new List<RadioButton>(clients.Count);
-            Point GBLoc = ClientGroupBox.Location;
-            ClientGroupBox.Controls.Clear();
-
-            for (int i = 0; i < clients.Count; i++)
-            {
-                ClientRadiobuttons.Add(new RadioButton());
-                ClientRadiobuttons[i].Text = clients[i].Name;
-                ClientRadiobuttons[i].Parent = ClientGroupBox;
-                ClientRadiobuttons[i].Location = new Point(5, GBLoc.Y + 20 * (i + 1));
-            }
-        }
-
-        private void DiscountTextBox_TextChanged(object sender, EventArgs e)
-        {
-            var discounts = (from disc in Notary.Discount
-                             where disc.NewFlag == 1
-                             where disc.Name.Contains(DiscountTextBox.Text)
-                             select disc).ToList();
-
-            DiscountRadiobuttons = new List<RadioButton>(discounts.Count);
-            Point GBLoc = DiscountGroupBox.Location;
-            DiscountGroupBox.Controls.Clear();
-
-            for (int i = 0; i < discounts.Count; i++)
-            {
-                DiscountRadiobuttons.Add(new RadioButton());
-                DiscountRadiobuttons[i].Text = discounts[i].Name;
-                DiscountRadiobuttons[i].Parent = DiscountGroupBox;
-                DiscountRadiobuttons[i].Location = new Point(5, GBLoc.Y + 20 * (i + 1));
-            }
-        }
-
-        private void EmployeeTextBox_TextChanged(object sender, EventArgs e)
-        {
-            var employee = (from emp in Notary.Employee
-                            where emp.DismissalDate == null
-                            where emp.Name.Contains(EmployeeTextBox.Text)
-                            select emp).ToList();
-
-            EmployeeRadiobuttons = new List<RadioButton>(employee.Count);
-            Point GBLoc = EmployeeGroupBox.Location;
-            EmployeeGroupBox.Controls.Clear();
-
-            for (int i = 0; i < employee.Count; i++)
-            {
-                EmployeeRadiobuttons.Add(new RadioButton());
-                EmployeeRadiobuttons[i].Text = employee[i].Name;
-                EmployeeRadiobuttons[i].Parent = EmployeeGroupBox;
-                EmployeeRadiobuttons[i].Location = new Point(5, GBLoc.Y + 20 * (i + 1));
-            }
         }
     }
 }
