@@ -72,11 +72,18 @@
     <Compile Include="AddService.Designer.cs">
       <DependentUpon>AddService.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="Algorithms.cs" />
+    <Compile Include="DeleteElement.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="DeleteElement.Designer.cs">
+      <DependentUpon>DeleteElement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow.Designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="NotaryBase.designer.cs">
       <AutoGen>True</AutoGen>
@@ -97,8 +104,11 @@
     <EmbeddedResource Include="AddService.resx">
       <DependentUpon>AddService.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="DeleteElement.resx">
+      <DependentUpon>DeleteElement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

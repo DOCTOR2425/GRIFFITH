@@ -6,6 +6,7 @@ namespace TestWinForms
     public partial class AddEmployee : Form
     {
         NotaryBaseDataContext Notary = new NotaryBaseDataContext();
+
         public AddEmployee()
         {
             InitializeComponent();

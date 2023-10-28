@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -15,25 +14,6 @@ namespace TestWinForms
         List<RadioButton> DiscountRadiobuttons;
         List<RadioButton> EmployeeRadiobuttons;
 
-        private List<RadioButton> FillGroupBox(GroupBox groupBox, List<string> names)
-        {
-            groupBox.Controls.Clear();
-
-            var list = new List<RadioButton>(names.Count);
-
-            Point GBLoc = groupBox.Location;
-
-            for (int i = 0; i < names.Count; i++)
-            {
-                list.Add(new RadioButton());
-                list[i].Text = names[i];
-                list[i].Parent = groupBox;
-                list[i].Location = new Point(5, GBLoc.Y + 20 * (i + 1));
-            }
-
-            return list;
-        }
-
         private List<RadioButton> FillServiceGroupBox()
         {
             ServiceGroupBox.Parent = panel1;
@@ -43,7 +23,7 @@ namespace TestWinForms
                             where service.NewFlag == 1
                             select service.Name).ToList();
 
-            return FillGroupBox(ServiceGroupBox, services);
+            return Algorithms.FillGroupBox(ServiceGroupBox, services);
         }
         private List<RadioButton> FillClientGroupBox()
         {
@@ -52,7 +32,7 @@ namespace TestWinForms
 
             var clients = (from client in Notary.Client select client.Name).ToList();
 
-            return FillGroupBox(ClientGroupBox, clients);
+            return Algorithms.FillGroupBox(ClientGroupBox, clients);
         }
         private List<RadioButton> FillDiscountGroupBox()
         {
@@ -63,7 +43,7 @@ namespace TestWinForms
                             where disc.NewFlag == 1
                             select disc.Name).ToList();
 
-            return FillGroupBox(DiscountGroupBox, discount);
+            return Algorithms.FillGroupBox(DiscountGroupBox, discount);
         }
         private List<RadioButton> FillEmployeeGroupBox()
         {
@@ -75,41 +55,37 @@ namespace TestWinForms
                             where emp.DismissalDate == null
                             select emp.Name).ToList();
 
-            return FillGroupBox(EmployeeGroupBox, employee);
+            return Algorithms.FillGroupBox(EmployeeGroupBox, employee);
         }
-        private bool HasCheced(List<RadioButton> radioButtons)
+        private void GetServiceID(Order order)
         {
-            foreach (var radiobutton in radioButtons)
-                if (radiobutton.Checked)
-                    return true;
-
-            return false;
+            order.ServiceID = (from service in Notary.Service
+                               where service.Name == Algorithms.GetCheckedName(ServiceRadiobuttons)
+                               where service.NewFlag == 1
+                               select service).ToList().First().ServiceID;
         }
-        private void FillService(Order order)
-        {
-            foreach (var radioButton in ServiceRadiobuttons)
-                if (radioButton.Checked)
-                    order.ServiceID = (from service in Notary.Service
-                                       where service.Name == radioButton.Text
-                                       where service.NewFlag == 1
-                                       select service).ToList().First().ServiceID;
-        }
-        private void FillDiscount(Order order)
+        private void GetDiscountID(Order order)
         {
             foreach (var radioButton in DiscountRadiobuttons)
+            {
                 if (radioButton.Checked)
+                {
                     order.DiscountID = (from disc in Notary.Discount
                                         where disc.Name == radioButton.Text
                                         where disc.NewFlag == 1
                                         select disc).ToList().First().DiscountID;
+                    return;
+                }
+            }
+
+            order.DiscountID = Guid.Parse("00000000-0000-0000-0000-000000000000");
         }
-        private void FillEmployee(Order order)
+        private void GetEmployeeID(Order order)
         {
-            foreach (var radioButton in EmployeeRadiobuttons)
-                if (radioButton.Checked)
-                    order.EmployeeID = (from emp in Notary.Employee
-                                        where emp.Name == radioButton.Text
-                                        select emp).ToList().First().EmployeeID;
+            order.EmployeeID = (from emp in Notary.Employee
+                                where emp.Name == Algorithms.GetCheckedName(EmployeeRadiobuttons)
+                                where emp.DismissalDate == null
+                                select emp).ToList().First().EmployeeID;
         }
 
         public AddOrder()
@@ -120,15 +96,18 @@ namespace TestWinForms
             ClientRadiobuttons = FillClientGroupBox();
             DiscountRadiobuttons = FillDiscountGroupBox();
             EmployeeRadiobuttons = FillEmployeeGroupBox();
+
+            object obj = new Client();
+            
         }
 
         private void CheckBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (ClientCheckBox.Checked == true)
             {
-                textBox1.Enabled = false;
-                textBox2.Enabled = false;
-                textBox3.Enabled = false;
+                NameTextBox.Enabled = false;
+                TelephoneTextBox.Enabled = false;
+                ActivityTextBox.Enabled = false;
 
                 ClientTextBox.Enabled = true;
 
@@ -136,9 +115,9 @@ namespace TestWinForms
             }
             else
             {
-                textBox1.Enabled = true;
-                textBox2.Enabled = true;
-                textBox3.Enabled = true;
+                NameTextBox.Enabled = true;
+                TelephoneTextBox.Enabled = true;
+                ActivityTextBox.Enabled = true;
 
                 ClientTextBox.Enabled = false;
 
@@ -151,9 +130,9 @@ namespace TestWinForms
             var service = (from serv in Notary.Service
                            where serv.NewFlag == 1
                            where serv.Name.Contains(ServiceTextBox.Text)
-                           select serv.Name ).ToList();
+                           select serv.Name).ToList();
 
-            ServiceRadiobuttons = FillGroupBox(ServiceGroupBox, service);
+            ServiceRadiobuttons = Algorithms.FillGroupBox(ServiceGroupBox, service);
         }
 
         private void ClientTextBox_TextChanged(object sender, EventArgs e)
@@ -162,7 +141,7 @@ namespace TestWinForms
                            where client.Name.Contains(ClientTextBox.Text)
                            select client.Name).ToList();
 
-            ClientRadiobuttons = FillGroupBox(ClientGroupBox, clients);
+            ClientRadiobuttons = Algorithms.FillGroupBox(ClientGroupBox, clients);
         }
 
         private void DiscountTextBox_TextChanged(object sender, EventArgs e)
@@ -172,7 +151,7 @@ namespace TestWinForms
                              where disc.Name.Contains(DiscountTextBox.Text)
                              select disc.Name).ToList();
 
-            DiscountRadiobuttons = FillGroupBox(DiscountGroupBox, discounts);
+            DiscountRadiobuttons = Algorithms.FillGroupBox(DiscountGroupBox, discounts);
         }
 
         private void EmployeeTextBox_TextChanged(object sender, EventArgs e)
@@ -183,14 +162,14 @@ namespace TestWinForms
                             where emp.Name.Contains(EmployeeTextBox.Text)
                             select emp.Name).ToList();
 
-            EmployeeRadiobuttons = FillGroupBox(EmployeeGroupBox, employee);
+            EmployeeRadiobuttons = Algorithms.FillGroupBox(EmployeeGroupBox, employee);
         }
 
         private void AddOrderButton_Click(object sender, EventArgs e)
         {
-            if (HasCheced(ServiceRadiobuttons) == false)
+            if (Algorithms.HasCheced(ServiceRadiobuttons) == false)
                 return;
-            if (HasCheced(EmployeeRadiobuttons) == false)
+            if (Algorithms.HasCheced(EmployeeRadiobuttons) == false)
                 return;
 
             Order order = new Order();
@@ -199,22 +178,27 @@ namespace TestWinForms
 
             if (ClientCheckBox.Checked == false)
             {
-                if (textBox1.Text == "" || textBox2.Text == "" || textBox3.Text == "")
+                if (NameTextBox.Text == "" || TelephoneTextBox.Text == "" || ActivityTextBox.Text == "")
+                    return;
+
+                DateTime birthDate;
+                if (DateTime.TryParse(BirthDateTextBox.Text, out birthDate) == false)
                     return;
 
                 Client client = new Client();
 
-                client.Name = textBox1.Text;
-                client.Telephone = textBox2.Text;
-                client.Activity = textBox3.Text;
+                client.Name = NameTextBox.Text;
+                client.Telephone = TelephoneTextBox.Text;
+                client.Activity = ActivityTextBox.Text;
                 client.ClientID = Guid.NewGuid();
+                client.BirthDate = birthDate;
                 Notary.Client.InsertOnSubmit(client);
 
                 order.ClientID = client.ClientID;
             }
             else
             {
-                if (HasCheced(ClientRadiobuttons) == false)
+                if (Algorithms.HasCheced(ClientRadiobuttons) == false)
                     return;
 
                 foreach (var radioButton in ClientRadiobuttons)
@@ -224,13 +208,13 @@ namespace TestWinForms
                                           select client).ToList().First().ClientID;
             }
 
-            FillService(order);
-            FillDiscount(order);
-            FillEmployee(order);
+            GetServiceID(order);
+            GetDiscountID(order);
+            GetEmployeeID(order);
 
             Notary.Order.InsertOnSubmit(order);
-
             Notary.SubmitChanges();
+
             this.Close();
         }
     }

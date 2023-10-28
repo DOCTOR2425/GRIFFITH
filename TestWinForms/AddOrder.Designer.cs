@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.NameTextBox = new System.Windows.Forms.TextBox();
+            this.TelephoneTextBox = new System.Windows.Forms.TextBox();
+            this.ActivityTextBox = new System.Windows.Forms.TextBox();
             this.AddOrderButton = new System.Windows.Forms.Button();
             this.ServiceGroupBox = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -48,32 +48,34 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.EmployeeGroupBox = new System.Windows.Forms.GroupBox();
             this.EmployeeTextBox = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.BirthDateTextBox = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
-            // textBox1
+            // NameTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 38);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(305, 22);
-            this.textBox1.TabIndex = 0;
+            this.NameTextBox.Location = new System.Drawing.Point(12, 38);
+            this.NameTextBox.Name = "NameTextBox";
+            this.NameTextBox.Size = new System.Drawing.Size(305, 22);
+            this.NameTextBox.TabIndex = 0;
             // 
-            // textBox2
+            // TelephoneTextBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(12, 117);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(305, 22);
-            this.textBox2.TabIndex = 1;
+            this.TelephoneTextBox.Location = new System.Drawing.Point(12, 89);
+            this.TelephoneTextBox.Name = "TelephoneTextBox";
+            this.TelephoneTextBox.Size = new System.Drawing.Size(305, 22);
+            this.TelephoneTextBox.TabIndex = 1;
             // 
-            // textBox3
+            // ActivityTextBox
             // 
-            this.textBox3.Location = new System.Drawing.Point(12, 198);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(305, 22);
-            this.textBox3.TabIndex = 2;
+            this.ActivityTextBox.Location = new System.Drawing.Point(12, 150);
+            this.ActivityTextBox.Name = "ActivityTextBox";
+            this.ActivityTextBox.Size = new System.Drawing.Size(305, 22);
+            this.ActivityTextBox.TabIndex = 2;
             // 
             // AddOrderButton
             // 
@@ -165,7 +167,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 98);
+            this.label2.Location = new System.Drawing.Point(12, 70);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(67, 16);
             this.label2.TabIndex = 13;
@@ -174,7 +176,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 179);
+            this.label3.Location = new System.Drawing.Point(12, 131);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(83, 16);
             this.label3.TabIndex = 14;
@@ -234,11 +236,29 @@
             this.EmployeeTextBox.TabIndex = 17;
             this.EmployeeTextBox.TextChanged += new System.EventHandler(this.EmployeeTextBox_TextChanged);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 190);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(106, 16);
+            this.label4.TabIndex = 19;
+            this.label4.Text = "Дата рождения";
+            // 
+            // BirthDateTextBox
+            // 
+            this.BirthDateTextBox.Location = new System.Drawing.Point(12, 209);
+            this.BirthDateTextBox.Name = "BirthDateTextBox";
+            this.BirthDateTextBox.Size = new System.Drawing.Size(305, 22);
+            this.BirthDateTextBox.TabIndex = 18;
+            // 
             // AddOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(955, 718);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.BirthDateTextBox);
             this.Controls.Add(this.EmployeeTextBox);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.DiscountTextBox);
@@ -252,9 +272,9 @@
             this.Controls.Add(this.ClientCheckBox);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.AddOrderButton);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.ActivityTextBox);
+            this.Controls.Add(this.TelephoneTextBox);
+            this.Controls.Add(this.NameTextBox);
             this.Name = "AddOrder";
             this.Text = "Добавление заказа";
             this.panel1.ResumeLayout(false);
@@ -272,9 +292,9 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox NameTextBox;
+        private System.Windows.Forms.TextBox TelephoneTextBox;
+        private System.Windows.Forms.TextBox ActivityTextBox;
         private System.Windows.Forms.Button AddOrderButton;
         private System.Windows.Forms.GroupBox ServiceGroupBox;
         private System.Windows.Forms.Panel panel1;
@@ -292,5 +312,7 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.GroupBox EmployeeGroupBox;
         private System.Windows.Forms.TextBox EmployeeTextBox;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox BirthDateTextBox;
     }
 }

@@ -1,17 +1,57 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="TestData" Class="TestDataBase" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=.;Initial Catalog=TestData;Integrated Security=True" SettingsObjectName="TestSQL.Properties.Settings" SettingsPropertyName="TestDataConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.Table_1" Member="Table_1">
-    <Type Name="Table_1">
-      <Column Name="NumberID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Notary" Class="TestDataBase" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.;Initial Catalog=Notary;Integrated Security=True" SettingsObjectName="TestSQL.Properties.Settings" SettingsPropertyName="NotaryConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Client" Member="Client">
+    <Type Name="Client">
+      <Column Name="ClientID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Association Name="Table_1_Table_2" Member="Table_2" ThisKey="NumberID" OtherKey="NumberID" Type="Table_2" Cardinality="One" />
+      <Column Name="Telephone" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Activity" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Order_Client" Member="Order" ThisKey="ClientID" OtherKey="ClientID" Type="Order" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Table_2" Member="Table_2">
-    <Type Name="Table_2">
-      <Column Name="NumberID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Qwerty" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Association Name="Table_1_Table_2" Member="Table_1" ThisKey="NumberID" OtherKey="NumberID" Type="Table_1" IsForeignKey="true" />
+  <Table Name="dbo.Discount" Member="Discount">
+    <Type Name="Discount">
+      <Column Name="DiscountID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="[Percent]" Member="Percent" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="NewFlag" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Order_Discount" Member="Order" ThisKey="DiscountID" OtherKey="DiscountID" Type="Order" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Employee" Member="Employee">
+    <Type Name="Employee">
+      <Column Name="EmployeeID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Salary" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="HireDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Post" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="DismissalDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="Order_Employee" Member="Order" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="Order" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Service" Member="Service">
+    <Type Name="Service">
+      <Column Name="ServiceID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="NewFlag" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Order_Service" Member="Order" ThisKey="ServiceID" OtherKey="ServiceID" Type="Order" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Order]" Member="Order">
+    <Type Name="Order">
+      <Column Name="OrderID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ClientID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ServiceID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="DiscountID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="EmployeeID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Association Name="Order_Service" Member="Service" ThisKey="ServiceID" OtherKey="ServiceID" Type="Service" />
+      <Association Name="Order_Client" Member="Client" ThisKey="ClientID" OtherKey="ClientID" Type="Client" />
+      <Association Name="Order_Employee" Member="Employee" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="Employee" />
+      <Association Name="Order_Discount" Member="Discount" ThisKey="DiscountID" OtherKey="DiscountID" Type="Discount" />
     </Type>
   </Table>
 </Database>
