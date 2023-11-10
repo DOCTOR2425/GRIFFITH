@@ -30,7 +30,6 @@
         {
             this.Grid = new System.Windows.Forms.DataGridView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.менюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отобразитьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.клиентыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.заказыToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,6 +46,7 @@
             this.услугуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.скидкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.работникаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MoneyTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -69,7 +69,6 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.менюToolStripMenuItem,
             this.отобразитьToolStripMenuItem1,
             this.добавитьToolStripMenuItem1,
             this.изменитьToolStripMenuItem,
@@ -79,12 +78,6 @@
             this.menuStrip1.Size = new System.Drawing.Size(1112, 28);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // менюToolStripMenuItem
-            // 
-            this.менюToolStripMenuItem.Name = "менюToolStripMenuItem";
-            this.менюToolStripMenuItem.Size = new System.Drawing.Size(65, 24);
-            this.менюToolStripMenuItem.Text = "Меню";
             // 
             // отобразитьToolStripMenuItem1
             // 
@@ -147,28 +140,28 @@
             // заказыToolStripMenuItem2
             // 
             this.заказыToolStripMenuItem2.Name = "заказыToolStripMenuItem2";
-            this.заказыToolStripMenuItem2.Size = new System.Drawing.Size(224, 26);
+            this.заказыToolStripMenuItem2.Size = new System.Drawing.Size(166, 26);
             this.заказыToolStripMenuItem2.Text = "Заказы";
             this.заказыToolStripMenuItem2.Click += new System.EventHandler(this.AddOrderToolStripMenuItem_Click);
             // 
             // услугиToolStripMenuItem3
             // 
             this.услугиToolStripMenuItem3.Name = "услугиToolStripMenuItem3";
-            this.услугиToolStripMenuItem3.Size = new System.Drawing.Size(224, 26);
+            this.услугиToolStripMenuItem3.Size = new System.Drawing.Size(166, 26);
             this.услугиToolStripMenuItem3.Text = "Услуги";
             this.услугиToolStripMenuItem3.Click += new System.EventHandler(this.AddServiceToolStripMenuItem1_Click);
             // 
             // скидкиToolStripMenuItem1
             // 
             this.скидкиToolStripMenuItem1.Name = "скидкиToolStripMenuItem1";
-            this.скидкиToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.скидкиToolStripMenuItem1.Size = new System.Drawing.Size(166, 26);
             this.скидкиToolStripMenuItem1.Text = "Скидки";
             this.скидкиToolStripMenuItem1.Click += new System.EventHandler(this.AddDiscountToolStripMenuItem1_Click);
             // 
             // работникиToolStripMenuItem3
             // 
             this.работникиToolStripMenuItem3.Name = "работникиToolStripMenuItem3";
-            this.работникиToolStripMenuItem3.Size = new System.Drawing.Size(224, 26);
+            this.работникиToolStripMenuItem3.Size = new System.Drawing.Size(166, 26);
             this.работникиToolStripMenuItem3.Text = "Работники";
             this.работникиToolStripMenuItem3.Click += new System.EventHandler(this.AddEmployeeToolStripMenuItem1_Click);
             // 
@@ -191,29 +184,38 @@
             // услугуToolStripMenuItem
             // 
             this.услугуToolStripMenuItem.Name = "услугуToolStripMenuItem";
-            this.услугуToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.услугуToolStripMenuItem.Size = new System.Drawing.Size(165, 26);
             this.услугуToolStripMenuItem.Text = "Услуга";
             this.услугуToolStripMenuItem.Click += new System.EventHandler(this.DeleteServiceToolStripMenuItem_Click);
             // 
             // скидкаToolStripMenuItem
             // 
             this.скидкаToolStripMenuItem.Name = "скидкаToolStripMenuItem";
-            this.скидкаToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.скидкаToolStripMenuItem.Size = new System.Drawing.Size(165, 26);
             this.скидкаToolStripMenuItem.Text = "Скидка";
             this.скидкаToolStripMenuItem.Click += new System.EventHandler(this.DeleteDiscountToolStripMenuItem_Click);
             // 
             // работникаToolStripMenuItem
             // 
             this.работникаToolStripMenuItem.Name = "работникаToolStripMenuItem";
-            this.работникаToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.работникаToolStripMenuItem.Size = new System.Drawing.Size(165, 26);
             this.работникаToolStripMenuItem.Text = "Работника";
             this.работникаToolStripMenuItem.Click += new System.EventHandler(this.DeleteEmployeeToolStripMenuItem_Click);
+            // 
+            // MoneyTextBox
+            // 
+            this.MoneyTextBox.Location = new System.Drawing.Point(1010, 6);
+            this.MoneyTextBox.Name = "MoneyTextBox";
+            this.MoneyTextBox.ReadOnly = true;
+            this.MoneyTextBox.Size = new System.Drawing.Size(90, 22);
+            this.MoneyTextBox.TabIndex = 6;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1112, 551);
+            this.Controls.Add(this.MoneyTextBox);
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -231,7 +233,6 @@
         #endregion
         private System.Windows.Forms.DataGridView Grid;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem менюToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem отобразитьToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem клиентыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem заказыToolStripMenuItem1;
@@ -248,6 +249,7 @@
         private System.Windows.Forms.ToolStripMenuItem услугуToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem скидкаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem работникаToolStripMenuItem;
+        private System.Windows.Forms.TextBox MoneyTextBox;
     }
 }
 

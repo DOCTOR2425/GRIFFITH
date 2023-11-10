@@ -275,6 +275,8 @@
             this.Controls.Add(this.ActivityTextBox);
             this.Controls.Add(this.TelephoneTextBox);
             this.Controls.Add(this.NameTextBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "AddOrder";
             this.Text = "Добавление заказа";
             this.panel1.ResumeLayout(false);

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Linq;
 using System.Drawing;
 using System.Linq;
@@ -10,35 +9,36 @@ namespace TestWinForms
 {
     public class Algorithms
     {
-        public enum Types {Service, Discount, Employee};
-        public static void ShowOrders(DataGridView Grid, NotaryBaseDataContext Notary)
-        {
-            var query = from order in Notary.Order
-                        join serv in Notary.Service on order.ServiceID equals serv.ServiceID
-                        join client in Notary.Client on order.ClientID equals client.ClientID
-                        join emp in Notary.Employee on order.EmployeeID equals emp.EmployeeID
-                        join discount in Notary.Discount on order.DiscountID equals discount.DiscountID
-                        into discounts
-                        from disc in discounts.DefaultIfEmpty()
-                        select new
-                        {
-                            Клиент = client.Name,
-                            Услуга = serv.Name,
-                            Нотариус = emp.Name,
-                            Дата = order.Date,
-                            Цена = serv.Price,
-                            Скидка = disc.Percent
-                        };
+        public enum Types { Client, Service, Order, Discount, Employee };
+        public static readonly NotaryBaseDataContext Notary = new NotaryBaseDataContext();
 
-            Grid.DataSource = query.ToList();
+        public static void ShowOrders(DataGridView Grid)
+        {
+            Grid.DataSource = from order in Notary.Order
+                              join serv in Notary.Service on order.ServiceID equals serv.ServiceID
+                              join client in Notary.Client on order.ClientID equals client.ClientID
+                              join emp in Notary.Employee on order.EmployeeID equals emp.EmployeeID
+                              join discount in Notary.Discount on order.DiscountID equals discount.DiscountID
+                              into discounts
+                              from disc in discounts.DefaultIfEmpty()
+                              select new
+                              {
+                                  Клиент = client.Name,
+                                  Услуга = serv.Name,
+                                  Нотариус = emp.Name,
+                                  Дата = order.Date,
+                                  Цена = serv.Price,
+                                  Скидка = disc.Percent
+                              };
 
             Grid.Columns["Клиент"].Width = 150;
             Grid.Columns["Цена"].Width = 50;
             Grid.Columns["Нотариус"].Width = 150;
             Grid.Columns["Дата"].Width = 80;
             Grid.Columns["Скидка"].Width = 70;
+            Grid.Columns["Услуга"].Width = 150;
         }
-        public static void ShowService(DataGridView Grid, NotaryBaseDataContext Notary)
+        public static void ShowService(DataGridView Grid)
         {
             Grid.DataSource = from service in Notary.Service
                               where service.NewFlag == 1
@@ -51,7 +51,7 @@ namespace TestWinForms
             Grid.Columns["Описание"].Width = 250;
             Grid.Columns["Описание"].Visible = true;
         }
-        public static void ShowClient(DataGridView Grid, NotaryBaseDataContext Notary)
+        public static void ShowClient(DataGridView Grid)
         {
             Grid.DataSource = from client in Notary.Client
                               select new
@@ -63,7 +63,7 @@ namespace TestWinForms
                               };
             Grid.Columns["Имя"].Width = 150;
         }
-        public static void ShowDiscount(DataGridView Grid, NotaryBaseDataContext Notary)
+        public static void ShowDiscount(DataGridView Grid)
         {
             Grid.DataSource = from discount in Notary.Discount
                               where discount.NewFlag == 1
@@ -76,7 +76,7 @@ namespace TestWinForms
             Grid.Columns["Описание"].Visible = false;
             Grid.Columns["Название"].Width = 200;
         }
-        public static void ShowEmployee(DataGridView Grid, NotaryBaseDataContext Notary)
+        public static void ShowEmployee(DataGridView Grid)
         {
             Grid.DataSource = from employee in Notary.Employee
                               select new
@@ -119,8 +119,8 @@ namespace TestWinForms
         }
         public static string GetCheckedName(List<RadioButton> radioButtons)
         {
-            foreach(var radiobutton in radioButtons)
-                if(radiobutton.Checked)
+            foreach (var radiobutton in radioButtons)
+                if (radiobutton.Checked)
                     return radiobutton.Text;
 
             return "";

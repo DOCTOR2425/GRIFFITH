@@ -8,7 +8,6 @@ namespace TestWinForms
 {
     public partial class AddOrder : Form
     {
-        readonly NotaryBaseDataContext Notary = new NotaryBaseDataContext();
         List<RadioButton> ServiceRadiobuttons;
         List<RadioButton> ClientRadiobuttons;
         List<RadioButton> DiscountRadiobuttons;
@@ -19,7 +18,7 @@ namespace TestWinForms
             ServiceGroupBox.Parent = panel1;
             panel1.AutoScroll = true;
 
-            var services = (from service in Notary.Service
+            var services = (from service in Algorithms.Notary.Service
                             where service.NewFlag == 1
                             select service.Name).ToList();
 
@@ -30,7 +29,7 @@ namespace TestWinForms
             ClientGroupBox.Parent = panel2;
             panel2.AutoScroll = true;
 
-            var clients = (from client in Notary.Client select client.Name).ToList();
+            var clients = (from client in Algorithms.Notary.Client select client.Name).ToList();
 
             return Algorithms.FillGroupBox(ClientGroupBox, clients);
         }
@@ -39,7 +38,7 @@ namespace TestWinForms
             DiscountGroupBox.Parent = panel3;
             panel3.AutoScroll = true;
 
-            var discount = (from disc in Notary.Discount
+            var discount = (from disc in Algorithms.Notary.Discount
                             where disc.NewFlag == 1
                             select disc.Name).ToList();
 
@@ -50,7 +49,7 @@ namespace TestWinForms
             EmployeeGroupBox.Parent = panel4;
             panel4.AutoScroll = true;
 
-            var employee = (from emp in Notary.Employee
+            var employee = (from emp in Algorithms.Notary.Employee
                             where emp.Post.Contains("Нотариус")
                             where emp.DismissalDate == null
                             select emp.Name).ToList();
@@ -59,7 +58,7 @@ namespace TestWinForms
         }
         private void GetServiceID(Order order)
         {
-            order.ServiceID = (from service in Notary.Service
+            order.ServiceID = (from service in Algorithms.Notary.Service
                                where service.Name == Algorithms.GetCheckedName(ServiceRadiobuttons)
                                where service.NewFlag == 1
                                select service).ToList().First().ServiceID;
@@ -70,7 +69,7 @@ namespace TestWinForms
             {
                 if (radioButton.Checked)
                 {
-                    order.DiscountID = (from disc in Notary.Discount
+                    order.DiscountID = (from disc in Algorithms.Notary.Discount
                                         where disc.Name == radioButton.Text
                                         where disc.NewFlag == 1
                                         select disc).ToList().First().DiscountID;
@@ -82,7 +81,7 @@ namespace TestWinForms
         }
         private void GetEmployeeID(Order order)
         {
-            order.EmployeeID = (from emp in Notary.Employee
+            order.EmployeeID = (from emp in Algorithms.Notary.Employee
                                 where emp.Name == Algorithms.GetCheckedName(EmployeeRadiobuttons)
                                 where emp.DismissalDate == null
                                 select emp).ToList().First().EmployeeID;
@@ -96,9 +95,6 @@ namespace TestWinForms
             ClientRadiobuttons = FillClientGroupBox();
             DiscountRadiobuttons = FillDiscountGroupBox();
             EmployeeRadiobuttons = FillEmployeeGroupBox();
-
-            object obj = new Client();
-            
         }
 
         private void CheckBox1_CheckedChanged(object sender, EventArgs e)
@@ -110,7 +106,6 @@ namespace TestWinForms
                 ActivityTextBox.Enabled = false;
 
                 ClientTextBox.Enabled = true;
-
                 ClientGroupBox.Enabled = true;
             }
             else
@@ -120,14 +115,13 @@ namespace TestWinForms
                 ActivityTextBox.Enabled = true;
 
                 ClientTextBox.Enabled = false;
-
                 ClientGroupBox.Enabled = false;
             }
         }
 
         private void ServiceTextBox_TextChanged(object sender, EventArgs e)
         {
-            var service = (from serv in Notary.Service
+            var service = (from serv in Algorithms.Notary.Service
                            where serv.NewFlag == 1
                            where serv.Name.Contains(ServiceTextBox.Text)
                            select serv.Name).ToList();
@@ -137,7 +131,7 @@ namespace TestWinForms
 
         private void ClientTextBox_TextChanged(object sender, EventArgs e)
         {
-            var clients = (from client in Notary.Client
+            var clients = (from client in Algorithms.Notary.Client
                            where client.Name.Contains(ClientTextBox.Text)
                            select client.Name).ToList();
 
@@ -146,7 +140,7 @@ namespace TestWinForms
 
         private void DiscountTextBox_TextChanged(object sender, EventArgs e)
         {
-            var discounts = (from disc in Notary.Discount
+            var discounts = (from disc in Algorithms.Notary.Discount
                              where disc.NewFlag == 1
                              where disc.Name.Contains(DiscountTextBox.Text)
                              select disc.Name).ToList();
@@ -156,7 +150,7 @@ namespace TestWinForms
 
         private void EmployeeTextBox_TextChanged(object sender, EventArgs e)
         {
-            var employee = (from emp in Notary.Employee
+            var employee = (from emp in Algorithms.Notary.Employee
                             where emp.DismissalDate == null
                             where emp.Post.Contains("Нотариус")
                             where emp.Name.Contains(EmployeeTextBox.Text)
@@ -172,27 +166,30 @@ namespace TestWinForms
             if (Algorithms.HasCheced(EmployeeRadiobuttons) == false)
                 return;
 
-            Order order = new Order();
-            order.Date = DateTime.Now;
-            order.OrderID = Guid.NewGuid();
+            Order order = new Order
+            {
+                Date = DateTime.Now,
+                OrderID = Guid.NewGuid()
+            };
 
             if (ClientCheckBox.Checked == false)
             {
-                if (NameTextBox.Text == "" || TelephoneTextBox.Text == "" || ActivityTextBox.Text == "")
+                if (NameTextBox.Text == "" || TelephoneTextBox.Text == "" || 
+                    ActivityTextBox.Text == "" || BirthDateTextBox.Text == "")
                     return;
 
-                DateTime birthDate;
-                if (DateTime.TryParse(BirthDateTextBox.Text, out birthDate) == false)
+                if (DateTime.TryParse(BirthDateTextBox.Text, out DateTime birthDate) == false)
                     return;
 
-                Client client = new Client();
-
-                client.Name = NameTextBox.Text;
-                client.Telephone = TelephoneTextBox.Text;
-                client.Activity = ActivityTextBox.Text;
-                client.ClientID = Guid.NewGuid();
-                client.BirthDate = birthDate;
-                Notary.Client.InsertOnSubmit(client);
+                Client client = new Client
+                {
+                    Name = NameTextBox.Text,
+                    Telephone = TelephoneTextBox.Text,
+                    Activity = ActivityTextBox.Text,
+                    ClientID = Guid.NewGuid(),
+                    BirthDate = birthDate
+                };
+                Algorithms.Notary.Client.InsertOnSubmit(client);
 
                 order.ClientID = client.ClientID;
             }
@@ -203,7 +200,7 @@ namespace TestWinForms
 
                 foreach (var radioButton in ClientRadiobuttons)
                     if (radioButton.Checked)
-                        order.ClientID = (from client in Notary.Client
+                        order.ClientID = (from client in Algorithms.Notary.Client
                                           where client.Name == radioButton.Text
                                           select client).ToList().First().ClientID;
             }
@@ -212,8 +209,8 @@ namespace TestWinForms
             GetDiscountID(order);
             GetEmployeeID(order);
 
-            Notary.Order.InsertOnSubmit(order);
-            Notary.SubmitChanges();
+            Algorithms.Notary.Order.InsertOnSubmit(order);
+            Algorithms.Notary.SubmitChanges();
 
             this.Close();
         }

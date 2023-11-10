@@ -49,9 +49,9 @@ namespace TestWinForms
             {
                 case Algorithms.Types.Service:
                     Service services = (from serv in Notary.Service
-                                where serv.NewFlag == 1
-                                where serv.Name == Algorithms.GetCheckedName(radioButtons)
-                                select serv).ToList().First();
+                                        where serv.NewFlag == 1
+                                        where serv.Name == Algorithms.GetCheckedName(radioButtons)
+                                        select serv).ToList().First();
 
                     services.NewFlag = 0;
 
@@ -85,25 +85,25 @@ namespace TestWinForms
             {
                 case Algorithms.Types.Service:
                     var services = (from serv in Notary.Service
-                                   where serv.Name.Contains(TextBox1.Text)
-                                   where serv.NewFlag == 1
-                                   select serv.Name).ToList();
+                                    where serv.Name.Contains(TextBox1.Text)
+                                    where serv.NewFlag == 1
+                                    select serv.Name).ToList();
 
                     radioButtons = Algorithms.FillGroupBox(GroupBox1, services);
                     break;
                 case Algorithms.Types.Discount:
                     var discounts = (from disc in Notary.Discount
-                                    where disc.Name.Contains(TextBox1.Text)
-                                    where disc.NewFlag == 1
-                                    select disc.Name).ToList();
+                                     where disc.Name.Contains(TextBox1.Text)
+                                     where disc.NewFlag == 1
+                                     select disc.Name).ToList();
 
                     radioButtons = Algorithms.FillGroupBox(GroupBox1, discounts);
                     break;
                 case Algorithms.Types.Employee:
                     var emploees = (from emp in Notary.Employee
-                                   where emp.Name.Contains(TextBox1.Text)
-                                   where emp.DismissalDate == null
-                                   select emp.Name).ToList();
+                                    where emp.Name.Contains(TextBox1.Text)
+                                    where emp.DismissalDate == null
+                                    select emp.Name).ToList();
 
                     radioButtons = Algorithms.FillGroupBox(GroupBox1, emploees);
                     break;
