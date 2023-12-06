@@ -60,7 +60,7 @@
             this.SalaryTextBox.Location = new System.Drawing.Point(12, 173);
             this.SalaryTextBox.Name = "SalaryTextBox";
             this.SalaryTextBox.Size = new System.Drawing.Size(144, 22);
-            this.SalaryTextBox.TabIndex = 14;
+            this.SalaryTextBox.TabIndex = 3;
             this.SalaryTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // NameTextBox
@@ -68,14 +68,14 @@
             this.NameTextBox.Location = new System.Drawing.Point(12, 43);
             this.NameTextBox.Name = "NameTextBox";
             this.NameTextBox.Size = new System.Drawing.Size(378, 22);
-            this.NameTextBox.TabIndex = 13;
+            this.NameTextBox.TabIndex = 1;
             // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(224, 152);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(166, 43);
-            this.button1.TabIndex = 12;
+            this.button1.TabIndex = 4;
             this.button1.Text = "Добавить работника";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -94,7 +94,7 @@
             this.PostTextBox.Location = new System.Drawing.Point(12, 106);
             this.PostTextBox.Name = "PostTextBox";
             this.PostTextBox.Size = new System.Drawing.Size(378, 22);
-            this.PostTextBox.TabIndex = 19;
+            this.PostTextBox.TabIndex = 2;
             // 
             // AddEmployee
             // 

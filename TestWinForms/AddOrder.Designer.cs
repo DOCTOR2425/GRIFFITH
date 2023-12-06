@@ -83,7 +83,7 @@
             this.AddOrderButton.Location = new System.Drawing.Point(665, 639);
             this.AddOrderButton.Name = "AddOrderButton";
             this.AddOrderButton.Size = new System.Drawing.Size(277, 57);
-            this.AddOrderButton.TabIndex = 3;
+            this.AddOrderButton.TabIndex = 9;
             this.AddOrderButton.Text = "Добавить клиента";
             this.AddOrderButton.UseVisualStyleBackColor = true;
             this.AddOrderButton.Click += new System.EventHandler(this.AddOrderButton_Click);
@@ -113,7 +113,7 @@
             this.ClientCheckBox.Location = new System.Drawing.Point(15, 250);
             this.ClientCheckBox.Name = "ClientCheckBox";
             this.ClientCheckBox.Size = new System.Drawing.Size(225, 20);
-            this.ClientCheckBox.TabIndex = 7;
+            this.ClientCheckBox.TabIndex = 4;
             this.ClientCheckBox.Text = "Выбор добавленного клиента";
             this.ClientCheckBox.UseVisualStyleBackColor = true;
             this.ClientCheckBox.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
@@ -124,7 +124,7 @@
             this.ClientTextBox.Location = new System.Drawing.Point(12, 285);
             this.ClientTextBox.Name = "ClientTextBox";
             this.ClientTextBox.Size = new System.Drawing.Size(251, 22);
-            this.ClientTextBox.TabIndex = 8;
+            this.ClientTextBox.TabIndex = 5;
             this.ClientTextBox.TextChanged += new System.EventHandler(this.ClientTextBox_TextChanged);
             // 
             // panel2
@@ -152,7 +152,7 @@
             this.ServiceTextBox.Location = new System.Drawing.Point(662, 38);
             this.ServiceTextBox.Name = "ServiceTextBox";
             this.ServiceTextBox.Size = new System.Drawing.Size(249, 22);
-            this.ServiceTextBox.TabIndex = 11;
+            this.ServiceTextBox.TabIndex = 7;
             this.ServiceTextBox.TextChanged += new System.EventHandler(this.ServiceTextBox_TextChanged);
             // 
             // label1
@@ -187,7 +187,7 @@
             this.DiscountTextBox.Location = new System.Drawing.Point(323, 38);
             this.DiscountTextBox.Name = "DiscountTextBox";
             this.DiscountTextBox.Size = new System.Drawing.Size(287, 22);
-            this.DiscountTextBox.TabIndex = 16;
+            this.DiscountTextBox.TabIndex = 6;
             this.DiscountTextBox.TextChanged += new System.EventHandler(this.DiscountTextBox_TextChanged);
             // 
             // panel3
@@ -233,7 +233,7 @@
             this.EmployeeTextBox.Location = new System.Drawing.Point(326, 375);
             this.EmployeeTextBox.Name = "EmployeeTextBox";
             this.EmployeeTextBox.Size = new System.Drawing.Size(284, 22);
-            this.EmployeeTextBox.TabIndex = 17;
+            this.EmployeeTextBox.TabIndex = 8;
             this.EmployeeTextBox.TextChanged += new System.EventHandler(this.EmployeeTextBox_TextChanged);
             // 
             // label4
@@ -250,7 +250,7 @@
             this.BirthDateTextBox.Location = new System.Drawing.Point(12, 209);
             this.BirthDateTextBox.Name = "BirthDateTextBox";
             this.BirthDateTextBox.Size = new System.Drawing.Size(305, 22);
-            this.BirthDateTextBox.TabIndex = 18;
+            this.BirthDateTextBox.TabIndex = 3;
             // 
             // AddOrder
             // 

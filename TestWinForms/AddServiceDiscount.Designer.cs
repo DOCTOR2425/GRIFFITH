@@ -70,14 +70,14 @@
             this.DescriptionTextBox.Multiline = true;
             this.DescriptionTextBox.Name = "DescriptionTextBox";
             this.DescriptionTextBox.Size = new System.Drawing.Size(400, 300);
-            this.DescriptionTextBox.TabIndex = 15;
+            this.DescriptionTextBox.TabIndex = 3;
             // 
             // NumberTextBox
             // 
             this.NumberTextBox.Location = new System.Drawing.Point(288, 31);
             this.NumberTextBox.Name = "NumberTextBox";
             this.NumberTextBox.Size = new System.Drawing.Size(125, 22);
-            this.NumberTextBox.TabIndex = 14;
+            this.NumberTextBox.TabIndex = 2;
             this.NumberTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // NameTextBox
@@ -85,14 +85,14 @@
             this.NameTextBox.Location = new System.Drawing.Point(12, 31);
             this.NameTextBox.Name = "NameTextBox";
             this.NameTextBox.Size = new System.Drawing.Size(250, 22);
-            this.NameTextBox.TabIndex = 13;
+            this.NameTextBox.TabIndex = 1;
             // 
             // AddButton
             // 
             this.AddButton.Location = new System.Drawing.Point(111, 400);
             this.AddButton.Name = "AddButton";
             this.AddButton.Size = new System.Drawing.Size(200, 40);
-            this.AddButton.TabIndex = 12;
+            this.AddButton.TabIndex = 4;
             this.AddButton.Text = "AddButton";
             this.AddButton.UseVisualStyleBackColor = true;
             this.AddButton.Click += new System.EventHandler(this.AddButton_Click);

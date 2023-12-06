@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Data.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace TestWinForms
@@ -124,6 +123,16 @@ namespace TestWinForms
                     return radiobutton.Text;
 
             return "";
+        }
+        public static double CalculateLastMonthlyProfit()
+        {
+            double profit = (from order in Notary.Order
+                             where order.Date.Month == DateTime.Now.Month
+                             join serv in Notary.Service on order.ServiceID equals serv.ServiceID
+                             join disc in Notary.Discount on order.DiscountID equals disc.DiscountID
+                             select (serv.Price - serv.Price * disc.Percent / 100)).ToList().Sum();
+
+            return profit;
         }
     }
 }

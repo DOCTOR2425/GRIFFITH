@@ -14,9 +14,7 @@ namespace TestWinForms
 
             Algorithms.ShowOrders(Grid);
 
-            MoneyTextBox.Text = (from order in Algorithms.Notary.Order
-                                 join serv in Algorithms.Notary.Service on order.ServiceID equals serv.ServiceID
-                                 select serv.Price).ToList().Sum().ToString();
+            MoneyTextBox.Text = Algorithms.CalculateLastMonthlyProfit().ToString();
         }
 
         private void Grid_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -62,9 +60,7 @@ namespace TestWinForms
 
             Algorithms.ShowOrders(Grid);
 
-            MoneyTextBox.Text = (from order in Algorithms.Notary.Order
-                                 join serv in Algorithms.Notary.Service on order.ServiceID equals serv.ServiceID
-                                 select serv.Price).ToList().Sum().ToString();
+            MoneyTextBox.Text = Algorithms.CalculateLastMonthlyProfit().ToString();
         }
 
         private void AddServiceToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -97,7 +93,7 @@ namespace TestWinForms
                                      where service.NewFlag == 1
                                      select service.Name).ToList();
 
-            DeleteElement deleteElement = new DeleteElement(Algorithms.Types.Service, services);
+            DeleteElement deleteElement = new DeleteElement(Algorithms.Types.Service);
             deleteElement.ShowDialog();
 
             Algorithms.ShowService(Grid);
@@ -109,7 +105,7 @@ namespace TestWinForms
                                       where discount.NewFlag == 1
                                       select discount.Name).ToList();
 
-            DeleteElement deleteElement = new DeleteElement(Algorithms.Types.Discount, discounst);
+            DeleteElement deleteElement = new DeleteElement(Algorithms.Types.Discount);
             deleteElement.ShowDialog();
 
             Algorithms.ShowDiscount(Grid);
@@ -121,8 +117,114 @@ namespace TestWinForms
                                      where emp.DismissalDate == null
                                      select emp.Name).ToList();
 
-            DeleteElement deleteElement = new DeleteElement(Algorithms.Types.Employee, employes);
+            DeleteElement deleteElement = new DeleteElement(Algorithms.Types.Employee);
             deleteElement.ShowDialog();
+
+            Algorithms.ShowEmployee(Grid);
+        }
+
+        private void ФИОToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeElement changeElement = new ChangeElement(Algorithms.Types.Client, "ФИО");
+            changeElement.ShowDialog();
+
+            Algorithms.ShowClient(Grid);
+        }
+
+        private void ТелефонToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeElement changeElement = new ChangeElement(Algorithms.Types.Client, "Телефон");
+            changeElement.ShowDialog();
+
+            Algorithms.ShowClient(Grid);
+        }
+
+        private void РодДеятельностиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeElement changeElement = new ChangeElement(Algorithms.Types.Client, "Род деятельности");
+            changeElement.ShowDialog();
+
+            Algorithms.ShowClient(Grid);
+        }
+
+        private void ДатаРожденияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeElement changeElement = new ChangeElement(Algorithms.Types.Client, "Дата рождения");
+            changeElement.ShowDialog();
+
+            Algorithms.ShowClient(Grid);
+        }
+
+        private void НазваниеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeElement changeElement = new ChangeElement(Algorithms.Types.Service, "Название");
+            changeElement.ShowDialog();
+
+            Algorithms.ShowService(Grid);
+        }
+
+        private void ЦенаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeElement changeElement = new ChangeElement(Algorithms.Types.Service, "Цена");
+            changeElement.ShowDialog();
+
+            Algorithms.ShowService(Grid);
+            MoneyTextBox.Text = Algorithms.CalculateLastMonthlyProfit().ToString();
+        }
+
+        private void ОписаниеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeElement changeElement = new ChangeElement(Algorithms.Types.Service, "Описание");
+            changeElement.ShowDialog();
+
+            Algorithms.ShowService(Grid);
+        }
+
+        private void НазваниеToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ChangeElement changeElement = new ChangeElement(Algorithms.Types.Discount, "Название");
+            changeElement.ShowDialog();
+
+            Algorithms.ShowDiscount(Grid);
+        }
+
+        private void ПроцентToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeElement changeElement = new ChangeElement(Algorithms.Types.Discount, "Процент");
+            changeElement.ShowDialog();
+
+            Algorithms.ShowDiscount(Grid);
+            MoneyTextBox.Text = Algorithms.CalculateLastMonthlyProfit().ToString();
+        }
+
+        private void ОписаниеToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ChangeElement changeElement = new ChangeElement(Algorithms.Types.Discount, "Описание");
+            changeElement.ShowDialog();
+
+            Algorithms.ShowDiscount(Grid);
+        }
+
+        private void ФИОToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ChangeElement changeElement = new ChangeElement(Algorithms.Types.Employee, "ФИО");
+            changeElement.ShowDialog();
+
+            Algorithms.ShowEmployee(Grid);
+        }
+
+        private void ЗарплатаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeElement changeElement = new ChangeElement(Algorithms.Types.Employee, "Зарплата");
+            changeElement.ShowDialog();
+
+            Algorithms.ShowEmployee(Grid);
+        }
+
+        private void ДолжностьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeElement changeElement = new ChangeElement(Algorithms.Types.Employee, "Должность");
+            changeElement.ShowDialog();
 
             Algorithms.ShowEmployee(Grid);
         }

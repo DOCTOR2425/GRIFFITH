@@ -19,7 +19,13 @@ namespace TestWinForms
 
             double salary;
             if (double.TryParse(SalaryTextBox.Text, out salary) == false)
+            {
+                SalaryTextBox.Text = "";
+                MessageBox.Show("Неверно введённые данные\nПроверьте правильность формата введённых данных",
+                                "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
                 return;
+            }
 
             Employee emp = new Employee();
             emp.Name = NameTextBox.Text;

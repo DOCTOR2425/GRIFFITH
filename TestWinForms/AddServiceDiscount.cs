@@ -7,7 +7,6 @@ namespace TestWinForms
 {
     public partial class AddServiceDiscount : Form
     {
-        private NotaryBaseDataContext Notary = new NotaryBaseDataContext();
         private readonly Algorithms.Types typeOfElement;
 
         public AddServiceDiscount(Algorithms.Types type)
@@ -57,9 +56,16 @@ namespace TestWinForms
 
             double number;
             if (double.TryParse(NumberTextBox.Text, out number) == false)
-                return;
+            {
+                NumberTextBox.Text = "";
+                MessageBox.Show("Неверно введённые данные\nПроверьте правильность формата введённ" +
+                    (typeOfElement == Algorithms.Types.Service ? "ой цены услуги" : "ого процента скидки"),
+                                "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
-            if(typeOfElement == Algorithms.Types.Service)
+                return;
+            }
+
+            if (typeOfElement == Algorithms.Types.Service)
             {
                 Service service = new Service();
                 service.Name = NameTextBox.Text;

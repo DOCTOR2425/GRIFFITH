@@ -174,12 +174,18 @@ namespace TestWinForms
 
             if (ClientCheckBox.Checked == false)
             {
-                if (NameTextBox.Text == "" || TelephoneTextBox.Text == "" || 
+                if (NameTextBox.Text == "" || TelephoneTextBox.Text == "" ||
                     ActivityTextBox.Text == "" || BirthDateTextBox.Text == "")
                     return;
 
                 if (DateTime.TryParse(BirthDateTextBox.Text, out DateTime birthDate) == false)
+                {
+                    BirthDateTextBox.Text = "";
+                    MessageBox.Show("Неверно введённые данные\nПроверьте правильность формата введённой даты",
+                                    "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
                     return;
+                }
 
                 Client client = new Client
                 {
