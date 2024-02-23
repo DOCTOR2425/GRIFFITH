@@ -8,11 +8,11 @@ namespace TestWinForms
 {
     public partial class ChangeElement : Form
     {
-        private readonly Algorithms.Types typeOfElement;
+        private readonly Algorithms.Type typeOfElement;
         private readonly string classField;
         private List<RadioButton> radioButtons;
 
-        public ChangeElement(Algorithms.Types type, string field)
+        public ChangeElement(Algorithms.Type type, string field)
         {
             InitializeComponent();
 
@@ -26,7 +26,7 @@ namespace TestWinForms
 
             switch (typeOfElement)
             {
-                case Algorithms.Types.Service:
+                case Algorithms.Type.Service:
                     ChangeButton.Text = "Изменить услугу " + classField;
                     this.Text = "Изменение услуги";
                     GroupBox1.Text = "Выбор услуги";
@@ -35,7 +35,7 @@ namespace TestWinForms
                              where service.NewFlag == 1
                              select service.Name).ToList();
                     break;
-                case Algorithms.Types.Discount:
+                case Algorithms.Type.Discount:
                     ChangeButton.Text = "Изменить скидку " + classField;
                     this.Text = "Изменение скидки";
                     GroupBox1.Text = "Выбор скидки";
@@ -44,7 +44,7 @@ namespace TestWinForms
                              where discount.NewFlag == 1
                              select discount.Name).ToList();
                     break;
-                case Algorithms.Types.Employee:
+                case Algorithms.Type.Employee:
                     ChangeButton.Text = "Изменить работника " + classField;
                     this.Text = "Изменение работника";
                     GroupBox1.Text = "Выбор работника";
@@ -53,7 +53,7 @@ namespace TestWinForms
                              where emp.DismissalDate == null
                              select emp.Name).ToList();
                     break;
-                case Algorithms.Types.Client:
+                case Algorithms.Type.Client:
                     ChangeButton.Text = "Изменить клиента " + classField;
                     this.Text = "Изменение клиента";
                     GroupBox1.Text = "Выбор клиента";
@@ -70,7 +70,7 @@ namespace TestWinForms
         {
             switch (typeOfElement)
             {
-                case Algorithms.Types.Service:
+                case Algorithms.Type.Service:
                     var services = (from serv in Algorithms.Notary.Service
                                     where serv.Name.Contains(TextBox1.Text)
                                     where serv.NewFlag == 1
@@ -78,7 +78,7 @@ namespace TestWinForms
 
                     radioButtons = Algorithms.FillGroupBox(GroupBox1, services);
                     break;
-                case Algorithms.Types.Discount:
+                case Algorithms.Type.Discount:
                     var discounts = (from disc in Algorithms.Notary.Discount
                                      where disc.Name.Contains(TextBox1.Text)
                                      where disc.NewFlag == 1
@@ -86,7 +86,7 @@ namespace TestWinForms
 
                     radioButtons = Algorithms.FillGroupBox(GroupBox1, discounts);
                     break;
-                case Algorithms.Types.Employee:
+                case Algorithms.Type.Employee:
                     var emploees = (from emp in Algorithms.Notary.Employee
                                     where emp.Name.Contains(TextBox1.Text)
                                     where emp.DismissalDate == null
@@ -94,7 +94,7 @@ namespace TestWinForms
 
                     radioButtons = Algorithms.FillGroupBox(GroupBox1, emploees);
                     break;
-                case Algorithms.Types.Client:
+                case Algorithms.Type.Client:
                     var clienst = (from clnt in Algorithms.Notary.Client
                                     where clnt.Name.Contains(TextBox1.Text)
                                     select clnt.Name).ToList();
@@ -114,7 +114,7 @@ namespace TestWinForms
             {
                 switch (typeOfElement)
                 {
-                    case Algorithms.Types.Service:
+                    case Algorithms.Type.Service:
                         Service services = (from serv in Algorithms.Notary.Service
                                             where serv.Name == Algorithms.GetCheckedName(radioButtons)
                                             where serv.NewFlag == 1
@@ -134,7 +134,7 @@ namespace TestWinForms
                         }
 
                         break;
-                    case Algorithms.Types.Discount:
+                    case Algorithms.Type.Discount:
                         Discount discount = (from disc in Algorithms.Notary.Discount
                                              where disc.Name == Algorithms.GetCheckedName(radioButtons)
                                              where disc.NewFlag == 1
@@ -154,7 +154,7 @@ namespace TestWinForms
                         }
 
                         break;
-                    case Algorithms.Types.Employee:
+                    case Algorithms.Type.Employee:
                         Employee employee = (from emp in Algorithms.Notary.Employee
                                              where emp.Name == Algorithms.GetCheckedName(radioButtons)
                                              where emp.DismissalDate == null
@@ -174,7 +174,7 @@ namespace TestWinForms
                         }
 
                         break;
-                    case Algorithms.Types.Client:
+                    case Algorithms.Type.Client:
                         Client client = (from clnt in Algorithms.Notary.Client
                                          where clnt.Name == Algorithms.GetCheckedName(radioButtons)
                                          select clnt).ToList().First();

@@ -8,7 +8,7 @@ namespace TestWinForms
 {
     public class Algorithms
     {
-        public enum Types { Client, Service, Order, Discount, Employee };
+        public enum Type { Client, Service, Order, Discount, Employee };
         public static readonly NotaryBaseDataContext Notary = new NotaryBaseDataContext();
 
         public static void ShowOrders(DataGridView Grid)
@@ -29,13 +29,6 @@ namespace TestWinForms
                                   Цена = serv.Price,
                                   Скидка = disc.Percent
                               };
-
-            Grid.Columns["Клиент"].Width = 150;
-            Grid.Columns["Цена"].Width = 50;
-            Grid.Columns["Нотариус"].Width = 150;
-            Grid.Columns["Дата"].Width = 80;
-            Grid.Columns["Скидка"].Width = 70;
-            Grid.Columns["Услуга"].Width = 150;
         }
         public static void ShowService(DataGridView Grid)
         {
@@ -47,8 +40,6 @@ namespace TestWinForms
                                   Цена = service.Price,
                                   Описание = service.Description
                               };
-            Grid.Columns["Описание"].Width = 250;
-            Grid.Columns["Описание"].Visible = true;
         }
         public static void ShowClient(DataGridView Grid)
         {
@@ -60,7 +51,6 @@ namespace TestWinForms
                                   Телефон = client.Telephone,
                                   Работа = client.Activity
                               };
-            Grid.Columns["Имя"].Width = 150;
         }
         public static void ShowDiscount(DataGridView Grid)
         {
@@ -72,8 +62,6 @@ namespace TestWinForms
                                   Процент = discount.Percent,
                                   Описание = discount.Description
                               };
-            Grid.Columns["Описание"].Visible = false;
-            Grid.Columns["Название"].Width = 200;
         }
         public static void ShowEmployee(DataGridView Grid)
         {
@@ -87,8 +75,6 @@ namespace TestWinForms
                                   Статус = employee.DismissalDate == null ? "Работает" :
                                   "Уволен " + employee.DismissalDate
                               };
-            Grid.Columns["Имя"].Width = 180;
-            Grid.Columns["Статус"].Width = 180;
         }
         public static List<RadioButton> FillGroupBox(GroupBox groupBox, List<string> names)
         {
@@ -133,6 +119,7 @@ namespace TestWinForms
                              select (serv.Price - serv.Price * disc.Percent / 100)).ToList().Sum();
 
             return profit;
+            
         }
     }
 }

@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRIFFITH", "GRIFFITH\GRIFFITH.csproj", "{0E7B06C8-167E-4404-B907-67EB0CE4F1D2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWinForms", "TestWinForms\TestWinForms.csproj", "{40B89594-0FAB-4093-B26A-2C5FCFD7192D}"
 EndProject
 Global
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0E7B06C8-167E-4404-B907-67EB0CE4F1D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0E7B06C8-167E-4404-B907-67EB0CE4F1D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0E7B06C8-167E-4404-B907-67EB0CE4F1D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0E7B06C8-167E-4404-B907-67EB0CE4F1D2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{40B89594-0FAB-4093-B26A-2C5FCFD7192D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{40B89594-0FAB-4093-B26A-2C5FCFD7192D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40B89594-0FAB-4093-B26A-2C5FCFD7192D}.Release|Any CPU.ActiveCfg = Release|Any CPU

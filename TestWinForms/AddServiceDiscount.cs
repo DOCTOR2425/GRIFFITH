@@ -7,9 +7,9 @@ namespace TestWinForms
 {
     public partial class AddServiceDiscount : Form
     {
-        private readonly Algorithms.Types typeOfElement;
+        private readonly Algorithms.Type typeOfElement;
 
-        public AddServiceDiscount(Algorithms.Types type)
+        public AddServiceDiscount(Algorithms.Type type)
         {
             InitializeComponent();
 
@@ -17,14 +17,14 @@ namespace TestWinForms
 
             switch (typeOfElement)
             {
-                case Algorithms.Types.Service:
+                case Algorithms.Type.Service:
                     this.Text = "Добавление услуги";
                     AddButton.Text = "Добавить услугу";
                     NameLable.Text = "Имя услуги";
                     NumberLable.Text = "Стоимость услуги";
                     DescriptionLable.Text = "Описание услуги";
                     break;
-                case Algorithms.Types.Discount:
+                case Algorithms.Type.Discount:
                     this.Text = "Добавление скидки";
                     AddButton.Text = "Добавить скидку";
                     NameLable.Text = "Имя скидки";
@@ -36,7 +36,7 @@ namespace TestWinForms
 
         private void DownNewFlag(object element)
         {
-            if (typeOfElement == Algorithms.Types.Service)
+            if (typeOfElement == Algorithms.Type.Service)
             {
                 (from serv in Algorithms.Notary.Service
                  where serv.Name == (element as Service).Name
@@ -59,13 +59,13 @@ namespace TestWinForms
             {
                 NumberTextBox.Text = "";
                 MessageBox.Show("Неверно введённые данные\nПроверьте правильность формата введённ" +
-                    (typeOfElement == Algorithms.Types.Service ? "ой цены услуги" : "ого процента скидки"),
+                    (typeOfElement == Algorithms.Type.Service ? "ой цены услуги" : "ого процента скидки"),
                                 "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
                 return;
             }
 
-            if (typeOfElement == Algorithms.Types.Service)
+            if (typeOfElement == Algorithms.Type.Service)
             {
                 Service service = new Service();
                 service.Name = NameTextBox.Text;
