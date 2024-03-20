@@ -83,6 +83,7 @@
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "DeleteElement";
             this.Text = "DeleteElement";
             this.panel1.ResumeLayout(false);

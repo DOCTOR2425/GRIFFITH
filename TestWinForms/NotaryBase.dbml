@@ -1,29 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Notary" Class="NotaryBaseDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=.;Initial Catalog=Notary;Integrated Security=True" SettingsObjectName="TestWinForms.Properties.Settings" SettingsPropertyName="NotaryConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Client" Member="Client">
+    <Type Name="Client">
+      <Column Name="ClientID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Telephone" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Activity" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="BirthDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
   <Table Name="dbo.Discount" Member="Discount">
     <Type Name="Discount">
       <Column Name="DiscountID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="[Percent]" Member="Percent" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="Description" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Column Name="NewFlag" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="dbo.[Order]" Member="Order">
-    <Type Name="Order">
-      <Column Name="OrderID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="ClientID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ServiceID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="DiscountID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="EmployeeID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="Date" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Service" Member="Service">
-    <Type Name="Service">
-      <Column Name="ServiceID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Column Name="Price" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="NewFlag" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </Type>
@@ -38,13 +28,23 @@
       <Column Name="DismissalDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Client" Member="Client">
-    <Type Name="Client">
-      <Column Name="ClientID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+  <Table Name="dbo.[Order]" Member="Order">
+    <Type Name="Order">
+      <Column Name="OrderID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ClientID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ServiceID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="DiscountID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="EmployeeID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Service" Member="Service">
+    <Type Name="Service">
+      <Column Name="ServiceID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Column Name="Telephone" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Column Name="Activity" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Column Name="BirthDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="NewFlag" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

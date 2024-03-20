@@ -9,73 +9,100 @@ namespace TestWinForms
     public class Algorithms
     {
         public enum Type { Client, Service, Order, Discount, Employee };
-        public static readonly NotaryBaseDataContext Notary = new NotaryBaseDataContext();
+        public static NotaryBaseDataContext Notary = new NotaryBaseDataContext();
 
-        public static void ShowOrders(DataGridView Grid)
+        public static IQueryable<VisibleOrder> GetVisibleOrders()
         {
-            Grid.DataSource = from order in Notary.Order
-                              join serv in Notary.Service on order.ServiceID equals serv.ServiceID
-                              join client in Notary.Client on order.ClientID equals client.ClientID
-                              join emp in Notary.Employee on order.EmployeeID equals emp.EmployeeID
-                              join discount in Notary.Discount on order.DiscountID equals discount.DiscountID
-                              into discounts
-                              from disc in discounts.DefaultIfEmpty()
-                              select new
-                              {
-                                  Клиент = client.Name,
-                                  Услуга = serv.Name,
-                                  Нотариус = emp.Name,
-                                  Дата = order.Date,
-                                  Цена = serv.Price,
-                                  Скидка = disc.Percent
-                              };
+            return from order in Notary.Order
+                   join serv in Notary.Service on order.ServiceID equals serv.ServiceID
+                   join client in Notary.Client on order.ClientID equals client.ClientID
+                   join emp in Notary.Employee on order.EmployeeID equals emp.EmployeeID
+                   join discount in Notary.Discount on order.DiscountID equals discount.DiscountID
+                   into discounts
+                   from disc in discounts.DefaultIfEmpty()
+                   select new VisibleOrder
+                   {
+                       Клиент = client.Name,
+                       Услуга = serv.Name,
+                       Нотариус = emp.Name,
+                       Дата = order.Date,
+                       Цена = serv.Price,
+                       Скидка = disc.Percent
+                   };
         }
-        public static void ShowService(DataGridView Grid)
+        public static IQueryable<VisibleService> GetVisibleServices()
         {
-            Grid.DataSource = from service in Notary.Service
-                              where service.NewFlag == 1
-                              select new
-                              {
-                                  Название = service.Name,
-                                  Цена = service.Price,
-                                  Описание = service.Description
-                              };
+            return from service in Notary.Service
+                   where service.NewFlag == 1
+                   select new VisibleService
+                   {
+                       Название = service.Name,
+                       Цена = service.Price,
+                       Описание = service.Description
+                   };
         }
-        public static void ShowClient(DataGridView Grid)
+        public static IQueryable<VisibleClient> GetVisibleClients()
         {
-            Grid.DataSource = from client in Notary.Client
-                              select new
-                              {
-                                  Имя = client.Name,
-                                  Дата_рождения = client.BirthDate,
-                                  Телефон = client.Telephone,
-                                  Работа = client.Activity
-                              };
+            return from client in Notary.Client
+                   select new VisibleClient
+                   {
+                       Имя = client.Name,
+                       Дата_рождения = client.BirthDate,
+                       Телефон = client.Telephone,
+                       Работа = client.Activity
+                   };
         }
-        public static void ShowDiscount(DataGridView Grid)
+        public static IQueryable<VisibleDiscount> GetVisibleDiscounts()
         {
-            Grid.DataSource = from discount in Notary.Discount
-                              where discount.NewFlag == 1
-                              select new
-                              {
-                                  Название = discount.Name,
-                                  Процент = discount.Percent,
-                                  Описание = discount.Description
-                              };
+            return from discount in Notary.Discount
+                   where discount.NewFlag == 1
+                   select new VisibleDiscount
+                   {
+                       Название = discount.Name,
+                       Процент = discount.Percent,
+                       Описание = discount.Description
+                   };
         }
-        public static void ShowEmployee(DataGridView Grid)
+        public static IQueryable<VisibleEmployee> GetVisibleEmployees()
         {
-            Grid.DataSource = from employee in Notary.Employee
-                              select new
-                              {
-                                  Имя = employee.Name,
-                                  Зарплата = employee.Salary,
-                                  Должность = employee.Post,
-                                  Найм = employee.HireDate,
-                                  Статус = employee.DismissalDate == null ? "Работает" :
-                                  "Уволен " + employee.DismissalDate
-                              };
+            return from employee in Notary.Employee
+                   select new VisibleEmployee
+                   {
+                       Имя = employee.Name,
+                       Зарплата = employee.Salary,
+                       Должность = employee.Post,
+                       Найм = employee.HireDate,
+                       Статус = employee.DismissalDate == null ? "Работает" :
+                       "Уволен " + employee.DismissalDate
+                   };
         }
+        public static IQueryable<Client> GetClients()
+        {
+            return from cl in Notary.Client select cl;
+        }
+        public static IQueryable<Order> GetOrders()
+        {
+            return from ord in Notary.Order select ord;
+        }
+        public static IQueryable<Service> GetServices()
+        {
+            return from serv in Notary.Service
+                   where serv.NewFlag == 1
+                   select serv;
+        }
+        public static IQueryable<Discount> GetDiscounts()
+        {
+            return from disc in Notary.Discount
+                   where disc.NewFlag == 1
+                   select disc;
+        }
+        public static IQueryable<Employee> GetEmployees()
+        {
+            return from emp in Notary.Employee
+                   where emp.DismissalDate == null
+                   select emp;
+        }
+
         public static List<RadioButton> FillGroupBox(GroupBox groupBox, List<string> names)
         {
             groupBox.Controls.Clear();
@@ -94,21 +121,13 @@ namespace TestWinForms
 
             return list;
         }
-        public static bool HasCheced(List<RadioButton> radioButtons)
-        {
-            foreach (var radiobutton in radioButtons)
-                if (radiobutton.Checked)
-                    return true;
-
-            return false;
-        }
         public static string GetCheckedName(List<RadioButton> radioButtons)
         {
             foreach (var radiobutton in radioButtons)
                 if (radiobutton.Checked)
                     return radiobutton.Text;
 
-            return "";
+            return null;
         }
         public static double CalculateLastMonthlyProfit()
         {
@@ -116,10 +135,9 @@ namespace TestWinForms
                              where order.Date.Month == DateTime.Now.Month
                              join serv in Notary.Service on order.ServiceID equals serv.ServiceID
                              join disc in Notary.Discount on order.DiscountID equals disc.DiscountID
-                             select (serv.Price - serv.Price * disc.Percent / 100)).ToList().Sum();
+                             select (serv.Price - (serv.Price * disc.Percent / 100))).ToList().Sum();
 
             return profit;
-            
         }
     }
 }

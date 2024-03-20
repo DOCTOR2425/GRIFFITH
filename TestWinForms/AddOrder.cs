@@ -1,214 +1,115 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace TestWinForms
 {
-    public partial class AddOrder : Form
+    public partial class AddOrder : Form// TODO Сделать отображение инфы о выбранных в комбо боксах объектах
     {
-        List<RadioButton> ServiceRadiobuttons;
-        List<RadioButton> ClientRadiobuttons;
-        List<RadioButton> DiscountRadiobuttons;
-        List<RadioButton> EmployeeRadiobuttons;
-
-        private List<RadioButton> FillServiceGroupBox()
-        {
-            ServiceGroupBox.Parent = panel1;
-            panel1.AutoScroll = true;
-
-            var services = (from service in Algorithms.Notary.Service
-                            where service.NewFlag == 1
-                            select service.Name).ToList();
-
-            return Algorithms.FillGroupBox(ServiceGroupBox, services);
-        }
-        private List<RadioButton> FillClientGroupBox()
-        {
-            ClientGroupBox.Parent = panel2;
-            panel2.AutoScroll = true;
-
-            var clients = (from client in Algorithms.Notary.Client select client.Name).ToList();
-
-            return Algorithms.FillGroupBox(ClientGroupBox, clients);
-        }
-        private List<RadioButton> FillDiscountGroupBox()
-        {
-            DiscountGroupBox.Parent = panel3;
-            panel3.AutoScroll = true;
-
-            var discount = (from disc in Algorithms.Notary.Discount
-                            where disc.NewFlag == 1
-                            select disc.Name).ToList();
-
-            return Algorithms.FillGroupBox(DiscountGroupBox, discount);
-        }
-        private List<RadioButton> FillEmployeeGroupBox()
-        {
-            EmployeeGroupBox.Parent = panel4;
-            panel4.AutoScroll = true;
-
-            var employee = (from emp in Algorithms.Notary.Employee
-                            where emp.Post.Contains("Нотариус")
-                            where emp.DismissalDate == null
-                            select emp.Name).ToList();
-
-            return Algorithms.FillGroupBox(EmployeeGroupBox, employee);
-        }
-        private void GetServiceID(Order order)
-        {
-            order.ServiceID = (from service in Algorithms.Notary.Service
-                               where service.Name == Algorithms.GetCheckedName(ServiceRadiobuttons)
-                               where service.NewFlag == 1
-                               select service).ToList().First().ServiceID;
-        }
-        private void GetDiscountID(Order order)
-        {
-            foreach (var radioButton in DiscountRadiobuttons)
-            {
-                if (radioButton.Checked)
-                {
-                    order.DiscountID = (from disc in Algorithms.Notary.Discount
-                                        where disc.Name == radioButton.Text
-                                        where disc.NewFlag == 1
-                                        select disc).ToList().First().DiscountID;
-                    return;
-                }
-            }
-
-            order.DiscountID = Guid.Parse("00000000-0000-0000-0000-000000000000");
-        }
-        private void GetEmployeeID(Order order)
-        {
-            order.EmployeeID = (from emp in Algorithms.Notary.Employee
-                                where emp.Name == Algorithms.GetCheckedName(EmployeeRadiobuttons)
-                                where emp.DismissalDate == null
-                                select emp).ToList().First().EmployeeID;
-        }
+        Client clientToAdd = null;
 
         public AddOrder()
         {
             InitializeComponent();
 
-            ServiceRadiobuttons = FillServiceGroupBox();
-            ClientRadiobuttons = FillClientGroupBox();
-            DiscountRadiobuttons = FillDiscountGroupBox();
-            EmployeeRadiobuttons = FillEmployeeGroupBox();
+            FillComboBoxes();
+        }
+
+        private void GetServiceID(Order order)
+        {
+            order.ServiceID = (from service in Algorithms.Notary.Service
+                               where service.Name == ServiceCB.Text
+                               where service.NewFlag == 1
+                               select service).ToList().First().ServiceID;
+        }
+        private void GetDiscountID(Order order)
+        {
+            if (AddDiscountChB.Checked == false)
+            {
+                order.DiscountID = Guid.Parse("00000000-0000-0000-0000-000000000000");
+                return;
+            }
+
+            order.DiscountID = (from disc in Algorithms.Notary.Discount
+                                where disc.Name == DiscountCB.Text
+                                where disc.NewFlag == 1
+                                select disc).ToList().First().DiscountID;
+        }
+        private void GetEmployeeID(Order order)
+        {
+            order.EmployeeID = (from emp in Algorithms.Notary.Employee
+                                where emp.Name == EmployeeCB.Text
+                                where emp.DismissalDate == null
+                                select emp).ToList().First().EmployeeID;
+        }
+        private void GetClientID(Order order)
+        {
+            order.ClientID = (from emp in Algorithms.Notary.Client
+                              where emp.Name == ClientCB.Text
+                              select emp).ToList().First().ClientID;
+        }
+
+        private void FillComboBoxes()
+        {
+            ClientCB.DataSource = (from cl in Algorithms.Notary.Client select cl.Name).ToList();
+
+            ServiceCB.DataSource = (from serv in Algorithms.Notary.Service
+                                    where serv.NewFlag == 1
+                                    select serv.Name).ToList();
+
+            EmployeeCB.DataSource = (from emp in Algorithms.Notary.Employee
+                                     where emp.DismissalDate == null
+                                     select emp.Name).ToList();
+
+            DiscountCB.DataSource = (from disc in Algorithms.Notary.Discount
+                                     where disc.NewFlag == 1
+                                     select disc.Name).ToList();
         }
 
         private void CheckBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if (ClientCheckBox.Checked == true)
+            if (AddNewClientChB.Checked == true)
             {
-                NameTextBox.Enabled = false;
-                TelephoneTextBox.Enabled = false;
-                ActivityTextBox.Enabled = false;
+                AddNewClientB.Enabled = true;
 
-                ClientTextBox.Enabled = true;
-                ClientGroupBox.Enabled = true;
+                ClientL.Enabled = false;
+                ClientCB.Enabled = false;
             }
             else
             {
-                NameTextBox.Enabled = true;
-                TelephoneTextBox.Enabled = true;
-                ActivityTextBox.Enabled = true;
+                AddNewClientB.Enabled = false;
 
-                ClientTextBox.Enabled = false;
-                ClientGroupBox.Enabled = false;
+                ClientL.Enabled = true;
+                ClientCB.Enabled = true;
             }
-        }
-
-        private void ServiceTextBox_TextChanged(object sender, EventArgs e)
-        {
-            var service = (from serv in Algorithms.Notary.Service
-                           where serv.NewFlag == 1
-                           where serv.Name.Contains(ServiceTextBox.Text)
-                           select serv.Name).ToList();
-
-            ServiceRadiobuttons = Algorithms.FillGroupBox(ServiceGroupBox, service);
-        }
-
-        private void ClientTextBox_TextChanged(object sender, EventArgs e)
-        {
-            var clients = (from client in Algorithms.Notary.Client
-                           where client.Name.Contains(ClientTextBox.Text)
-                           select client.Name).ToList();
-
-            ClientRadiobuttons = Algorithms.FillGroupBox(ClientGroupBox, clients);
-        }
-
-        private void DiscountTextBox_TextChanged(object sender, EventArgs e)
-        {
-            var discounts = (from disc in Algorithms.Notary.Discount
-                             where disc.NewFlag == 1
-                             where disc.Name.Contains(DiscountTextBox.Text)
-                             select disc.Name).ToList();
-
-            DiscountRadiobuttons = Algorithms.FillGroupBox(DiscountGroupBox, discounts);
-        }
-
-        private void EmployeeTextBox_TextChanged(object sender, EventArgs e)
-        {
-            var employee = (from emp in Algorithms.Notary.Employee
-                            where emp.DismissalDate == null
-                            where emp.Post.Contains("Нотариус")
-                            where emp.Name.Contains(EmployeeTextBox.Text)
-                            select emp.Name).ToList();
-
-            EmployeeRadiobuttons = Algorithms.FillGroupBox(EmployeeGroupBox, employee);
         }
 
         private void AddOrderButton_Click(object sender, EventArgs e)
         {
-            if (Algorithms.HasCheced(ServiceRadiobuttons) == false)
-                return;
-            if (Algorithms.HasCheced(EmployeeRadiobuttons) == false)
-                return;
-
             Order order = new Order
             {
                 Date = DateTime.Now,
                 OrderID = Guid.NewGuid()
             };
 
-            if (ClientCheckBox.Checked == false)
+            if (AddNewClientChB.Checked == true)
             {
-                if (NameTextBox.Text == "" || TelephoneTextBox.Text == "" ||
-                    ActivityTextBox.Text == "" || BirthDateTextBox.Text == "")
-                    return;
-
-                if (DateTime.TryParse(BirthDateTextBox.Text, out DateTime birthDate) == false)
+                if (clientToAdd == null)
                 {
-                    BirthDateTextBox.Text = "";
-                    MessageBox.Show("Неверно введённые данные\nПроверьте правильность формата введённой даты",
-                                    "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Новый клиент не добавлен.\nЖелаете добавить нового?", "Нет данных о клиенте",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     return;
                 }
 
-                Client client = new Client
-                {
-                    Name = NameTextBox.Text,
-                    Telephone = TelephoneTextBox.Text,
-                    Activity = ActivityTextBox.Text,
-                    ClientID = Guid.NewGuid(),
-                    BirthDate = birthDate
-                };
-                Algorithms.Notary.Client.InsertOnSubmit(client);
+                Algorithms.Notary.Client.InsertOnSubmit(clientToAdd);
 
-                order.ClientID = client.ClientID;
+                order.ClientID = clientToAdd.ClientID;
             }
             else
             {
-                if (Algorithms.HasCheced(ClientRadiobuttons) == false)
-                    return;
-
-                foreach (var radioButton in ClientRadiobuttons)
-                    if (radioButton.Checked)
-                        order.ClientID = (from client in Algorithms.Notary.Client
-                                          where client.Name == radioButton.Text
-                                          select client).ToList().First().ClientID;
+                GetClientID(order);
             }
 
             GetServiceID(order);
@@ -219,6 +120,30 @@ namespace TestWinForms
             Algorithms.Notary.SubmitChanges();
 
             this.Close();
+        }
+
+        private void AddNewClientB_Click(object sender, EventArgs e)
+        {
+            clientToAdd = new Client();
+            AddClientToOrder window = new AddClientToOrder(clientToAdd);
+            window.ShowDialog();
+
+            if (clientToAdd.BirthDate == DateTime.MinValue)
+                clientToAdd = null;
+        }
+
+        private void AddDiscountChB_CheckedChanged(object sender, EventArgs e)
+        {
+            if(AddDiscountChB.Checked == true)
+            {
+                DiscountCB.Enabled = true;
+                DiscountL.Enabled = true;
+            }
+            else
+            {
+                DiscountCB.Enabled = false;
+                DiscountL.Enabled = false;
+            }
         }
     }
 }

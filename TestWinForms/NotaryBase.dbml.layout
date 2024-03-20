@@ -2,34 +2,34 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="NotaryBase">
   <DataContextMoniker Name="/NotaryBaseDataContext" />
   <nestedChildShapes>
-    <classShape Id="443984d2-ce97-4781-bb17-1f76a5714bed" absoluteBounds="3.125, 0.5, 2, 1.7708968098958331">
-      <DataClassMoniker Name="/NotaryBaseDataContext/Discount" />
-      <nestedChildShapes>
-        <elementListCompartment Id="4e293b07-cb54-424d-ab05-42ccb67d7e5a" absoluteBounds="3.1399999999999997, 0.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="bd2bfe9c-e67a-4e16-8ec4-d6252a5deec0" absoluteBounds="3.125, 3.75, 2, 1.9631982421875">
-      <DataClassMoniker Name="/NotaryBaseDataContext/Order" />
-      <nestedChildShapes>
-        <elementListCompartment Id="9f08b14a-1373-4278-90fe-bdfed158048f" absoluteBounds="3.1399999999999997, 4.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="93fac5af-77f5-42f3-9823-5d47012aab07" absoluteBounds="5.375, 1.875, 2, 1.7708968098958331">
-      <DataClassMoniker Name="/NotaryBaseDataContext/Service" />
-      <nestedChildShapes>
-        <elementListCompartment Id="d509fe99-1ac9-4196-bee1-a4e75b3f850a" absoluteBounds="5.3900000000000006, 2.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="a8e0e7b0-24f6-4d69-ad25-dde746f94fef" absoluteBounds="0.625, 3.5, 2, 1.9631982421875">
-      <DataClassMoniker Name="/NotaryBaseDataContext/Employee" />
-      <nestedChildShapes>
-        <elementListCompartment Id="feb2c57d-c64e-42b2-aec2-d125980ab430" absoluteBounds="0.63999999999999968, 3.96, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="a1652ff4-4c0e-4c90-be1f-d8649c66845b" absoluteBounds="0.75, 0.5, 2, 1.7708968098958331">
+    <classShape Id="8024be5e-7d4e-4f1d-af6b-057568616f4b" absoluteBounds="0.75, 0.625, 2, 1.7708968098958331">
       <DataClassMoniker Name="/NotaryBaseDataContext/Client" />
       <nestedChildShapes>
-        <elementListCompartment Id="d69d0801-dd4d-4632-a889-5180ef0e11cd" absoluteBounds="0.765, 0.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="8c035954-19c2-44dc-901c-eefcbff34a83" absoluteBounds="0.765, 1.085, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="9a851c91-bac1-4378-9125-9a3fbb47cfab" absoluteBounds="3.625, 0.5, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/NotaryBaseDataContext/Discount" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9358e74b-e885-406e-97f5-02308f6c9864" absoluteBounds="3.64, 0.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="1db14ae4-761f-42b6-911d-3f50b132b0fb" absoluteBounds="6, 0.5, 2, 1.9631982421875">
+      <DataClassMoniker Name="/NotaryBaseDataContext/Employee" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c3dd28c4-3870-4368-8734-b7bde1d392f7" absoluteBounds="6.015, 0.96, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="7139597a-7547-421a-9761-a2a68b310be0" absoluteBounds="1.125, 3, 2, 1.9631982421875">
+      <DataClassMoniker Name="/NotaryBaseDataContext/Order" />
+      <nestedChildShapes>
+        <elementListCompartment Id="926f47ba-195d-41a7-87f5-764af91fd637" absoluteBounds="1.1400000000000001, 3.46, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="1a0816e7-a29b-417d-b35a-29c1b1c3db2a" absoluteBounds="3.75, 2.875, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/NotaryBaseDataContext/Service" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c72f0888-1522-447c-bd41-5f620801082d" absoluteBounds="3.7649999999999997, 3.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
-using System.Xml;
 
 namespace TestWinForms
 {
-    public partial class DeleteElement : Form
+    public partial class DeleteElement : Form// TODO Поменять окно на combobox
     {
         private readonly Algorithms.Type typeOfElement;
         private List<RadioButton> radioButtons;
@@ -59,7 +58,7 @@ namespace TestWinForms
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            if (Algorithms.HasCheced(radioButtons) == false)
+            if (Algorithms.GetCheckedName(radioButtons) == null)
                 return;
 
             switch (typeOfElement)

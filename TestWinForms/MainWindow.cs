@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace TestWinForms
 {
-    public partial class MainWindow : Form
+    public partial class MainWindow : Form// TODO сделать меню и добавить пункт составить диаграмму
     {
         private Algorithms.Type CurrentTable;
 
@@ -15,7 +15,7 @@ namespace TestWinForms
         {
             InitializeComponent();
 
-            Algorithms.ShowOrders(Grid);
+            Grid.DataSource = Algorithms.GetVisibleOrders();
 
             MoneyTextBox.Text = Algorithms.CalculateLastMonthlyProfit().ToString();
             ChangeCurrentTable(Algorithms.Type.Order);
@@ -34,31 +34,31 @@ namespace TestWinForms
 
         private void ShowClientToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Algorithms.ShowClient(Grid);
+            Grid.DataSource = Algorithms.GetVisibleClients();
             ChangeCurrentTable(Algorithms.Type.Client);
         }
 
         private void ShowOrdersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Algorithms.ShowOrders(Grid);
+            Grid.DataSource = Algorithms.GetVisibleOrders();
             ChangeCurrentTable(Algorithms.Type.Order);
         }
 
         private void ShowServiceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Algorithms.ShowService(Grid);
+            Grid.DataSource = Algorithms.GetVisibleServices();
             ChangeCurrentTable(Algorithms.Type.Service);
         }
 
         private void ShowDiscountToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Algorithms.ShowDiscount(Grid);
+            Grid.DataSource = Algorithms.GetVisibleDiscounts();
             ChangeCurrentTable(Algorithms.Type.Discount);
         }
 
         private void ShowEmployeeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Algorithms.ShowEmployee(Grid);
+            Grid.DataSource = Algorithms.GetVisibleEmployees();
             ChangeCurrentTable(Algorithms.Type.Employee);
         }
 
@@ -67,7 +67,7 @@ namespace TestWinForms
             AddOrder AddOrder = new AddOrder();
             AddOrder.ShowDialog();
 
-            Algorithms.ShowOrders(Grid);
+            Grid.DataSource = Algorithms.GetVisibleOrders();
             ChangeCurrentTable(Algorithms.Type.Order);
 
             MoneyTextBox.Text = Algorithms.CalculateLastMonthlyProfit().ToString();
@@ -78,7 +78,7 @@ namespace TestWinForms
             AddServiceDiscount addService = new AddServiceDiscount(Algorithms.Type.Service);
             addService.ShowDialog();
 
-            Algorithms.ShowService(Grid);
+            Grid.DataSource = Algorithms.GetVisibleServices();
             ChangeCurrentTable(Algorithms.Type.Service);
         }
 
@@ -87,7 +87,7 @@ namespace TestWinForms
             AddServiceDiscount addDiscount = new AddServiceDiscount(Algorithms.Type.Discount);
             addDiscount.ShowDialog();
 
-            Algorithms.ShowDiscount(Grid);
+            Grid.DataSource = Algorithms.GetVisibleDiscounts();
             ChangeCurrentTable(Algorithms.Type.Discount);
         }
 
@@ -96,7 +96,7 @@ namespace TestWinForms
             AddEmployee addEmployee = new AddEmployee();
             addEmployee.ShowDialog();
 
-            Algorithms.ShowEmployee(Grid);
+            Grid.DataSource = Algorithms.GetVisibleEmployees();
             ChangeCurrentTable(Algorithms.Type.Employee);
         }
 
@@ -109,7 +109,7 @@ namespace TestWinForms
             DeleteElement deleteElement = new DeleteElement(Algorithms.Type.Service);
             deleteElement.ShowDialog();
 
-            Algorithms.ShowService(Grid);
+            Grid.DataSource = Algorithms.GetVisibleServices();
             ChangeCurrentTable(Algorithms.Type.Service);
         }
 
@@ -122,7 +122,7 @@ namespace TestWinForms
             DeleteElement deleteElement = new DeleteElement(Algorithms.Type.Discount);
             deleteElement.ShowDialog();
 
-            Algorithms.ShowDiscount(Grid);
+            Grid.DataSource = Algorithms.GetVisibleDiscounts();
             ChangeCurrentTable(Algorithms.Type.Discount);
         }
 
@@ -135,7 +135,7 @@ namespace TestWinForms
             DeleteElement deleteElement = new DeleteElement(Algorithms.Type.Employee);
             deleteElement.ShowDialog();
 
-            Algorithms.ShowEmployee(Grid);
+            Grid.DataSource = Algorithms.GetVisibleEmployees();
             ChangeCurrentTable(Algorithms.Type.Employee);
         }
 
@@ -145,7 +145,7 @@ namespace TestWinForms
                 ((ToolStripMenuItem)sender).Text);
             changeElement.ShowDialog();
 
-            Algorithms.ShowClient(Grid);
+            Grid.DataSource = Algorithms.GetVisibleClients();
             ChangeCurrentTable(Algorithms.Type.Client);
         }
 
@@ -155,7 +155,7 @@ namespace TestWinForms
                 ((ToolStripMenuItem)sender).Text);
             changeElement.ShowDialog();
 
-            Algorithms.ShowService(Grid);
+            Grid.DataSource = Algorithms.GetVisibleServices();
             ChangeCurrentTable(Algorithms.Type.Service);
         }
 
@@ -165,7 +165,7 @@ namespace TestWinForms
                 ((ToolStripMenuItem)sender).Text);
             changeElement.ShowDialog();
 
-            Algorithms.ShowDiscount(Grid);
+            Grid.DataSource = Algorithms.GetVisibleDiscounts();
             ChangeCurrentTable(Algorithms.Type.Discount);
         }
 
@@ -175,162 +175,44 @@ namespace TestWinForms
                 ((ToolStripMenuItem)sender).Text);
             changeElement.ShowDialog();
 
-            Algorithms.ShowEmployee(Grid);
+            Grid.DataSource = Algorithms.GetVisibleEmployees();
             ChangeCurrentTable(Algorithms.Type.Employee);
         }
 
         private void SearchB_Click(object sender, EventArgs e)
         {
-            if (TableCB.Text == "" || SearchFieldTB.Text == "")
+            if (TableSelectCB.Text == "" || SearchFieldTB.Text == "")
             {
-                MessageBox.Show("Вы не ввели параметры фильтрации");
+                MessageBox.Show("Вы не ввели параметры фильтрации", "Нет данных", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
+            object[] list = new object[0];
             switch (CurrentTable)
             {
                 case Algorithms.Type.Client:
-                    ShowFiltredClients();
+                    list = Algorithms.GetVisibleClients().ToArray();
                     break;
                 case Algorithms.Type.Order:
-                    ShowFiltredOrders();
+                    list = Algorithms.GetVisibleOrders().ToArray();
                     break;
                 case Algorithms.Type.Service:
-                    ShowFiltredServices();
+                    list = Algorithms.GetVisibleServices().ToArray();
                     break;
                 case Algorithms.Type.Discount:
-                    ShowFiltredDiscounts();
+                    list = Algorithms.GetVisibleDiscounts().ToArray();
                     break;
                 case Algorithms.Type.Employee:
-                    ShowFiltredEmployees();
+                    list = Algorithms.GetVisibleEmployees().ToArray();
                     break;
             }
-        }
 
-        public void ShowFiltredClients()
-        {
-            try
-            {
-                var table = (from client in Algorithms.Notary.Client
-                             select new
-                             {
-                                 Имя = client.Name,
-                                 Дата_рождения = client.BirthDate,
-                                 Телефон = client.Telephone,
-                                 Работа = client.Activity
-                             }).ToArray();
+            PropertyInfo field = list[0].GetType().GetProperty(TableSelectCB.Text);
 
-                PropertyInfo field = table.First().GetType().GetProperty(TableCB.Text);
-
-                Grid.DataSource = (from client in table
-                                   where field.GetValue(client).ToString().Equals(SearchFieldTB.Text)
-                                   select client).ToArray();
-            }
-            catch (TargetException ex)
-            {
-                MessageBox.Show("Опять таргет");
-            }
-            catch (NullReferenceException ex)
-            {
-                MessageBox.Show("Вы не ввели даннные");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("BOBA");
-            }
-        }
-        public void ShowFiltredOrders()
-        {
-            //try
-            //{
-            var table = (from order in Algorithms.Notary.Order
-                         join serv in Algorithms.Notary.Service on order.ServiceID equals serv.ServiceID
-                         join client in Algorithms.Notary.Client on order.ClientID equals client.ClientID
-                         join emp in Algorithms.Notary.Employee on order.EmployeeID equals emp.EmployeeID
-                         join discount in Algorithms.Notary.Discount on order.DiscountID equals discount.DiscountID
-                         into discounts
-                         from disc in discounts.DefaultIfEmpty()
-                         select new
-                         {
-                             Клиент = client.Name,
-                             Услуга = serv.Name,
-                             Нотариус = emp.Name,
-                             Дата = order.Date,
-                             Цена = serv.Price,
-                             Скидка = disc.Percent
-                         }).ToArray();
-
-            PropertyInfo field = table.First().GetType().GetProperty(TableCB.Text);
-
-            Grid.DataSource = (from client in table
-                               where field.GetValue(client).ToString().Equals(SearchFieldTB.Text)
-                               select client).ToArray();
-            //}
-            //catch (TargetException ex)
-            //{
-            //    MessageBox.Show("Опять таргет");
-            //}
-            //catch (NullReferenceException ex)
-            //{
-            //    MessageBox.Show("Вы не ввели даннные");
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-        }
-        public void ShowFiltredServices()
-        {
-            var table = (from service in Algorithms.Notary.Service
-                         where service.NewFlag == 1
-                         select new
-                         {
-                             Название = service.Name,
-                             Цена = service.Price,
-                             Описание = service.Description
-                         }).ToArray();
-
-            PropertyInfo field = table.First().GetType().GetProperty(TableCB.Text);
-
-            Grid.DataSource = (from service in table
-                               where field.GetValue(service).ToString().Equals(SearchFieldTB.Text)
-                               select service).ToArray();
-        }
-        public void ShowFiltredDiscounts()
-        {
-            var table = (from discount in Algorithms.Notary.Discount
-                         where discount.NewFlag == 1
-                         select new
-                         {
-                             Название = discount.Name,
-                             Процент = discount.Percent,
-                             Описание = discount.Description
-                         }).ToArray();
-
-            PropertyInfo field = table.First().GetType().GetProperty(TableCB.Text);
-
-            Grid.DataSource = (from discount in table
-                               where field.GetValue(discount).ToString().Equals(SearchFieldTB.Text)
-                               select discount).ToArray();
-        }
-        public void ShowFiltredEmployees()
-        {
-            var table = (from employee in Algorithms.Notary.Employee
-                         select new
-                         {
-                             Имя = employee.Name,
-                             Зарплата = employee.Salary,
-                             Должность = employee.Post,
-                             Найм = employee.HireDate,
-                             Статус = employee.DismissalDate == null ? "Работает" :
-                             "Уволен " + employee.DismissalDate
-                         }).ToArray();
-
-            PropertyInfo field = table.First().GetType().GetProperty(TableCB.Text);
-
-            Grid.DataSource = (from employee in table
-                               where field.GetValue(employee).ToString().Equals(SearchFieldTB.Text)
-                               select employee).ToArray();
+            Grid.DataSource = (from obj in list
+                               where field.GetValue(obj).ToString().Contains(SearchFieldTB.Text)
+                               select obj).ToList();
         }
 
         private void DropFiltresB_Click(object sender, EventArgs e)
@@ -338,19 +220,19 @@ namespace TestWinForms
             switch (CurrentTable)
             {
                 case Algorithms.Type.Client:
-                    Algorithms.ShowClient(Grid);
+                    Grid.DataSource = Algorithms.GetVisibleClients();
                     break;
                 case Algorithms.Type.Order:
-                    Algorithms.ShowOrders(Grid);
+                    Grid.DataSource = Algorithms.GetVisibleOrders();
                     break;
                 case Algorithms.Type.Service:
-                    Algorithms.ShowService(Grid);
+                    Grid.DataSource = Algorithms.GetVisibleServices();
                     break;
                 case Algorithms.Type.Discount:
-                    Algorithms.ShowDiscount(Grid);
+                    Grid.DataSource = Algorithms.GetVisibleDiscounts();
                     break;
                 case Algorithms.Type.Employee:
-                    Algorithms.ShowEmployee(Grid);
+                    Grid.DataSource = Algorithms.GetVisibleEmployees();
                     break;
             }
         }
@@ -361,21 +243,33 @@ namespace TestWinForms
             switch (type)
             {
                 case Algorithms.Type.Client:
-                    TableCB.DataSource = new string[] { "Имя", "Дата_рождения", "Телефон", "Работа" };
+                    TableSelectCB.DataSource = VisibleClient.GetFieldsName();
                     break;
                 case Algorithms.Type.Service:
-                    TableCB.DataSource = new string[] { "Название", "Цена", "Описание" };
+                    TableSelectCB.DataSource = VisibleService.GetFieldsName();
                     break;
                 case Algorithms.Type.Order:
-                    TableCB.DataSource = new string[] { "Клиент", "Услуга", "Нотариус", "Дата", "Цена", "Скидка" };
+                    TableSelectCB.DataSource = VisibleOrder.GetFieldsName();
                     break;
                 case Algorithms.Type.Discount:
-                    TableCB.DataSource = new string[] { "Название", "Процент", "Описание" };
+                    TableSelectCB.DataSource = VisibleDiscount.GetFieldsName();
                     break;
                 case Algorithms.Type.Employee:
-                    TableCB.DataSource = new string[] { "Имя", "Зарплата", "Должность", "Найм", "Статус" };
+                    TableSelectCB.DataSource = VisibleEmployee.GetFieldsName();
                     break;
             }
+        }
+
+        private void GenerateReportClick(object sender, EventArgs e)
+        {
+            GenerateExelReport window = new GenerateExelReport();
+            window.ShowDialog();
+        }
+
+        private void GenerateContractClick(object sender, EventArgs e)
+        {
+            GenerateWordContractByOrder window = new GenerateWordContractByOrder();
+            window.ShowDialog();
         }
     }
 }

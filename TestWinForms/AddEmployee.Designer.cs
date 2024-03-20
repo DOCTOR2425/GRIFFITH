@@ -110,6 +110,7 @@
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AddEmployee";
             this.Text = "Добавление работника";
             this.ResumeLayout(false);

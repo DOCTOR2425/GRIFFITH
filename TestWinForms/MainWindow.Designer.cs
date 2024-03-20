@@ -30,19 +30,21 @@
         {
             this.Grid = new System.Windows.Forms.DataGridView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.менюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.отобразитьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.GenerateTSMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.GenerateReportTSMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ShowTSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.клиентыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.заказыToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.услугиToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.скидкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.работникиToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.добавитьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddTSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.заказыToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.услугиToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.скидкиToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.работникиToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.изменитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ChangeTSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.клиентыToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.фИОToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.телефонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,65 +62,89 @@
             this.фИОToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.зарплатаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.должностьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DeleteTSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.услугуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.скидкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.работникаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MoneyTextBox = new System.Windows.Forms.TextBox();
-            this.TableCB = new System.Windows.Forms.ComboBox();
             this.SearchB = new System.Windows.Forms.Button();
             this.DropFiltresB = new System.Windows.Forms.Button();
             this.SearchFieldTB = new System.Windows.Forms.TextBox();
+            this.TableSelectCB = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // Grid
             // 
-            this.Grid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.Grid.AllowUserToAddRows = false;
+            this.Grid.AllowUserToDeleteRows = false;
+            this.Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Grid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.Grid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Grid.Location = new System.Drawing.Point(13, 51);
+            this.Grid.Location = new System.Drawing.Point(13, 34);
             this.Grid.Name = "Grid";
+            this.Grid.ReadOnly = true;
             this.Grid.RowHeadersWidth = 51;
             this.Grid.RowTemplate.Height = 24;
-            this.Grid.Size = new System.Drawing.Size(1087, 488);
+            this.Grid.Size = new System.Drawing.Size(1149, 505);
             this.Grid.TabIndex = 4;
             this.Grid.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Grid_RowHeaderMouseDoubleClick);
             // 
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.SystemColors.Window;
+            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.менюToolStripMenuItem,
-            this.отобразитьToolStripMenuItem1,
-            this.добавитьToolStripMenuItem1,
-            this.изменитьToolStripMenuItem,
-            this.удалитьToolStripMenuItem});
+            this.GenerateTSMI,
+            this.ShowTSMI,
+            this.AddTSMI,
+            this.ChangeTSMI,
+            this.DeleteTSMI});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1112, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(502, 28);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // менюToolStripMenuItem
+            // GenerateTSMI
             // 
-            this.менюToolStripMenuItem.Name = "менюToolStripMenuItem";
-            this.менюToolStripMenuItem.Size = new System.Drawing.Size(65, 24);
-            this.менюToolStripMenuItem.Text = "Меню";
+            this.GenerateTSMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.GenerateReportTSMI,
+            this.сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem});
+            this.GenerateTSMI.Name = "GenerateTSMI";
+            this.GenerateTSMI.Size = new System.Drawing.Size(128, 24);
+            this.GenerateTSMI.Text = "Сформировать";
             // 
-            // отобразитьToolStripMenuItem1
+            // GenerateReportTSMI
             // 
-            this.отобразитьToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.GenerateReportTSMI.Name = "GenerateReportTSMI";
+            this.GenerateReportTSMI.Size = new System.Drawing.Size(440, 26);
+            this.GenerateReportTSMI.Text = "Сгененрировать отчёт о даходах и расходах";
+            this.GenerateReportTSMI.Click += new System.EventHandler(this.GenerateReportClick);
+            // 
+            // сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem
+            // 
+            this.сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem.Name = "сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem";
+            this.сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem.Size = new System.Drawing.Size(440, 26);
+            this.сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem.Text = "Сгенерировать договор о предоставлении услуги";
+            this.сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem.Click += new System.EventHandler(this.GenerateContractClick);
+            // 
+            // ShowTSMI
+            // 
+            this.ShowTSMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.клиентыToolStripMenuItem,
             this.заказыToolStripMenuItem1,
             this.услугиToolStripMenuItem2,
             this.скидкиToolStripMenuItem,
             this.работникиToolStripMenuItem2});
-            this.отобразитьToolStripMenuItem1.Name = "отобразитьToolStripMenuItem1";
-            this.отобразитьToolStripMenuItem1.Size = new System.Drawing.Size(105, 24);
-            this.отобразитьToolStripMenuItem1.Text = "Отобразить";
+            this.ShowTSMI.Name = "ShowTSMI";
+            this.ShowTSMI.Size = new System.Drawing.Size(105, 24);
+            this.ShowTSMI.Text = "Отобразить";
             // 
             // клиентыToolStripMenuItem
             // 
@@ -155,16 +181,16 @@
             this.работникиToolStripMenuItem2.Text = "Работники";
             this.работникиToolStripMenuItem2.Click += new System.EventHandler(this.ShowEmployeeToolStripMenuItem_Click);
             // 
-            // добавитьToolStripMenuItem1
+            // AddTSMI
             // 
-            this.добавитьToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AddTSMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.заказыToolStripMenuItem2,
             this.услугиToolStripMenuItem3,
             this.скидкиToolStripMenuItem1,
             this.работникиToolStripMenuItem3});
-            this.добавитьToolStripMenuItem1.Name = "добавитьToolStripMenuItem1";
-            this.добавитьToolStripMenuItem1.Size = new System.Drawing.Size(90, 24);
-            this.добавитьToolStripMenuItem1.Text = "Добавить";
+            this.AddTSMI.Name = "AddTSMI";
+            this.AddTSMI.Size = new System.Drawing.Size(90, 24);
+            this.AddTSMI.Text = "Добавить";
             // 
             // заказыToolStripMenuItem2
             // 
@@ -194,16 +220,16 @@
             this.работникиToolStripMenuItem3.Text = "Работники";
             this.работникиToolStripMenuItem3.Click += new System.EventHandler(this.AddEmployeeToolStripMenuItem1_Click);
             // 
-            // изменитьToolStripMenuItem
+            // ChangeTSMI
             // 
-            this.изменитьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ChangeTSMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.клиентыToolStripMenuItem1,
             this.услугиToolStripMenuItem,
             this.скидкиToolStripMenuItem2,
             this.работникиToolStripMenuItem});
-            this.изменитьToolStripMenuItem.Name = "изменитьToolStripMenuItem";
-            this.изменитьToolStripMenuItem.Size = new System.Drawing.Size(92, 24);
-            this.изменитьToolStripMenuItem.Text = "Изменить";
+            this.ChangeTSMI.Name = "ChangeTSMI";
+            this.ChangeTSMI.Size = new System.Drawing.Size(92, 24);
+            this.ChangeTSMI.Text = "Изменить";
             // 
             // клиентыToolStripMenuItem1
             // 
@@ -337,15 +363,15 @@
             this.должностьToolStripMenuItem.Text = "Должность";
             this.должностьToolStripMenuItem.Click += new System.EventHandler(this.EmployeeToolStripMenuItem_Click);
             // 
-            // удалитьToolStripMenuItem
+            // DeleteTSMI
             // 
-            this.удалитьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.DeleteTSMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.услугуToolStripMenuItem,
             this.скидкаToolStripMenuItem,
             this.работникаToolStripMenuItem});
-            this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(79, 24);
-            this.удалитьToolStripMenuItem.Text = "Удалить";
+            this.DeleteTSMI.Name = "DeleteTSMI";
+            this.DeleteTSMI.Size = new System.Drawing.Size(79, 24);
+            this.DeleteTSMI.Text = "Удалить";
             // 
             // услугуToolStripMenuItem
             // 
@@ -371,24 +397,19 @@
             // MoneyTextBox
             // 
             this.MoneyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.MoneyTextBox.Location = new System.Drawing.Point(1010, 6);
+            this.MoneyTextBox.Location = new System.Drawing.Point(1072, 6);
             this.MoneyTextBox.Name = "MoneyTextBox";
             this.MoneyTextBox.ReadOnly = true;
             this.MoneyTextBox.Size = new System.Drawing.Size(90, 22);
             this.MoneyTextBox.TabIndex = 6;
             // 
-            // TableCB
-            // 
-            this.TableCB.BackColor = System.Drawing.SystemColors.Window;
-            this.TableCB.FormattingEnabled = true;
-            this.TableCB.Location = new System.Drawing.Point(457, 4);
-            this.TableCB.Name = "TableCB";
-            this.TableCB.Size = new System.Drawing.Size(161, 24);
-            this.TableCB.TabIndex = 7;
-            // 
             // SearchB
             // 
-            this.SearchB.Location = new System.Drawing.Point(778, 6);
+            this.SearchB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SearchB.Location = new System.Drawing.Point(895, 4);
+            this.SearchB.MaximumSize = new System.Drawing.Size(75, 24);
+            this.SearchB.MinimumSize = new System.Drawing.Size(75, 24);
             this.SearchB.Name = "SearchB";
             this.SearchB.Size = new System.Drawing.Size(75, 24);
             this.SearchB.TabIndex = 9;
@@ -398,7 +419,11 @@
             // 
             // DropFiltresB
             // 
-            this.DropFiltresB.Location = new System.Drawing.Point(859, 6);
+            this.DropFiltresB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.DropFiltresB.Location = new System.Drawing.Point(976, 4);
+            this.DropFiltresB.MaximumSize = new System.Drawing.Size(75, 24);
+            this.DropFiltresB.MinimumSize = new System.Drawing.Size(75, 24);
             this.DropFiltresB.Name = "DropFiltresB";
             this.DropFiltresB.Size = new System.Drawing.Size(75, 24);
             this.DropFiltresB.TabIndex = 10;
@@ -408,26 +433,45 @@
             // 
             // SearchFieldTB
             // 
+            this.SearchFieldTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.SearchFieldTB.BackColor = System.Drawing.SystemColors.Window;
-            this.SearchFieldTB.Location = new System.Drawing.Point(624, 6);
+            this.SearchFieldTB.Location = new System.Drawing.Point(741, 6);
+            this.SearchFieldTB.MaximumSize = new System.Drawing.Size(148, 22);
+            this.SearchFieldTB.MinimumSize = new System.Drawing.Size(148, 22);
             this.SearchFieldTB.Name = "SearchFieldTB";
             this.SearchFieldTB.Size = new System.Drawing.Size(148, 22);
             this.SearchFieldTB.TabIndex = 11;
+            // 
+            // TableSelectCB
+            // 
+            this.TableSelectCB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TableSelectCB.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+            this.TableSelectCB.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.TableSelectCB.FormattingEnabled = true;
+            this.TableSelectCB.Location = new System.Drawing.Point(571, 4);
+            this.TableSelectCB.MaximumSize = new System.Drawing.Size(148, 0);
+            this.TableSelectCB.MinimumSize = new System.Drawing.Size(148, 0);
+            this.TableSelectCB.Name = "TableSelectCB";
+            this.TableSelectCB.Size = new System.Drawing.Size(148, 24);
+            this.TableSelectCB.TabIndex = 12;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1112, 551);
+            this.BackColor = System.Drawing.SystemColors.Window;
+            this.ClientSize = new System.Drawing.Size(1174, 551);
+            this.Controls.Add(this.TableSelectCB);
             this.Controls.Add(this.SearchFieldTB);
             this.Controls.Add(this.DropFiltresB);
             this.Controls.Add(this.SearchB);
-            this.Controls.Add(this.TableCB);
             this.Controls.Add(this.MoneyTextBox);
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.MinimumSize = new System.Drawing.Size(1100, 200);
+            this.MinimumSize = new System.Drawing.Size(1192, 300);
             this.Name = "MainWindow";
             this.Text = "GRIFFITH";
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
@@ -441,19 +485,19 @@
         #endregion
         private System.Windows.Forms.DataGridView Grid;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem отобразитьToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem ShowTSMI;
         private System.Windows.Forms.ToolStripMenuItem клиентыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem заказыToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem услугиToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem скидкиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem работникиToolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem добавитьToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem AddTSMI;
         private System.Windows.Forms.ToolStripMenuItem заказыToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem услугиToolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem скидкиToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem работникиToolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem изменитьToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ChangeTSMI;
+        private System.Windows.Forms.ToolStripMenuItem DeleteTSMI;
         private System.Windows.Forms.ToolStripMenuItem услугуToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem скидкаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem работникаToolStripMenuItem;
@@ -475,11 +519,13 @@
         private System.Windows.Forms.ToolStripMenuItem фИОToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem зарплатаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem должностьToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem менюToolStripMenuItem;
-        private System.Windows.Forms.ComboBox TableCB;
+        private System.Windows.Forms.ToolStripMenuItem GenerateTSMI;
         private System.Windows.Forms.Button SearchB;
         private System.Windows.Forms.Button DropFiltresB;
         private System.Windows.Forms.TextBox SearchFieldTB;
+        private System.Windows.Forms.ComboBox TableSelectCB;
+        private System.Windows.Forms.ToolStripMenuItem GenerateReportTSMI;
+        private System.Windows.Forms.ToolStripMenuItem сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem;
     }
 }
 

@@ -10,7 +10,6 @@ namespace TestWinForms
     {
         private readonly Algorithms.Type typeOfElement;
         private readonly string classField;
-        private List<RadioButton> radioButtons;
 
         public ChangeElement(Algorithms.Type type, string field)
         {
@@ -19,179 +18,140 @@ namespace TestWinForms
             typeOfElement = type;
             classField = field;
 
-            GroupBox1.Parent = panel1;
-            panel1.AutoScroll = true;
-
             List<string> names = new List<string>();
 
             switch (typeOfElement)
             {
                 case Algorithms.Type.Service:
-                    ChangeButton.Text = "Изменить услугу " + classField;
+                    ChangeButton.Text = "Изменить " + classField + " услуги";
                     this.Text = "Изменение услуги";
-                    GroupBox1.Text = "Выбор услуги";
+                    HeaderL.Text = "Выбор услуги";
 
                     names = (from service in Algorithms.Notary.Service
                              where service.NewFlag == 1
                              select service.Name).ToList();
                     break;
                 case Algorithms.Type.Discount:
-                    ChangeButton.Text = "Изменить скидку " + classField;
+                    ChangeButton.Text = "Изменить " + classField + " скидки";
                     this.Text = "Изменение скидки";
-                    GroupBox1.Text = "Выбор скидки";
+                    HeaderL.Text = "Выбор скидки";
 
                     names = (from discount in Algorithms.Notary.Discount
                              where discount.NewFlag == 1
                              select discount.Name).ToList();
                     break;
                 case Algorithms.Type.Employee:
-                    ChangeButton.Text = "Изменить работника " + classField;
+                    ChangeButton.Text = "Изменить " + classField + " работника";
                     this.Text = "Изменение работника";
-                    GroupBox1.Text = "Выбор работника";
+                    HeaderL.Text = "Выбор работника";
 
                     names = (from emp in Algorithms.Notary.Employee
                              where emp.DismissalDate == null
                              select emp.Name).ToList();
                     break;
                 case Algorithms.Type.Client:
-                    ChangeButton.Text = "Изменить клиента " + classField;
+                    ChangeButton.Text = "Изменить " + classField + " клиента";
                     this.Text = "Изменение клиента";
-                    GroupBox1.Text = "Выбор клиента";
+                    HeaderL.Text = "Выбор клиента";
 
                     names = (from emp in Algorithms.Notary.Client
                              select emp.Name).ToList();
                     break;
             }
 
-            radioButtons = Algorithms.FillGroupBox(GroupBox1, names);
-        }
-
-        private void TextBox1_TextChanged(object sender, EventArgs e)
-        {
-            switch (typeOfElement)
-            {
-                case Algorithms.Type.Service:
-                    var services = (from serv in Algorithms.Notary.Service
-                                    where serv.Name.Contains(TextBox1.Text)
-                                    where serv.NewFlag == 1
-                                    select serv.Name).ToList();
-
-                    radioButtons = Algorithms.FillGroupBox(GroupBox1, services);
-                    break;
-                case Algorithms.Type.Discount:
-                    var discounts = (from disc in Algorithms.Notary.Discount
-                                     where disc.Name.Contains(TextBox1.Text)
-                                     where disc.NewFlag == 1
-                                     select disc.Name).ToList();
-
-                    radioButtons = Algorithms.FillGroupBox(GroupBox1, discounts);
-                    break;
-                case Algorithms.Type.Employee:
-                    var emploees = (from emp in Algorithms.Notary.Employee
-                                    where emp.Name.Contains(TextBox1.Text)
-                                    where emp.DismissalDate == null
-                                    select emp.Name).ToList();
-
-                    radioButtons = Algorithms.FillGroupBox(GroupBox1, emploees);
-                    break;
-                case Algorithms.Type.Client:
-                    var clienst = (from clnt in Algorithms.Notary.Client
-                                    where clnt.Name.Contains(TextBox1.Text)
-                                    select clnt.Name).ToList();
-                    radioButtons = Algorithms.FillGroupBox(GroupBox1, clienst);
-                    break;
-            }
+            SelectItemCB.DataSource = names;
         }
 
         private void ChangeButton_Click(object sender, EventArgs e)
         {
-            if (Algorithms.HasCheced(radioButtons) == false)
+
+            if (SelectItemCB.Text == "")
+            {
+                MessageBox.Show("Вы не выбрали объект для изменения", "Нет данных",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
-            if (ChangeTextBox.Text == "")
+            }
+            if (ChangeValueTB.Text == "")
+            {
+                MessageBox.Show("Вы не ввели новые данные", "Нет данных",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
+            }
 
             try
             {
                 switch (typeOfElement)
                 {
                     case Algorithms.Type.Service:
-                        Service services = (from serv in Algorithms.Notary.Service
-                                            where serv.Name == Algorithms.GetCheckedName(radioButtons)
-                                            where serv.NewFlag == 1
-                                            select serv).ToList().First();
+                        Service service = Algorithms.Notary.Service.FirstOrDefault(x => x.Name == SelectItemCB.Text
+                        && x.NewFlag == 1);
 
                         switch (classField)
                         {
                             case "Название":
-                                services.Name = ChangeTextBox.Text;
+                                service.Name = ChangeValueTB.Text;
                                 break;
                             case "Цена":
-                                services.Price = Convert.ToDouble(ChangeTextBox.Text);
+                                service.Price = Convert.ToDouble(ChangeValueTB.Text);
                                 break;
                             case "Описание":
-                                services.Description = ChangeTextBox.Text;
+                                service.Description = ChangeValueTB.Text;
                                 break;
                         }
 
                         break;
                     case Algorithms.Type.Discount:
-                        Discount discount = (from disc in Algorithms.Notary.Discount
-                                             where disc.Name == Algorithms.GetCheckedName(radioButtons)
-                                             where disc.NewFlag == 1
-                                             select disc).ToList().First();
+                        Discount discount = Algorithms.Notary.Discount.FirstOrDefault(x => x.Name == SelectItemCB.Text
+                        && x.NewFlag == 1);
 
                         switch (classField)
                         {
                             case "Название":
-                                discount.Name = ChangeTextBox.Text;
+                                discount.Name = ChangeValueTB.Text;
                                 break;
                             case "Процент":
-                                discount.Percent = Convert.ToDouble(ChangeTextBox.Text);
+                                discount.Percent = Convert.ToDouble(ChangeValueTB.Text);
                                 break;
                             case "Описание":
-                                discount.Description = ChangeTextBox.Text;
+                                discount.Description = ChangeValueTB.Text;
                                 break;
                         }
 
                         break;
                     case Algorithms.Type.Employee:
-                        Employee employee = (from emp in Algorithms.Notary.Employee
-                                             where emp.Name == Algorithms.GetCheckedName(radioButtons)
-                                             where emp.DismissalDate == null
-                                             select emp).ToList().First();
+                        Employee employee = Algorithms.Notary.Employee.FirstOrDefault(x => x.Name == SelectItemCB.Text
+                        && x.DismissalDate == null);
 
                         switch (classField)
                         {
                             case "ФИО":
-                                employee.Name = ChangeTextBox.Text;
+                                employee.Name = ChangeValueTB.Text;
                                 break;
                             case "Зарплата":
-                                employee.Salary = Convert.ToDouble(ChangeTextBox.Text);
+                                employee.Salary = Convert.ToDouble(ChangeValueTB.Text);
                                 break;
                             case "Должность":
-                                employee.Post = ChangeTextBox.Text;
+                                employee.Post = ChangeValueTB.Text;
                                 break;
                         }
 
                         break;
                     case Algorithms.Type.Client:
-                        Client client = (from clnt in Algorithms.Notary.Client
-                                         where clnt.Name == Algorithms.GetCheckedName(radioButtons)
-                                         select clnt).ToList().First();
+                        Client client = Algorithms.Notary.Client.FirstOrDefault(x => x.Name == SelectItemCB.Text);
 
                         switch (classField)
                         {
                             case "ФИО":
-                                client.Name = ChangeTextBox.Text;
+                                client.Name = ChangeValueTB.Text;
                                 break;
                             case "Телефон":
-                                client.Telephone = ChangeTextBox.Text;
+                                client.Telephone = ChangeValueTB.Text;
                                 break;
                             case "Род деятельности":
-                                client.Activity = ChangeTextBox.Text;
+                                client.Activity = ChangeValueTB.Text;
                                 break;
                             case "Дата рождения":
-                                client.BirthDate = Convert.ToDateTime(ChangeTextBox.Text);
+                                client.BirthDate = Convert.ToDateTime(ChangeValueTB.Text);
                                 break;
                         }
                         break;
@@ -200,11 +160,108 @@ namespace TestWinForms
                 Algorithms.Notary.SubmitChanges();
                 this.Close();
             }
-            catch (FormatException ex)
+            catch (FormatException)
             {
-                ChangeTextBox.Text = "";
-                MessageBox.Show("Неверно введённые данные\nПроверьте правильность формата введённых данных", 
+                ChangeValueTB.Text = "";
+                MessageBox.Show("Неверно введённые данные\nПроверьте правильность формата введённых данных",
                     "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+        private void SelectItemCB_SelectedValueChanged(object sender, EventArgs e)
+        {
+            switch (typeOfElement)
+            {
+                case Algorithms.Type.Client:
+                    {
+                        Client client = Algorithms.Notary.Client.FirstOrDefault(x => x.Name == SelectItemCB.Text);
+
+                        ItemValueL.Text = classField + " клиента: ";
+
+                        switch (classField)
+                        {
+                            case "ФИО":
+                                ItemValueL.Text += client.Name;
+                                break;
+                            case "Телефон":
+                                ItemValueL.Text += client.Telephone;
+                                break;
+                            case "Род деятельности":
+                                ItemValueL.Text += client.Activity;
+                                break;
+                            case "Дата рождения":
+                                ItemValueL.Text += client.BirthDate.ToString("dd.MM.yyyy");
+                                break;
+                        }
+
+                        break;
+                    }
+                case Algorithms.Type.Service:
+                    {
+                        Service service = Algorithms.Notary.Service.FirstOrDefault(x => x.Name == SelectItemCB.Text
+                        && x.NewFlag == 1);
+
+                        ItemValueL.Text = classField + " услуги: ";
+
+                        switch (classField)
+                        {
+                            case "Название":
+                                ItemValueL.Text += service.Name;
+                                break;
+                            case "Цена":
+                                ItemValueL.Text += service.Price.ToString();
+                                break;
+                            case "Описание":
+                                ItemValueL.Text += service.Description;
+                                break;
+                        }
+
+                        break;
+                    }
+                case Algorithms.Type.Discount:
+                    {
+                        Discount discount = Algorithms.Notary.Discount.FirstOrDefault(x => x.Name == SelectItemCB.Text
+                        && x.NewFlag == 1);
+
+                        ItemValueL.Text = classField + " скидки: ";
+
+                        switch (classField)
+                        {
+                            case "Название":
+                                ItemValueL.Text += discount.Name;
+                                break;
+                            case "Процент":
+                                ItemValueL.Text += discount.Percent.ToString();
+                                break;
+                            case "Описание":
+                                ItemValueL.Text += discount.Description;
+                                break;
+                        }
+
+                        break;
+                    }
+                case Algorithms.Type.Employee:
+                    {
+                        Employee employee = Algorithms.Notary.Employee.FirstOrDefault(x => x.Name == SelectItemCB.Text
+                        && x.DismissalDate == null);
+
+                        ItemValueL.Text = classField + " работника: ";
+
+                        switch (classField)
+                        {
+                            case "ФИО":
+                                ItemValueL.Text += employee.Name;
+                                break;
+                            case "Зарплата":
+                                ItemValueL.Text += employee.Salary.ToString();
+                                break;
+                            case "Должность":
+                                ItemValueL.Text += employee.Post;
+                                break;
+                        }
+
+                        break;
+                    }
             }
         }
     }

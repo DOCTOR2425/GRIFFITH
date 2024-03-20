@@ -28,293 +28,181 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.NameTextBox = new System.Windows.Forms.TextBox();
-            this.TelephoneTextBox = new System.Windows.Forms.TextBox();
-            this.ActivityTextBox = new System.Windows.Forms.TextBox();
             this.AddOrderButton = new System.Windows.Forms.Button();
-            this.ServiceGroupBox = new System.Windows.Forms.GroupBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.ClientCheckBox = new System.Windows.Forms.CheckBox();
-            this.ClientTextBox = new System.Windows.Forms.TextBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.ClientGroupBox = new System.Windows.Forms.GroupBox();
-            this.ServiceTextBox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.DiscountTextBox = new System.Windows.Forms.TextBox();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.DiscountGroupBox = new System.Windows.Forms.GroupBox();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.EmployeeGroupBox = new System.Windows.Forms.GroupBox();
-            this.EmployeeTextBox = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.BirthDateTextBox = new System.Windows.Forms.TextBox();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.panel4.SuspendLayout();
+            this.AddNewClientChB = new System.Windows.Forms.CheckBox();
+            this.DiscountL = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.ClientL = new System.Windows.Forms.Label();
+            this.AddNewClientB = new System.Windows.Forms.Button();
+            this.ClientCB = new System.Windows.Forms.ComboBox();
+            this.ServiceCB = new System.Windows.Forms.ComboBox();
+            this.EmployeeCB = new System.Windows.Forms.ComboBox();
+            this.DiscountCB = new System.Windows.Forms.ComboBox();
+            this.AddDiscountChB = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
-            // 
-            // NameTextBox
-            // 
-            this.NameTextBox.Location = new System.Drawing.Point(12, 38);
-            this.NameTextBox.Name = "NameTextBox";
-            this.NameTextBox.Size = new System.Drawing.Size(305, 22);
-            this.NameTextBox.TabIndex = 0;
-            // 
-            // TelephoneTextBox
-            // 
-            this.TelephoneTextBox.Location = new System.Drawing.Point(12, 89);
-            this.TelephoneTextBox.Name = "TelephoneTextBox";
-            this.TelephoneTextBox.Size = new System.Drawing.Size(305, 22);
-            this.TelephoneTextBox.TabIndex = 1;
-            // 
-            // ActivityTextBox
-            // 
-            this.ActivityTextBox.Location = new System.Drawing.Point(12, 150);
-            this.ActivityTextBox.Name = "ActivityTextBox";
-            this.ActivityTextBox.Size = new System.Drawing.Size(305, 22);
-            this.ActivityTextBox.TabIndex = 2;
             // 
             // AddOrderButton
             // 
             this.AddOrderButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AddOrderButton.Location = new System.Drawing.Point(665, 639);
+            this.AddOrderButton.Location = new System.Drawing.Point(336, 225);
             this.AddOrderButton.Name = "AddOrderButton";
-            this.AddOrderButton.Size = new System.Drawing.Size(277, 57);
+            this.AddOrderButton.Size = new System.Drawing.Size(250, 57);
             this.AddOrderButton.TabIndex = 9;
             this.AddOrderButton.Text = "Добавить клиента";
             this.AddOrderButton.UseVisualStyleBackColor = true;
             this.AddOrderButton.Click += new System.EventHandler(this.AddOrderButton_Click);
             // 
-            // ServiceGroupBox
+            // AddNewClientChB
             // 
-            this.ServiceGroupBox.AutoSize = true;
-            this.ServiceGroupBox.Location = new System.Drawing.Point(3, 3);
-            this.ServiceGroupBox.Name = "ServiceGroupBox";
-            this.ServiceGroupBox.Size = new System.Drawing.Size(246, 270);
-            this.ServiceGroupBox.TabIndex = 4;
-            this.ServiceGroupBox.TabStop = false;
-            this.ServiceGroupBox.Text = "Услуги";
+            this.AddNewClientChB.AutoSize = true;
+            this.AddNewClientChB.Location = new System.Drawing.Point(9, 78);
+            this.AddNewClientChB.Name = "AddNewClientChB";
+            this.AddNewClientChB.Size = new System.Drawing.Size(225, 20);
+            this.AddNewClientChB.TabIndex = 4;
+            this.AddNewClientChB.Text = "Выбор добавленного клиента";
+            this.AddNewClientChB.UseVisualStyleBackColor = true;
+            this.AddNewClientChB.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
             // 
-            // panel1
+            // DiscountL
             // 
-            this.panel1.AutoScroll = true;
-            this.panel1.Controls.Add(this.ServiceGroupBox);
-            this.panel1.Location = new System.Drawing.Point(662, 69);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(280, 289);
-            this.panel1.TabIndex = 5;
+            this.DiscountL.AutoSize = true;
+            this.DiscountL.Enabled = false;
+            this.DiscountL.Location = new System.Drawing.Point(9, 224);
+            this.DiscountL.Name = "DiscountL";
+            this.DiscountL.Size = new System.Drawing.Size(253, 16);
+            this.DiscountL.TabIndex = 20;
+            this.DiscountL.Text = "Введите название скидки для поиска";
             // 
-            // ClientCheckBox
+            // label6
             // 
-            this.ClientCheckBox.AutoSize = true;
-            this.ClientCheckBox.Location = new System.Drawing.Point(15, 250);
-            this.ClientCheckBox.Name = "ClientCheckBox";
-            this.ClientCheckBox.Size = new System.Drawing.Size(225, 20);
-            this.ClientCheckBox.TabIndex = 4;
-            this.ClientCheckBox.Text = "Выбор добавленного клиента";
-            this.ClientCheckBox.UseVisualStyleBackColor = true;
-            this.ClientCheckBox.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(333, 19);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(253, 16);
+            this.label6.TabIndex = 21;
+            this.label6.Text = "Введите название услуги для поиска";
             // 
-            // ClientTextBox
+            // label7
             // 
-            this.ClientTextBox.Enabled = false;
-            this.ClientTextBox.Location = new System.Drawing.Point(12, 285);
-            this.ClientTextBox.Name = "ClientTextBox";
-            this.ClientTextBox.Size = new System.Drawing.Size(251, 22);
-            this.ClientTextBox.TabIndex = 5;
-            this.ClientTextBox.TextChanged += new System.EventHandler(this.ClientTextBox_TextChanged);
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(333, 79);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(238, 16);
+            this.label7.TabIndex = 22;
+            this.label7.Text = "Введите имя работника для поиска";
             // 
-            // panel2
+            // ClientL
             // 
-            this.panel2.AutoScroll = true;
-            this.panel2.Controls.Add(this.ClientGroupBox);
-            this.panel2.Location = new System.Drawing.Point(12, 329);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(280, 377);
-            this.panel2.TabIndex = 9;
+            this.ClientL.AutoSize = true;
+            this.ClientL.Location = new System.Drawing.Point(6, 19);
+            this.ClientL.Name = "ClientL";
+            this.ClientL.Size = new System.Drawing.Size(222, 16);
+            this.ClientL.TabIndex = 27;
+            this.ClientL.Text = "Введите имя клиента для поиска";
             // 
-            // ClientGroupBox
+            // AddNewClientB
             // 
-            this.ClientGroupBox.AutoSize = true;
-            this.ClientGroupBox.Enabled = false;
-            this.ClientGroupBox.Location = new System.Drawing.Point(3, 3);
-            this.ClientGroupBox.Name = "ClientGroupBox";
-            this.ClientGroupBox.Size = new System.Drawing.Size(248, 364);
-            this.ClientGroupBox.TabIndex = 4;
-            this.ClientGroupBox.TabStop = false;
-            this.ClientGroupBox.Text = "Клиенты";
+            this.AddNewClientB.Enabled = false;
+            this.AddNewClientB.Location = new System.Drawing.Point(9, 104);
+            this.AddNewClientB.Name = "AddNewClientB";
+            this.AddNewClientB.Size = new System.Drawing.Size(107, 51);
+            this.AddNewClientB.TabIndex = 28;
+            this.AddNewClientB.Text = "Добавить клиента";
+            this.AddNewClientB.UseVisualStyleBackColor = true;
+            this.AddNewClientB.Click += new System.EventHandler(this.AddNewClientB_Click);
             // 
-            // ServiceTextBox
+            // ClientCB
             // 
-            this.ServiceTextBox.Location = new System.Drawing.Point(662, 38);
-            this.ServiceTextBox.Name = "ServiceTextBox";
-            this.ServiceTextBox.Size = new System.Drawing.Size(249, 22);
-            this.ServiceTextBox.TabIndex = 7;
-            this.ServiceTextBox.TextChanged += new System.EventHandler(this.ServiceTextBox_TextChanged);
+            this.ClientCB.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+            this.ClientCB.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.ClientCB.Location = new System.Drawing.Point(9, 38);
+            this.ClientCB.Name = "ClientCB";
+            this.ClientCB.Size = new System.Drawing.Size(253, 24);
+            this.ClientCB.TabIndex = 29;
             // 
-            // label1
+            // ServiceCB
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(90, 16);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Имя клиента";
+            this.ServiceCB.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+            this.ServiceCB.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.ServiceCB.FormattingEnabled = true;
+            this.ServiceCB.Location = new System.Drawing.Point(336, 38);
+            this.ServiceCB.Name = "ServiceCB";
+            this.ServiceCB.Size = new System.Drawing.Size(250, 24);
+            this.ServiceCB.TabIndex = 30;
             // 
-            // label2
+            // EmployeeCB
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 70);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 16);
-            this.label2.TabIndex = 13;
-            this.label2.Text = "Телефон";
+            this.EmployeeCB.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+            this.EmployeeCB.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.EmployeeCB.FormattingEnabled = true;
+            this.EmployeeCB.Location = new System.Drawing.Point(336, 104);
+            this.EmployeeCB.Name = "EmployeeCB";
+            this.EmployeeCB.Size = new System.Drawing.Size(250, 24);
+            this.EmployeeCB.TabIndex = 31;
             // 
-            // label3
+            // DiscountCB
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 131);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(83, 16);
-            this.label3.TabIndex = 14;
-            this.label3.Text = "Активность";
+            this.DiscountCB.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+            this.DiscountCB.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.DiscountCB.Enabled = false;
+            this.DiscountCB.FormattingEnabled = true;
+            this.DiscountCB.Location = new System.Drawing.Point(12, 258);
+            this.DiscountCB.Name = "DiscountCB";
+            this.DiscountCB.Size = new System.Drawing.Size(250, 24);
+            this.DiscountCB.TabIndex = 32;
             // 
-            // DiscountTextBox
+            // AddDiscountChB
             // 
-            this.DiscountTextBox.Location = new System.Drawing.Point(323, 38);
-            this.DiscountTextBox.Name = "DiscountTextBox";
-            this.DiscountTextBox.Size = new System.Drawing.Size(287, 22);
-            this.DiscountTextBox.TabIndex = 6;
-            this.DiscountTextBox.TextChanged += new System.EventHandler(this.DiscountTextBox_TextChanged);
-            // 
-            // panel3
-            // 
-            this.panel3.AutoScroll = true;
-            this.panel3.Controls.Add(this.DiscountGroupBox);
-            this.panel3.Location = new System.Drawing.Point(323, 69);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(320, 289);
-            this.panel3.TabIndex = 15;
-            // 
-            // DiscountGroupBox
-            // 
-            this.DiscountGroupBox.AutoSize = true;
-            this.DiscountGroupBox.Location = new System.Drawing.Point(3, 3);
-            this.DiscountGroupBox.Name = "DiscountGroupBox";
-            this.DiscountGroupBox.Size = new System.Drawing.Size(284, 270);
-            this.DiscountGroupBox.TabIndex = 4;
-            this.DiscountGroupBox.TabStop = false;
-            this.DiscountGroupBox.Text = "Скидки";
-            // 
-            // panel4
-            // 
-            this.panel4.AutoScroll = true;
-            this.panel4.Controls.Add(this.EmployeeGroupBox);
-            this.panel4.Location = new System.Drawing.Point(323, 417);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(320, 289);
-            this.panel4.TabIndex = 6;
-            // 
-            // EmployeeGroupBox
-            // 
-            this.EmployeeGroupBox.AutoSize = true;
-            this.EmployeeGroupBox.Location = new System.Drawing.Point(3, 3);
-            this.EmployeeGroupBox.Name = "EmployeeGroupBox";
-            this.EmployeeGroupBox.Size = new System.Drawing.Size(284, 270);
-            this.EmployeeGroupBox.TabIndex = 4;
-            this.EmployeeGroupBox.TabStop = false;
-            this.EmployeeGroupBox.Text = "Работники";
-            // 
-            // EmployeeTextBox
-            // 
-            this.EmployeeTextBox.Location = new System.Drawing.Point(326, 375);
-            this.EmployeeTextBox.Name = "EmployeeTextBox";
-            this.EmployeeTextBox.Size = new System.Drawing.Size(284, 22);
-            this.EmployeeTextBox.TabIndex = 8;
-            this.EmployeeTextBox.TextChanged += new System.EventHandler(this.EmployeeTextBox_TextChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 190);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(106, 16);
-            this.label4.TabIndex = 19;
-            this.label4.Text = "Дата рождения";
-            // 
-            // BirthDateTextBox
-            // 
-            this.BirthDateTextBox.Location = new System.Drawing.Point(12, 209);
-            this.BirthDateTextBox.Name = "BirthDateTextBox";
-            this.BirthDateTextBox.Size = new System.Drawing.Size(305, 22);
-            this.BirthDateTextBox.TabIndex = 3;
+            this.AddDiscountChB.AutoSize = true;
+            this.AddDiscountChB.Location = new System.Drawing.Point(12, 187);
+            this.AddDiscountChB.Name = "AddDiscountChB";
+            this.AddDiscountChB.Size = new System.Drawing.Size(171, 20);
+            this.AddDiscountChB.TabIndex = 33;
+            this.AddDiscountChB.Text = "Предоставить скидку";
+            this.AddDiscountChB.UseVisualStyleBackColor = true;
+            this.AddDiscountChB.CheckedChanged += new System.EventHandler(this.AddDiscountChB_CheckedChanged);
             // 
             // AddOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(955, 718);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.BirthDateTextBox);
-            this.Controls.Add(this.EmployeeTextBox);
-            this.Controls.Add(this.panel4);
-            this.Controls.Add(this.DiscountTextBox);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.ServiceTextBox);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.ClientTextBox);
-            this.Controls.Add(this.ClientCheckBox);
-            this.Controls.Add(this.panel1);
+            this.BackColor = System.Drawing.SystemColors.Window;
+            this.ClientSize = new System.Drawing.Size(605, 301);
+            this.Controls.Add(this.AddDiscountChB);
+            this.Controls.Add(this.DiscountCB);
+            this.Controls.Add(this.EmployeeCB);
+            this.Controls.Add(this.ServiceCB);
+            this.Controls.Add(this.ClientCB);
+            this.Controls.Add(this.AddNewClientB);
+            this.Controls.Add(this.ClientL);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.DiscountL);
+            this.Controls.Add(this.AddNewClientChB);
             this.Controls.Add(this.AddOrderButton);
-            this.Controls.Add(this.ActivityTextBox);
-            this.Controls.Add(this.TelephoneTextBox);
-            this.Controls.Add(this.NameTextBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AddOrder";
             this.Text = "Добавление заказа";
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox NameTextBox;
-        private System.Windows.Forms.TextBox TelephoneTextBox;
-        private System.Windows.Forms.TextBox ActivityTextBox;
         private System.Windows.Forms.Button AddOrderButton;
-        private System.Windows.Forms.GroupBox ServiceGroupBox;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.CheckBox ClientCheckBox;
-        private System.Windows.Forms.TextBox ClientTextBox;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.GroupBox ClientGroupBox;
-        private System.Windows.Forms.TextBox ServiceTextBox;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox DiscountTextBox;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.GroupBox DiscountGroupBox;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.GroupBox EmployeeGroupBox;
-        private System.Windows.Forms.TextBox EmployeeTextBox;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox BirthDateTextBox;
+        private System.Windows.Forms.CheckBox AddNewClientChB;
+        private System.Windows.Forms.Label DiscountL;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label ClientL;
+        private System.Windows.Forms.Button AddNewClientB;
+        private System.Windows.Forms.ComboBox ClientCB;
+        private System.Windows.Forms.ComboBox ServiceCB;
+        private System.Windows.Forms.ComboBox EmployeeCB;
+        private System.Windows.Forms.ComboBox DiscountCB;
+        private System.Windows.Forms.CheckBox AddDiscountChB;
     }
 }

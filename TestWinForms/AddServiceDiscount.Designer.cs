@@ -111,6 +111,7 @@
             this.Controls.Add(this.AddButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AddServiceDiscount";
             this.Text = "AddServiceDiscount";
             this.ResumeLayout(false);
