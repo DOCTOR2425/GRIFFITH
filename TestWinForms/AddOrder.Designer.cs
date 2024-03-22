@@ -40,23 +40,28 @@
             this.EmployeeCB = new System.Windows.Forms.ComboBox();
             this.DiscountCB = new System.Windows.Forms.ComboBox();
             this.AddDiscountChB = new System.Windows.Forms.CheckBox();
+            this.DiscountInfoL = new System.Windows.Forms.Label();
+            this.ServiceInfoL = new System.Windows.Forms.Label();
+            this.EmployeeInfoL = new System.Windows.Forms.Label();
+            this.ClientInfoL = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // AddOrderButton
             // 
+            this.AddOrderButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.AddOrderButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AddOrderButton.Location = new System.Drawing.Point(336, 225);
+            this.AddOrderButton.Location = new System.Drawing.Point(336, 310);
             this.AddOrderButton.Name = "AddOrderButton";
             this.AddOrderButton.Size = new System.Drawing.Size(250, 57);
             this.AddOrderButton.TabIndex = 9;
-            this.AddOrderButton.Text = "Добавить клиента";
+            this.AddOrderButton.Text = "Добавить заказ";
             this.AddOrderButton.UseVisualStyleBackColor = true;
             this.AddOrderButton.Click += new System.EventHandler(this.AddOrderButton_Click);
             // 
             // AddNewClientChB
             // 
             this.AddNewClientChB.AutoSize = true;
-            this.AddNewClientChB.Location = new System.Drawing.Point(9, 78);
+            this.AddNewClientChB.Location = new System.Drawing.Point(12, 121);
             this.AddNewClientChB.Name = "AddNewClientChB";
             this.AddNewClientChB.Size = new System.Drawing.Size(225, 20);
             this.AddNewClientChB.TabIndex = 4;
@@ -66,9 +71,10 @@
             // 
             // DiscountL
             // 
+            this.DiscountL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.DiscountL.AutoSize = true;
             this.DiscountL.Enabled = false;
-            this.DiscountL.Location = new System.Drawing.Point(9, 224);
+            this.DiscountL.Location = new System.Drawing.Point(9, 276);
             this.DiscountL.Name = "DiscountL";
             this.DiscountL.Size = new System.Drawing.Size(253, 16);
             this.DiscountL.TabIndex = 20;
@@ -77,7 +83,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(333, 19);
+            this.label6.Location = new System.Drawing.Point(333, 98);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(253, 16);
             this.label6.TabIndex = 21;
@@ -86,7 +92,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(333, 79);
+            this.label7.Location = new System.Drawing.Point(333, 200);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(238, 16);
             this.label7.TabIndex = 22;
@@ -95,7 +101,7 @@
             // ClientL
             // 
             this.ClientL.AutoSize = true;
-            this.ClientL.Location = new System.Drawing.Point(6, 19);
+            this.ClientL.Location = new System.Drawing.Point(9, 19);
             this.ClientL.Name = "ClientL";
             this.ClientL.Size = new System.Drawing.Size(222, 16);
             this.ClientL.TabIndex = 27;
@@ -104,7 +110,7 @@
             // AddNewClientB
             // 
             this.AddNewClientB.Enabled = false;
-            this.AddNewClientB.Location = new System.Drawing.Point(9, 104);
+            this.AddNewClientB.Location = new System.Drawing.Point(12, 147);
             this.AddNewClientB.Name = "AddNewClientB";
             this.AddNewClientB.Size = new System.Drawing.Size(107, 51);
             this.AddNewClientB.TabIndex = 28;
@@ -116,46 +122,52 @@
             // 
             this.ClientCB.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
             this.ClientCB.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.ClientCB.Location = new System.Drawing.Point(9, 38);
+            this.ClientCB.Location = new System.Drawing.Point(12, 38);
             this.ClientCB.Name = "ClientCB";
-            this.ClientCB.Size = new System.Drawing.Size(253, 24);
+            this.ClientCB.Size = new System.Drawing.Size(574, 24);
             this.ClientCB.TabIndex = 29;
+            this.ClientCB.SelectedValueChanged += new System.EventHandler(this.ClientCB_SelectedValueChanged);
             // 
             // ServiceCB
             // 
             this.ServiceCB.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
             this.ServiceCB.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.ServiceCB.FormattingEnabled = true;
-            this.ServiceCB.Location = new System.Drawing.Point(336, 38);
+            this.ServiceCB.Location = new System.Drawing.Point(336, 117);
             this.ServiceCB.Name = "ServiceCB";
             this.ServiceCB.Size = new System.Drawing.Size(250, 24);
             this.ServiceCB.TabIndex = 30;
+            this.ServiceCB.SelectedValueChanged += new System.EventHandler(this.ServiceCB_SelectedValueChanged);
             // 
             // EmployeeCB
             // 
             this.EmployeeCB.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
             this.EmployeeCB.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.EmployeeCB.FormattingEnabled = true;
-            this.EmployeeCB.Location = new System.Drawing.Point(336, 104);
+            this.EmployeeCB.Location = new System.Drawing.Point(336, 225);
             this.EmployeeCB.Name = "EmployeeCB";
             this.EmployeeCB.Size = new System.Drawing.Size(250, 24);
             this.EmployeeCB.TabIndex = 31;
+            this.EmployeeCB.SelectedValueChanged += new System.EventHandler(this.EmployeeCB_SelectedValueChanged);
             // 
             // DiscountCB
             // 
+            this.DiscountCB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.DiscountCB.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
             this.DiscountCB.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.DiscountCB.Enabled = false;
             this.DiscountCB.FormattingEnabled = true;
-            this.DiscountCB.Location = new System.Drawing.Point(12, 258);
+            this.DiscountCB.Location = new System.Drawing.Point(12, 310);
             this.DiscountCB.Name = "DiscountCB";
-            this.DiscountCB.Size = new System.Drawing.Size(250, 24);
+            this.DiscountCB.Size = new System.Drawing.Size(289, 24);
             this.DiscountCB.TabIndex = 32;
+            this.DiscountCB.SelectedValueChanged += new System.EventHandler(this.DiscountCB_SelectedValueChanged);
             // 
             // AddDiscountChB
             // 
+            this.AddDiscountChB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.AddDiscountChB.AutoSize = true;
-            this.AddDiscountChB.Location = new System.Drawing.Point(12, 187);
+            this.AddDiscountChB.Location = new System.Drawing.Point(12, 239);
             this.AddDiscountChB.Name = "AddDiscountChB";
             this.AddDiscountChB.Size = new System.Drawing.Size(171, 20);
             this.AddDiscountChB.TabIndex = 33;
@@ -163,12 +175,54 @@
             this.AddDiscountChB.UseVisualStyleBackColor = true;
             this.AddDiscountChB.CheckedChanged += new System.EventHandler(this.AddDiscountChB_CheckedChanged);
             // 
+            // DiscountInfoL
+            // 
+            this.DiscountInfoL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DiscountInfoL.AutoSize = true;
+            this.DiscountInfoL.Enabled = false;
+            this.DiscountInfoL.Location = new System.Drawing.Point(12, 351);
+            this.DiscountInfoL.Name = "DiscountInfoL";
+            this.DiscountInfoL.Size = new System.Drawing.Size(57, 16);
+            this.DiscountInfoL.TabIndex = 34;
+            this.DiscountInfoL.Text = "discount";
+            // 
+            // ServiceInfoL
+            // 
+            this.ServiceInfoL.AutoSize = true;
+            this.ServiceInfoL.Location = new System.Drawing.Point(333, 162);
+            this.ServiceInfoL.Name = "ServiceInfoL";
+            this.ServiceInfoL.Size = new System.Drawing.Size(51, 16);
+            this.ServiceInfoL.TabIndex = 35;
+            this.ServiceInfoL.Text = "service";
+            // 
+            // EmployeeInfoL
+            // 
+            this.EmployeeInfoL.AutoSize = true;
+            this.EmployeeInfoL.Location = new System.Drawing.Point(333, 261);
+            this.EmployeeInfoL.Name = "EmployeeInfoL";
+            this.EmployeeInfoL.Size = new System.Drawing.Size(68, 16);
+            this.EmployeeInfoL.TabIndex = 36;
+            this.EmployeeInfoL.Text = "employee";
+            // 
+            // ClientInfoL
+            // 
+            this.ClientInfoL.AutoSize = true;
+            this.ClientInfoL.Location = new System.Drawing.Point(12, 83);
+            this.ClientInfoL.Name = "ClientInfoL";
+            this.ClientInfoL.Size = new System.Drawing.Size(38, 16);
+            this.ClientInfoL.TabIndex = 37;
+            this.ClientInfoL.Text = "client";
+            // 
             // AddOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(605, 301);
+            this.ClientSize = new System.Drawing.Size(605, 385);
+            this.Controls.Add(this.ClientInfoL);
+            this.Controls.Add(this.EmployeeInfoL);
+            this.Controls.Add(this.ServiceInfoL);
+            this.Controls.Add(this.DiscountInfoL);
             this.Controls.Add(this.AddDiscountChB);
             this.Controls.Add(this.DiscountCB);
             this.Controls.Add(this.EmployeeCB);
@@ -185,6 +239,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AddOrder";
+            this.ShowInTaskbar = false;
             this.Text = "Добавление заказа";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -204,5 +259,9 @@
         private System.Windows.Forms.ComboBox EmployeeCB;
         private System.Windows.Forms.ComboBox DiscountCB;
         private System.Windows.Forms.CheckBox AddDiscountChB;
+        private System.Windows.Forms.Label DiscountInfoL;
+        private System.Windows.Forms.Label ServiceInfoL;
+        private System.Windows.Forms.Label EmployeeInfoL;
+        private System.Windows.Forms.Label ClientInfoL;
     }
 }

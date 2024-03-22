@@ -31,8 +31,10 @@
             this.Grid = new System.Windows.Forms.DataGridView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.GenerateTSMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.GenerateReportTSMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.GenerateReports = new System.Windows.Forms.ToolStripMenuItem();
+            this.сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.сгененрироватьОтчётОДаходахИРасходахToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.GenerateGraphs = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowTSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.клиентыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.заказыToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -107,32 +109,47 @@
             this.DeleteTSMI});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(502, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(589, 28);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // GenerateTSMI
             // 
             this.GenerateTSMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.GenerateReportTSMI,
-            this.сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem});
+            this.GenerateReports,
+            this.GenerateGraphs});
             this.GenerateTSMI.Name = "GenerateTSMI";
-            this.GenerateTSMI.Size = new System.Drawing.Size(128, 24);
-            this.GenerateTSMI.Text = "Сформировать";
+            this.GenerateTSMI.Size = new System.Drawing.Size(65, 24);
+            this.GenerateTSMI.Text = "Меню";
             // 
-            // GenerateReportTSMI
+            // GenerateReports
             // 
-            this.GenerateReportTSMI.Name = "GenerateReportTSMI";
-            this.GenerateReportTSMI.Size = new System.Drawing.Size(440, 26);
-            this.GenerateReportTSMI.Text = "Сгененрировать отчёт о даходах и расходах";
-            this.GenerateReportTSMI.Click += new System.EventHandler(this.GenerateReportClick);
+            this.GenerateReports.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem1,
+            this.сгененрироватьОтчётОДаходахИРасходахToolStripMenuItem});
+            this.GenerateReports.Name = "GenerateReports";
+            this.GenerateReports.Size = new System.Drawing.Size(224, 26);
+            this.GenerateReports.Text = "Сгененировать ...";
             // 
-            // сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem
+            // сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem1
             // 
-            this.сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem.Name = "сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem";
-            this.сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem.Size = new System.Drawing.Size(440, 26);
-            this.сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem.Text = "Сгенерировать договор о предоставлении услуги";
-            this.сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem.Click += new System.EventHandler(this.GenerateContractClick);
+            this.сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem1.Name = "сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem1";
+            this.сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem1.Size = new System.Drawing.Size(440, 26);
+            this.сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem1.Text = "Сгенерировать договор о предоставлении услуги";
+            this.сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem1.Click += new System.EventHandler(this.GenerateContractClick);
+            // 
+            // сгененрироватьОтчётОДаходахИРасходахToolStripMenuItem
+            // 
+            this.сгененрироватьОтчётОДаходахИРасходахToolStripMenuItem.Name = "сгененрироватьОтчётОДаходахИРасходахToolStripMenuItem";
+            this.сгененрироватьОтчётОДаходахИРасходахToolStripMenuItem.Size = new System.Drawing.Size(440, 26);
+            this.сгененрироватьОтчётОДаходахИРасходахToolStripMenuItem.Text = "Сгененрировать отчёт о даходах и расходах";
+            this.сгененрироватьОтчётОДаходахИРасходахToolStripMenuItem.Click += new System.EventHandler(this.GenerateReportClick);
+            // 
+            // GenerateGraphs
+            // 
+            this.GenerateGraphs.Name = "GenerateGraphs";
+            this.GenerateGraphs.Size = new System.Drawing.Size(224, 26);
+            this.GenerateGraphs.Text = "Создать графики";
             // 
             // ShowTSMI
             // 
@@ -524,8 +541,10 @@
         private System.Windows.Forms.Button DropFiltresB;
         private System.Windows.Forms.TextBox SearchFieldTB;
         private System.Windows.Forms.ComboBox TableSelectCB;
-        private System.Windows.Forms.ToolStripMenuItem GenerateReportTSMI;
-        private System.Windows.Forms.ToolStripMenuItem сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem GenerateGraphs;
+        private System.Windows.Forms.ToolStripMenuItem GenerateReports;
+        private System.Windows.Forms.ToolStripMenuItem сгенерироватьДоговорОПредоставленииУслугиToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem сгененрироватьОтчётОДаходахИРасходахToolStripMenuItem;
     }
 }
 

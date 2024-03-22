@@ -57,6 +57,10 @@ namespace TestWinForms
                     names = (from emp in Algorithms.Notary.Client
                              select emp.Name).ToList();
                     break;
+                default:
+                    MessageBox.Show("Ошибка выбора типа изменяемого объекта", "Системная ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
             }
 
             SelectItemCB.DataSource = names;
@@ -64,7 +68,6 @@ namespace TestWinForms
 
         private void ChangeButton_Click(object sender, EventArgs e)
         {
-
             if (SelectItemCB.Text == "")
             {
                 MessageBox.Show("Вы не выбрали объект для изменения", "Нет данных",
@@ -83,77 +86,24 @@ namespace TestWinForms
                 switch (typeOfElement)
                 {
                     case Algorithms.Type.Service:
-                        Service service = Algorithms.Notary.Service.FirstOrDefault(x => x.Name == SelectItemCB.Text
-                        && x.NewFlag == 1);
-
-                        switch (classField)
-                        {
-                            case "Название":
-                                service.Name = ChangeValueTB.Text;
-                                break;
-                            case "Цена":
-                                service.Price = Convert.ToDouble(ChangeValueTB.Text);
-                                break;
-                            case "Описание":
-                                service.Description = ChangeValueTB.Text;
-                                break;
-                        }
+                        ChangeService();
 
                         break;
                     case Algorithms.Type.Discount:
-                        Discount discount = Algorithms.Notary.Discount.FirstOrDefault(x => x.Name == SelectItemCB.Text
-                        && x.NewFlag == 1);
-
-                        switch (classField)
-                        {
-                            case "Название":
-                                discount.Name = ChangeValueTB.Text;
-                                break;
-                            case "Процент":
-                                discount.Percent = Convert.ToDouble(ChangeValueTB.Text);
-                                break;
-                            case "Описание":
-                                discount.Description = ChangeValueTB.Text;
-                                break;
-                        }
+                        ChangeDiscount();
 
                         break;
                     case Algorithms.Type.Employee:
-                        Employee employee = Algorithms.Notary.Employee.FirstOrDefault(x => x.Name == SelectItemCB.Text
-                        && x.DismissalDate == null);
-
-                        switch (classField)
-                        {
-                            case "ФИО":
-                                employee.Name = ChangeValueTB.Text;
-                                break;
-                            case "Зарплата":
-                                employee.Salary = Convert.ToDouble(ChangeValueTB.Text);
-                                break;
-                            case "Должность":
-                                employee.Post = ChangeValueTB.Text;
-                                break;
-                        }
+                        ChangeEmployee();
 
                         break;
                     case Algorithms.Type.Client:
-                        Client client = Algorithms.Notary.Client.FirstOrDefault(x => x.Name == SelectItemCB.Text);
+                        ChangeClient();
 
-                        switch (classField)
-                        {
-                            case "ФИО":
-                                client.Name = ChangeValueTB.Text;
-                                break;
-                            case "Телефон":
-                                client.Telephone = ChangeValueTB.Text;
-                                break;
-                            case "Род деятельности":
-                                client.Activity = ChangeValueTB.Text;
-                                break;
-                            case "Дата рождения":
-                                client.BirthDate = Convert.ToDateTime(ChangeValueTB.Text);
-                                break;
-                        }
+                        break;
+                    default:
+                        MessageBox.Show("Ошибка выбора типа изменяемого объекта", "Системная ошибка",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                 }
 
@@ -168,6 +118,109 @@ namespace TestWinForms
             }
         }
 
+        private void ChangeService()
+        {
+            Service service = Algorithms.Notary.Service.FirstOrDefault(x => x.Name == SelectItemCB.Text
+                        && x.NewFlag == 1);
+            Service newServ = new Service(service);
+            service.NewFlag = 0;
+            
+            switch (classField)
+            {
+                case "Название":
+                    newServ.Name = ChangeValueTB.Text;
+                    break;
+                case "Цена":
+                    newServ.Price = Convert.ToDouble(ChangeValueTB.Text);
+                    break;
+                case "Описание":
+                    newServ.Description = ChangeValueTB.Text;
+                    break;
+                default:
+                    MessageBox.Show("Ошибка выбора парамента изменяемого объекта", "Системная ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+            }
+            Algorithms.Notary.Service.InsertOnSubmit(newServ);
+        }
+
+        private void ChangeDiscount()
+        {
+            Discount discount = Algorithms.Notary.Discount.FirstOrDefault(x => x.Name == SelectItemCB.Text
+                        && x.NewFlag == 1);
+            Discount newDisc = new Discount(discount);
+            discount.NewFlag = 0;
+
+            switch (classField)
+            {
+                case "Название":
+                    newDisc.Name = ChangeValueTB.Text;
+                    break;
+                case "Процент":
+                    newDisc.Percent = Convert.ToDouble(ChangeValueTB.Text);
+                    break;
+                case "Описание":
+                    newDisc.Description = ChangeValueTB.Text;
+                    break;
+                default:
+                    MessageBox.Show("Ошибка выбора парамента изменяемого объекта", "Системная ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+            }
+            Algorithms.Notary.Discount.InsertOnSubmit(newDisc);
+        }
+
+        private void ChangeEmployee()
+        {
+            Employee employee = Algorithms.Notary.Employee.FirstOrDefault(x => x.Name == SelectItemCB.Text
+                                    && x.DismissalDate == null);
+            Employee newEmp = new Employee(employee);
+            employee.DismissalDate = DateTime.Now;
+
+            switch (classField)
+            {
+                case "ФИО":
+                    newEmp.Name = ChangeValueTB.Text;
+                    break;
+                case "Зарплата":
+                    newEmp.Salary = Convert.ToDouble(ChangeValueTB.Text);
+                    break;
+                case "Должность":
+                    newEmp.Post = ChangeValueTB.Text;
+                    break;
+                default:
+                    MessageBox.Show("Ошибка выбора парамента изменяемого объекта", "Системная ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+            }
+            Algorithms.Notary.Employee.InsertOnSubmit(newEmp);
+        }
+
+        private void ChangeClient()
+        {
+            Client client = Algorithms.Notary.Client.FirstOrDefault(x => x.Name == SelectItemCB.Text);
+
+            switch (classField)
+            {
+                case "ФИО":
+                    client.Name = ChangeValueTB.Text;
+                    break;
+                case "Телефон":
+                    client.Telephone = ChangeValueTB.Text;
+                    break;
+                case "Род деятельности":
+                    client.Activity = ChangeValueTB.Text;
+                    break;
+                case "Дата рождения":
+                    client.BirthDate = Convert.ToDateTime(ChangeValueTB.Text);
+                    break;
+                default:
+                    MessageBox.Show("Ошибка выбора парамента изменяемого объекта", "Системная ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+            }
+        }
+
         private void SelectItemCB_SelectedValueChanged(object sender, EventArgs e)
         {
             switch (typeOfElement)
@@ -176,21 +229,25 @@ namespace TestWinForms
                     {
                         Client client = Algorithms.Notary.Client.FirstOrDefault(x => x.Name == SelectItemCB.Text);
 
-                        ItemValueL.Text = classField + " клиента: ";
+                        ItemInfoL.Text = classField + " клиента: ";
 
                         switch (classField)
                         {
                             case "ФИО":
-                                ItemValueL.Text += client.Name;
+                                ItemInfoL.Text += client.Name;
                                 break;
                             case "Телефон":
-                                ItemValueL.Text += client.Telephone;
+                                ItemInfoL.Text += client.Telephone;
                                 break;
                             case "Род деятельности":
-                                ItemValueL.Text += client.Activity;
+                                ItemInfoL.Text += client.Activity;
                                 break;
                             case "Дата рождения":
-                                ItemValueL.Text += client.BirthDate.ToString("dd.MM.yyyy");
+                                ItemInfoL.Text += client.BirthDate.ToString("dd.MM.yyyy");
+                                break;
+                            default:
+                                MessageBox.Show("Ошибка выбора парамента изменяемого объекта", "Системная ошибка",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 break;
                         }
 
@@ -201,18 +258,22 @@ namespace TestWinForms
                         Service service = Algorithms.Notary.Service.FirstOrDefault(x => x.Name == SelectItemCB.Text
                         && x.NewFlag == 1);
 
-                        ItemValueL.Text = classField + " услуги: ";
+                        ItemInfoL.Text = classField + " услуги: ";
 
                         switch (classField)
                         {
                             case "Название":
-                                ItemValueL.Text += service.Name;
+                                ItemInfoL.Text += service.Name;
                                 break;
                             case "Цена":
-                                ItemValueL.Text += service.Price.ToString();
+                                ItemInfoL.Text += service.Price.ToString();
                                 break;
                             case "Описание":
-                                ItemValueL.Text += service.Description;
+                                ItemInfoL.Text += service.Description;
+                                break;
+                            default:
+                                MessageBox.Show("Ошибка выбора парамента изменяемого объекта", "Системная ошибка",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 break;
                         }
 
@@ -223,18 +284,22 @@ namespace TestWinForms
                         Discount discount = Algorithms.Notary.Discount.FirstOrDefault(x => x.Name == SelectItemCB.Text
                         && x.NewFlag == 1);
 
-                        ItemValueL.Text = classField + " скидки: ";
+                        ItemInfoL.Text = classField + " скидки: ";
 
                         switch (classField)
                         {
                             case "Название":
-                                ItemValueL.Text += discount.Name;
+                                ItemInfoL.Text += discount.Name;
                                 break;
                             case "Процент":
-                                ItemValueL.Text += discount.Percent.ToString();
+                                ItemInfoL.Text += discount.Percent.ToString();
                                 break;
                             case "Описание":
-                                ItemValueL.Text += discount.Description;
+                                ItemInfoL.Text += discount.Description;
+                                break;
+                            default:
+                                MessageBox.Show("Ошибка выбора парамента изменяемого объекта", "Системная ошибка",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 break;
                         }
 
@@ -245,23 +310,31 @@ namespace TestWinForms
                         Employee employee = Algorithms.Notary.Employee.FirstOrDefault(x => x.Name == SelectItemCB.Text
                         && x.DismissalDate == null);
 
-                        ItemValueL.Text = classField + " работника: ";
+                        ItemInfoL.Text = classField + " работника: ";
 
                         switch (classField)
                         {
                             case "ФИО":
-                                ItemValueL.Text += employee.Name;
+                                ItemInfoL.Text += employee.Name;
                                 break;
                             case "Зарплата":
-                                ItemValueL.Text += employee.Salary.ToString();
+                                ItemInfoL.Text += employee.Salary.ToString();
                                 break;
                             case "Должность":
-                                ItemValueL.Text += employee.Post;
+                                ItemInfoL.Text += employee.Post;
+                                break;
+                            default:
+                                MessageBox.Show("Ошибка выбора парамента изменяемого объекта", "Системная ошибка",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 break;
                         }
 
                         break;
                     }
+                default:
+                    MessageBox.Show("Ошибка выбора типа изменяемого объекта", "Системная ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
             }
         }
     }

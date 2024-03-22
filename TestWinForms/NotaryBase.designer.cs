@@ -154,8 +154,19 @@ namespace TestWinForms
 		{
 			OnCreated();
 		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ClientID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+
+        public Client(Client client)
+        {
+            OnCreated();
+
+			Name = client.Name;
+			Telephone = client.Telephone;
+			Activity = client.Activity;
+			BirthDate = client.BirthDate;
+			ClientID = Guid.NewGuid();
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ClientID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
 		public System.Guid ClientID
 		{
 			get
@@ -312,6 +323,17 @@ namespace TestWinForms
 		{
 			OnCreated();
 		}
+
+		public Discount(Discount discount)
+		{
+            OnCreated();
+
+            Name = discount.Name;
+			Percent = discount.Percent;
+			Description = discount.Description;
+			NewFlag = discount.NewFlag;
+			DiscountID = Guid.NewGuid();
+        }
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiscountID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
 		public System.Guid DiscountID
@@ -474,6 +496,18 @@ namespace TestWinForms
 		{
 			OnCreated();
 		}
+
+		public Employee(Employee employee)
+		{
+            OnCreated();
+
+			Name = employee.Name;
+			Salary = employee.Salary;
+			Post = employee.Post;
+			HireDate = employee.HireDate;
+			DismissalDate = employee.DismissalDate;
+			EmployeeID = Guid.NewGuid();
+        }
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
 		public System.Guid EmployeeID
@@ -834,8 +868,19 @@ namespace TestWinForms
 		{
 			OnCreated();
 		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ServiceID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+
+        public Service(Service service)
+        {
+            OnCreated();
+
+			Name = service.Name;
+			Price = service.Price;
+			Description = service.Description;
+			NewFlag = service.NewFlag;
+			ServiceID = Guid.NewGuid();
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ServiceID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
 		public System.Guid ServiceID
 		{
 			get

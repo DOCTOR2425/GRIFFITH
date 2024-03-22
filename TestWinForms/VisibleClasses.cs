@@ -50,4 +50,5 @@ namespace TestWinForms
         public double Цена { get; set; }
         public double Скидка { get; set; }
     }
+    
 }

@@ -32,7 +32,7 @@
             this.ChangeValueTB = new System.Windows.Forms.TextBox();
             this.SelectItemCB = new System.Windows.Forms.ComboBox();
             this.HeaderL = new System.Windows.Forms.Label();
-            this.ItemValueL = new System.Windows.Forms.Label();
+            this.ItemInfoL = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -59,6 +59,8 @@
             // 
             // SelectItemCB
             // 
+            this.SelectItemCB.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+            this.SelectItemCB.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.SelectItemCB.FormattingEnabled = true;
             this.SelectItemCB.Location = new System.Drawing.Point(15, 53);
             this.SelectItemCB.Name = "SelectItemCB";
@@ -75,15 +77,15 @@
             this.HeaderL.TabIndex = 8;
             this.HeaderL.Text = "HeaderL";
             // 
-            // ItemValueL
+            // ItemInfoL
             // 
-            this.ItemValueL.AutoSize = true;
-            this.ItemValueL.Location = new System.Drawing.Point(12, 96);
-            this.ItemValueL.MaximumSize = new System.Drawing.Size(391, 0);
-            this.ItemValueL.Name = "ItemValueL";
-            this.ItemValueL.Size = new System.Drawing.Size(44, 16);
-            this.ItemValueL.TabIndex = 9;
-            this.ItemValueL.Text = "label2";
+            this.ItemInfoL.AutoSize = true;
+            this.ItemInfoL.Location = new System.Drawing.Point(12, 96);
+            this.ItemInfoL.MaximumSize = new System.Drawing.Size(391, 0);
+            this.ItemInfoL.Name = "ItemInfoL";
+            this.ItemInfoL.Size = new System.Drawing.Size(44, 16);
+            this.ItemInfoL.TabIndex = 9;
+            this.ItemInfoL.Text = "label2";
             // 
             // label1
             // 
@@ -102,7 +104,7 @@
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(397, 293);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.ItemValueL);
+            this.Controls.Add(this.ItemInfoL);
             this.Controls.Add(this.HeaderL);
             this.Controls.Add(this.SelectItemCB);
             this.Controls.Add(this.ChangeValueTB);
@@ -122,7 +124,7 @@
         private System.Windows.Forms.TextBox ChangeValueTB;
         private System.Windows.Forms.ComboBox SelectItemCB;
         private System.Windows.Forms.Label HeaderL;
-        private System.Windows.Forms.Label ItemValueL;
+        private System.Windows.Forms.Label ItemInfoL;
         private System.Windows.Forms.Label label1;
     }
 }

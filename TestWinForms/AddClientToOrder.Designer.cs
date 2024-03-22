@@ -135,6 +135,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AddClientToOrder";
+            this.ShowInTaskbar = false;
             this.Text = "Добавление нового клиента";
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -6,19 +6,15 @@ using System.Windows.Forms;
 
 namespace TestWinForms
 {
-    public partial class DeleteElement : Form// TODO Поменять окно на combobox
+    public partial class DeleteElement : Form
     {
         private readonly Algorithms.Type typeOfElement;
-        private List<RadioButton> radioButtons;
 
         public DeleteElement(Algorithms.Type type)
         {
             InitializeComponent();
 
             typeOfElement = type;
-
-            GroupBox1.Parent = panel1;
-            panel1.AutoScroll = true;
 
             List<string> names = new List<string>();
 
@@ -27,101 +23,100 @@ namespace TestWinForms
                 case Algorithms.Type.Service:
                     DeleteButton.Text = "Удалить услугу";
                     this.Text = "Удаление услуги";
-                    GroupBox1.Text = "Выбор услуги";
+                    HeaderL.Text = "Выбор услуги";
 
                     names = (from service in Algorithms.Notary.Service
-                              where service.NewFlag == 1
-                              select service.Name).ToList();
+                             where service.NewFlag == 1
+                             select service.Name).ToList();
                     break;
                 case Algorithms.Type.Discount:
                     DeleteButton.Text = "Удалить скидку";
                     this.Text = "Удаление скидки";
-                    GroupBox1.Text = "Выбор скидки";
+                    HeaderL.Text = "Выбор скидки";
 
                     names = (from discount in Algorithms.Notary.Discount
-                              where discount.NewFlag == 1
-                              select discount.Name).ToList();
+                             where discount.NewFlag == 1
+                             select discount.Name).ToList();
                     break;
                 case Algorithms.Type.Employee:
                     DeleteButton.Text = "Уволить работника";
                     this.Text = "Удаление работника";
-                    GroupBox1.Text = "Выбор работника";
+                    HeaderL.Text = "Выбор работника";
 
                     names = (from emp in Algorithms.Notary.Employee
-                              where emp.DismissalDate == null
-                              select emp.Name).ToList();
+                             where emp.DismissalDate == null
+                             select emp.Name).ToList();
+                    break;
+                default:
+                    MessageBox.Show("Ошибка выбора типа удаляемого объекта", "Системная ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
             }
-            radioButtons = Algorithms.FillGroupBox(GroupBox1, names);
+            SelectItemCB.DataSource = names;
         }
-
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            if (Algorithms.GetCheckedName(radioButtons) == null)
+            if (SelectItemCB.Text == "")
                 return;
 
             switch (typeOfElement)
             {
                 case Algorithms.Type.Service:
-                    Service services = (from serv in Algorithms.Notary.Service
-                                        where serv.NewFlag == 1
-                                        where serv.Name == Algorithms.GetCheckedName(radioButtons)
-                                        select serv).ToList().First();
+                    Service services = Algorithms.Notary.Service.FirstOrDefault(
+                        x => x.Name == SelectItemCB.Text && x.NewFlag == 1);
 
                     services.NewFlag = 0;
-
                     break;
                 case Algorithms.Type.Discount:
-                    Discount discount = (from disc in Algorithms.Notary.Discount
-                                         where disc.NewFlag == 1
-                                         where disc.Name == Algorithms.GetCheckedName(radioButtons)
-                                         select disc).ToList().First();
+                    Discount discount = Algorithms.Notary.Discount.FirstOrDefault(
+                        x => x.Name == SelectItemCB.Text && x.NewFlag == 1);
 
                     discount.NewFlag = 0;
-
                     break;
                 case Algorithms.Type.Employee:
-                    Employee employee = (from emp in Algorithms.Notary.Employee
-                                         where emp.DismissalDate == null
-                                         where emp.Name == Algorithms.GetCheckedName(radioButtons)
-                                         select emp).ToList().First();
+                    Employee employee = Algorithms.Notary.Employee.FirstOrDefault(
+                        x => x.Name == SelectItemCB.Text && x.DismissalDate == null);
 
                     employee.DismissalDate = DateTime.Now;
-
+                    break;
+                default:
+                    MessageBox.Show("Ошибка выбора типа удаляемого объекта", "Системная ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
             }
             Algorithms.Notary.SubmitChanges();
             this.Close();
         }
 
-        private void TextBox1_TextChanged(object sender, EventArgs e)
+        private void SelectItemCB_SelectedValueChanged(object sender, EventArgs e)
         {
             switch (typeOfElement)
             {
                 case Algorithms.Type.Service:
-                    var services = (from serv in Algorithms.Notary.Service
-                                    where serv.Name.Contains(TextBox1.Text)
-                                    where serv.NewFlag == 1
-                                    select serv.Name).ToList();
+                    ItemInfoL.Text = "Стоимость услуги: " + Algorithms.Notary.Service.FirstOrDefault(
+                        x => x.Name == SelectItemCB.Text && x.NewFlag == 1).Price.ToString();
 
-                    radioButtons = Algorithms.FillGroupBox(GroupBox1, services);
+                    ItemInfo2L.Text = "Описание услуги: " + Algorithms.Notary.Service.FirstOrDefault(
+                        x => x.Name == SelectItemCB.Text && x.NewFlag == 1).Description;
                     break;
                 case Algorithms.Type.Discount:
-                    var discounts = (from disc in Algorithms.Notary.Discount
-                                     where disc.Name.Contains(TextBox1.Text)
-                                     where disc.NewFlag == 1
-                                     select disc.Name).ToList();
+                    ItemInfoL.Text = "Процент скидки: " + Algorithms.Notary.Discount.FirstOrDefault(
+                        x => x.Name == SelectItemCB.Text && x.NewFlag == 1).Percent.ToString();
 
-                    radioButtons = Algorithms.FillGroupBox(GroupBox1, discounts);
+                    ItemInfo2L.Text = "Описание услуги: " + Algorithms.Notary.Discount.FirstOrDefault(
+                        x => x.Name == SelectItemCB.Text && x.NewFlag == 1).Description;
                     break;
                 case Algorithms.Type.Employee:
-                    var emploees = (from emp in Algorithms.Notary.Employee
-                                    where emp.Name.Contains(TextBox1.Text)
-                                    where emp.DismissalDate == null
-                                    select emp.Name).ToList();
+                    ItemInfoL.Text = "Зарплата работника: " + Algorithms.Notary.Employee.FirstOrDefault(
+                        x => x.Name == SelectItemCB.Text && x.DismissalDate == null).Salary.ToString();
 
-                    radioButtons = Algorithms.FillGroupBox(GroupBox1, emploees);
+                    ItemInfo2L.Text = "Описание услуги: " + Algorithms.Notary.Employee.FirstOrDefault(
+                        x => x.Name == SelectItemCB.Text && x.DismissalDate == null).Post;
+                    break;
+                default:
+                    MessageBox.Show("Ошибка выбора типа удаляемого объекта", "Системная ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
             }
         }

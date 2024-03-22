@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace TestWinForms
 {
-    public partial class AddOrder : Form// TODO Сделать отображение инфы о выбранных в комбо боксах объектах
+    public partial class AddOrder : Form
     {
         Client clientToAdd = null;
 
@@ -16,13 +16,6 @@ namespace TestWinForms
             FillComboBoxes();
         }
 
-        private void GetServiceID(Order order)
-        {
-            order.ServiceID = (from service in Algorithms.Notary.Service
-                               where service.Name == ServiceCB.Text
-                               where service.NewFlag == 1
-                               select service).ToList().First().ServiceID;
-        }
         private void GetDiscountID(Order order)
         {
             if (AddDiscountChB.Checked == false)
@@ -31,28 +24,13 @@ namespace TestWinForms
                 return;
             }
 
-            order.DiscountID = (from disc in Algorithms.Notary.Discount
-                                where disc.Name == DiscountCB.Text
-                                where disc.NewFlag == 1
-                                select disc).ToList().First().DiscountID;
-        }
-        private void GetEmployeeID(Order order)
-        {
-            order.EmployeeID = (from emp in Algorithms.Notary.Employee
-                                where emp.Name == EmployeeCB.Text
-                                where emp.DismissalDate == null
-                                select emp).ToList().First().EmployeeID;
-        }
-        private void GetClientID(Order order)
-        {
-            order.ClientID = (from emp in Algorithms.Notary.Client
-                              where emp.Name == ClientCB.Text
-                              select emp).ToList().First().ClientID;
+            order.DiscountID = Algorithms.Notary.Discount.FirstOrDefault(
+                x => x.Name == DiscountCB.Text && x.NewFlag == 1).DiscountID;
         }
 
         private void FillComboBoxes()
         {
-            ClientCB.DataSource = (from cl in Algorithms.Notary.Client select cl.Name).ToList();
+            ClientCB.DataSource = (from cl in Algorithms.Notary.Client select cl.Name + ": " + cl.Telephone).ToList();
 
             ServiceCB.DataSource = (from serv in Algorithms.Notary.Service
                                     where serv.NewFlag == 1
@@ -75,6 +53,7 @@ namespace TestWinForms
 
                 ClientL.Enabled = false;
                 ClientCB.Enabled = false;
+                ClientInfoL.Enabled = false;
             }
             else
             {
@@ -82,6 +61,7 @@ namespace TestWinForms
 
                 ClientL.Enabled = true;
                 ClientCB.Enabled = true;
+                ClientInfoL.Enabled = true;
             }
         }
 
@@ -97,8 +77,12 @@ namespace TestWinForms
             {
                 if (clientToAdd == null)
                 {
-                    MessageBox.Show("Новый клиент не добавлен.\nЖелаете добавить нового?", "Нет данных о клиенте",
-                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (MessageBox.Show("Новый клиент не добавлен.\nЖелаете добавить нового?", "Нет данных о клиенте",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        AddNewClientB_Click(sender, e);
+                        return;
+                    }
 
                     return;
                 }
@@ -109,12 +93,17 @@ namespace TestWinForms
             }
             else
             {
-                GetClientID(order);
+                order.ClientID = Algorithms.Notary.Client.FirstOrDefault(
+                x => x.Name + ": " + x.Telephone == ClientCB.Text).ClientID;
             }
 
-            GetServiceID(order);
+            order.ServiceID = Algorithms.Notary.Service.FirstOrDefault(
+                x => x.Name == ServiceCB.Text && x.NewFlag == 1).ServiceID;
+
+            order.EmployeeID = Algorithms.Notary.Employee.FirstOrDefault(
+                x => x.Name == EmployeeCB.Text && x.DismissalDate == null).EmployeeID;
+
             GetDiscountID(order);
-            GetEmployeeID(order);
 
             Algorithms.Notary.Order.InsertOnSubmit(order);
             Algorithms.Notary.SubmitChanges();
@@ -134,16 +123,42 @@ namespace TestWinForms
 
         private void AddDiscountChB_CheckedChanged(object sender, EventArgs e)
         {
-            if(AddDiscountChB.Checked == true)
+            if (AddDiscountChB.Checked == true)
             {
                 DiscountCB.Enabled = true;
                 DiscountL.Enabled = true;
+                DiscountInfoL.Enabled = true;
             }
             else
             {
                 DiscountCB.Enabled = false;
                 DiscountL.Enabled = false;
+                DiscountInfoL.Enabled = false;
             }
+        }
+
+        private void ClientCB_SelectedValueChanged(object sender, EventArgs e)
+        {
+            ClientInfoL.Text = "Профессия клиента: " + Algorithms.Notary.Client.FirstOrDefault(
+                x => x.Name + ": " + x.Telephone == ClientCB.Text).Activity;
+        }
+
+        private void ServiceCB_SelectedValueChanged(object sender, EventArgs e)
+        {
+            ServiceInfoL.Text = "Цена услуги: " + Algorithms.Notary.Service.FirstOrDefault(
+                x => x.Name == ServiceCB.Text && x.NewFlag == 1).Price.ToString();
+        }
+
+        private void EmployeeCB_SelectedValueChanged(object sender, EventArgs e)
+        {
+            EmployeeInfoL.Text = "Зарплата работника: " + Algorithms.Notary.Employee.FirstOrDefault(
+                x => x.Name == EmployeeCB.Text && x.DismissalDate == null).Salary.ToString();
+        }
+
+        private void DiscountCB_SelectedValueChanged(object sender, EventArgs e)
+        {
+            DiscountInfoL.Text = "Процент скидки : " + Algorithms.Notary.Discount.FirstOrDefault(
+                x => x.Name == DiscountCB.Text).Percent.ToString();
         }
     }
 }

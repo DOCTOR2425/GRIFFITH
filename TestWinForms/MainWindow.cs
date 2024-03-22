@@ -211,7 +211,8 @@ namespace TestWinForms
             PropertyInfo field = list[0].GetType().GetProperty(TableSelectCB.Text);
 
             Grid.DataSource = (from obj in list
-                               where field.GetValue(obj).ToString().Contains(SearchFieldTB.Text)
+                               where field.GetValue(obj).ToString().ToLower()
+                               .Contains(SearchFieldTB.Text.ToLower())
                                select obj).ToList();
         }
 
