@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace TestWinForms
 {
-    public partial class AddOrder : Form
+    public partial class AddOrder : Form// TODO при добавлении сделать договор автоматически
     {
         Client clientToAdd = null;
 
@@ -38,6 +38,7 @@ namespace TestWinForms
 
             EmployeeCB.DataSource = (from emp in Algorithms.Notary.Employee
                                      where emp.DismissalDate == null
+                                     where emp.Post.ToLower() == "нотариус"
                                      select emp.Name).ToList();
 
             DiscountCB.DataSource = (from disc in Algorithms.Notary.Discount
@@ -139,7 +140,7 @@ namespace TestWinForms
 
         private void ClientCB_SelectedValueChanged(object sender, EventArgs e)
         {
-            ClientInfoL.Text = "Профессия клиента: " + Algorithms.Notary.Client.FirstOrDefault(
+            ClientInfoL.Text = "Сфера детельности клиента: " + Algorithms.Notary.Client.FirstOrDefault(
                 x => x.Name + ": " + x.Telephone == ClientCB.Text).Activity;
         }
 
@@ -151,8 +152,8 @@ namespace TestWinForms
 
         private void EmployeeCB_SelectedValueChanged(object sender, EventArgs e)
         {
-            EmployeeInfoL.Text = "Зарплата работника: " + Algorithms.Notary.Employee.FirstOrDefault(
-                x => x.Name == EmployeeCB.Text && x.DismissalDate == null).Salary.ToString();
+            EmployeeInfoL.Text = "Опыт работы в годах: " + (DateTime.Now.Year - Algorithms.Notary.Employee.FirstOrDefault(
+                x => x.Name == EmployeeCB.Text && x.DismissalDate == null).HireDate.Year).ToString();
         }
 
         private void DiscountCB_SelectedValueChanged(object sender, EventArgs e)

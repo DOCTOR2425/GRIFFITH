@@ -6,98 +6,92 @@ using System.Windows.Forms;
 
 namespace TestWinForms
 {
-    public partial class ChangeElement : Form
+    public partial class ChangeElement : Form// TODO добавить изменение заказа
     {
-        private readonly Algorithms.Type typeOfElement;
-        private readonly string classField;
+        private object objToChange;
 
-        public ChangeElement(Algorithms.Type type, string field)
+        public ChangeElement(object objToChange)
         {
             InitializeComponent();
 
-            typeOfElement = type;
-            classField = field;
-
-            List<string> names = new List<string>();
-
-            switch (typeOfElement)
+            this.objToChange = objToChange;
+            switch (objToChange.GetType().Name)
             {
-                case Algorithms.Type.Service:
-                    ChangeButton.Text = "Изменить " + classField + " услуги";
+                case "Service":
+                    ChangeButton.Text = "Изменить услуги";
                     this.Text = "Изменение услуги";
-                    HeaderL.Text = "Выбор услуги";
+                    Field1L.Text = "Название услуги";
+                    Field2L.Text = "Цена услуги";
+                    Field3L.Text = "Описание услуги";
 
-                    names = (from service in Algorithms.Notary.Service
-                             where service.NewFlag == 1
-                             select service.Name).ToList();
                     break;
-                case Algorithms.Type.Discount:
-                    ChangeButton.Text = "Изменить " + classField + " скидки";
+                case "Discount":
+                    ChangeButton.Text = "Изменить скидки";
                     this.Text = "Изменение скидки";
-                    HeaderL.Text = "Выбор скидки";
+                    Field1L.Text = "Название скидки";
+                    Field2L.Text = "Цена скидки";
+                    Field3L.Text = "Описание скидки";
 
-                    names = (from discount in Algorithms.Notary.Discount
-                             where discount.NewFlag == 1
-                             select discount.Name).ToList();
                     break;
-                case Algorithms.Type.Employee:
-                    ChangeButton.Text = "Изменить " + classField + " работника";
+                case "Employee":
+                    ChangeButton.Text = "Изменить работника";
                     this.Text = "Изменение работника";
-                    HeaderL.Text = "Выбор работника";
+                    Field1L.Text = "Имя работника";
+                    Field2L.Text = "Зарплата работника";
+                    Field3L.Text = "Должность работника";
 
-                    names = (from emp in Algorithms.Notary.Employee
-                             where emp.DismissalDate == null
-                             select emp.Name).ToList();
                     break;
-                case Algorithms.Type.Client:
-                    ChangeButton.Text = "Изменить " + classField + " клиента";
+                case "Client":
+                    ChangeButton.Text = "Изменить клиента";
                     this.Text = "Изменение клиента";
-                    HeaderL.Text = "Выбор клиента";
+                    Field1L.Text = "Имя клиента";
+                    Field2L.Text = "Телефон клиента";
+                    Field3L.Text = "Работа клиента";
 
-                    names = (from emp in Algorithms.Notary.Client
-                             select emp.Name).ToList();
+                    break;
+                case "Order":
+                    ChangeButton.Text = "Изменить заказ";
+                    this.Text = "Изменение заказа";
+                    Field1L.Text = "Имя клиента";
+                    Field2L.Text = "Телефон клиента";
+                    Field3L.Text = "Работа клиента";
+
                     break;
                 default:
                     MessageBox.Show("Ошибка выбора типа изменяемого объекта", "Системная ошибка",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Close();
                     break;
             }
-
-            SelectItemCB.DataSource = names;
+            SetDefaultValue();
         }
 
         private void ChangeButton_Click(object sender, EventArgs e)
         {
-            if (SelectItemCB.Text == "")
+            if (Field1TB.Text == "" || Field2TB.Text == "" || Field3TB.Text == "")
             {
-                MessageBox.Show("Вы не выбрали объект для изменения", "Нет данных",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            if (ChangeValueTB.Text == "")
-            {
-                MessageBox.Show("Вы не ввели новые данные", "Нет данных",
+                MessageBox.Show("Вы не ввели новые данные об объекте изменения", "Нет данных",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             try
             {
-                switch (typeOfElement)
+                switch (objToChange.GetType().Name)
                 {
-                    case Algorithms.Type.Service:
+                    case "Service":
                         ChangeService();
 
                         break;
-                    case Algorithms.Type.Discount:
+                    case "Discount":
                         ChangeDiscount();
 
                         break;
-                    case Algorithms.Type.Employee:
+                    case "Employee":
                         ChangeEmployee();
 
                         break;
-                    case Algorithms.Type.Client:
+                    case "Client":
                         ChangeClient();
 
                         break;
@@ -112,225 +106,122 @@ namespace TestWinForms
             }
             catch (FormatException)
             {
-                ChangeValueTB.Text = "";
                 MessageBox.Show("Неверно введённые данные\nПроверьте правильность формата введённых данных",
                     "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
-        private void ChangeService()
+        private void SetDefaultValue()
         {
-            Service service = Algorithms.Notary.Service.FirstOrDefault(x => x.Name == SelectItemCB.Text
-                        && x.NewFlag == 1);
-            Service newServ = new Service(service);
-            service.NewFlag = 0;
-            
-            switch (classField)
+            switch (objToChange.GetType().Name)
             {
-                case "Название":
-                    newServ.Name = ChangeValueTB.Text;
+                case "Service":
+                    Field1TB.Text = (objToChange as Service).Name;
+                    Field2TB.Text = (objToChange as Service).Price.ToString();
+                    Field3TB.Text = (objToChange as Service).Description;
+
                     break;
-                case "Цена":
-                    newServ.Price = Convert.ToDouble(ChangeValueTB.Text);
+                case "Discount":
+                    Field1TB.Text = (objToChange as Discount).Name;
+                    Field2TB.Text = (objToChange as Discount).Percent.ToString();
+                    Field3TB.Text = (objToChange as Discount).Description;
+
                     break;
-                case "Описание":
-                    newServ.Description = ChangeValueTB.Text;
+                case "Employee":
+                    Field1TB.Text = (objToChange as Employee).Name;
+                    Field2TB.Text = (objToChange as Employee).Salary.ToString();
+                    Field3TB.Text = (objToChange as Employee).Post;
+
                     break;
-                default:
-                    MessageBox.Show("Ошибка выбора парамента изменяемого объекта", "Системная ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                case "Client":
+                    Field1TB.Text = (objToChange as Client).Name;
+                    Field2TB.Text = (objToChange as Client).Telephone;
+                    Field3TB.Text = (objToChange as Client).Activity;
+
                     break;
             }
+        }
+
+        private void ChangeService()
+        {
+            (objToChange as Service).NewFlag = 0;
+
+            Service newServ = new Service()
+            {
+                Name = Field1TB.Text,
+                Price = Convert.ToDouble(Field2TB.Text),
+                Description = Field3TB.Text,
+                NewFlag = 1
+            };
+
             Algorithms.Notary.Service.InsertOnSubmit(newServ);
         }
 
         private void ChangeDiscount()
         {
-            Discount discount = Algorithms.Notary.Discount.FirstOrDefault(x => x.Name == SelectItemCB.Text
-                        && x.NewFlag == 1);
-            Discount newDisc = new Discount(discount);
-            discount.NewFlag = 0;
+            (objToChange as Discount).NewFlag = 0;
 
-            switch (classField)
+            Discount newDisc = new Discount()
             {
-                case "Название":
-                    newDisc.Name = ChangeValueTB.Text;
-                    break;
-                case "Процент":
-                    newDisc.Percent = Convert.ToDouble(ChangeValueTB.Text);
-                    break;
-                case "Описание":
-                    newDisc.Description = ChangeValueTB.Text;
-                    break;
-                default:
-                    MessageBox.Show("Ошибка выбора парамента изменяемого объекта", "Системная ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
-            }
+                Name = Field1TB.Text,
+                Percent = Convert.ToDouble(Field2TB.Text),
+                Description = Field3TB.Text,
+                NewFlag = 1
+            };
+
             Algorithms.Notary.Discount.InsertOnSubmit(newDisc);
         }
 
         private void ChangeEmployee()
         {
-            Employee employee = Algorithms.Notary.Employee.FirstOrDefault(x => x.Name == SelectItemCB.Text
-                                    && x.DismissalDate == null);
-            Employee newEmp = new Employee(employee);
-            employee.DismissalDate = DateTime.Now;
+            (objToChange as Employee).DismissalDate = DateTime.Now;
 
-            switch (classField)
+            Employee newEmp = new Employee()
             {
-                case "ФИО":
-                    newEmp.Name = ChangeValueTB.Text;
-                    break;
-                case "Зарплата":
-                    newEmp.Salary = Convert.ToDouble(ChangeValueTB.Text);
-                    break;
-                case "Должность":
-                    newEmp.Post = ChangeValueTB.Text;
-                    break;
-                default:
-                    MessageBox.Show("Ошибка выбора парамента изменяемого объекта", "Системная ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
-            }
+                Name = Field1TB.Text,
+                Salary = Convert.ToDouble(Field2TB.Text),
+                Post = Field3TB.Text,
+                HireDate = (objToChange as Employee).HireDate
+            };
+
             Algorithms.Notary.Employee.InsertOnSubmit(newEmp);
         }
 
         private void ChangeClient()
         {
-            Client client = Algorithms.Notary.Client.FirstOrDefault(x => x.Name == SelectItemCB.Text);
-
-            switch (classField)
-            {
-                case "ФИО":
-                    client.Name = ChangeValueTB.Text;
-                    break;
-                case "Телефон":
-                    client.Telephone = ChangeValueTB.Text;
-                    break;
-                case "Род деятельности":
-                    client.Activity = ChangeValueTB.Text;
-                    break;
-                case "Дата рождения":
-                    client.BirthDate = Convert.ToDateTime(ChangeValueTB.Text);
-                    break;
-                default:
-                    MessageBox.Show("Ошибка выбора парамента изменяемого объекта", "Системная ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
-            }
+            (objToChange as Client).Name = Field1TB.Text;
+            (objToChange as Client).Telephone = Field2TB.Text;
+            (objToChange as Client).Activity = Field3TB.Text;
         }
 
-        private void SelectItemCB_SelectedValueChanged(object sender, EventArgs e)
+        private void ResetChangesB_Click(object sender, EventArgs e)
         {
-            switch (typeOfElement)
+            switch (objToChange.GetType().Name)
             {
-                case Algorithms.Type.Client:
-                    {
-                        Client client = Algorithms.Notary.Client.FirstOrDefault(x => x.Name == SelectItemCB.Text);
+                case "Service":
+                    Field1TB.Text = (objToChange as Service).Name;
+                    Field2TB.Text = (objToChange as Service).Price.ToString();
+                    Field3TB.Text = (objToChange as Service).Description;
 
-                        ItemInfoL.Text = classField + " клиента: ";
+                    break;
+                case "Discount":
+                    Field1TB.Text = (objToChange as Discount).Name;
+                    Field2TB.Text = (objToChange as Discount).Percent.ToString();
+                    Field3TB.Text = (objToChange as Discount).Description;
 
-                        switch (classField)
-                        {
-                            case "ФИО":
-                                ItemInfoL.Text += client.Name;
-                                break;
-                            case "Телефон":
-                                ItemInfoL.Text += client.Telephone;
-                                break;
-                            case "Род деятельности":
-                                ItemInfoL.Text += client.Activity;
-                                break;
-                            case "Дата рождения":
-                                ItemInfoL.Text += client.BirthDate.ToString("dd.MM.yyyy");
-                                break;
-                            default:
-                                MessageBox.Show("Ошибка выбора парамента изменяемого объекта", "Системная ошибка",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                break;
-                        }
+                    break;
+                case "Employee":
+                    Field1TB.Text = (objToChange as Employee).Name;
+                    Field2TB.Text = (objToChange as Employee).Salary.ToString();
+                    Field3TB.Text = (objToChange as Employee).Post;
 
-                        break;
-                    }
-                case Algorithms.Type.Service:
-                    {
-                        Service service = Algorithms.Notary.Service.FirstOrDefault(x => x.Name == SelectItemCB.Text
-                        && x.NewFlag == 1);
+                    break;
+                case "Client":
+                    Field1TB.Text = (objToChange as Client).Name;
+                    Field2TB.Text = (objToChange as Client).Telephone;
+                    Field3TB.Text = (objToChange as Client).Activity;
 
-                        ItemInfoL.Text = classField + " услуги: ";
-
-                        switch (classField)
-                        {
-                            case "Название":
-                                ItemInfoL.Text += service.Name;
-                                break;
-                            case "Цена":
-                                ItemInfoL.Text += service.Price.ToString();
-                                break;
-                            case "Описание":
-                                ItemInfoL.Text += service.Description;
-                                break;
-                            default:
-                                MessageBox.Show("Ошибка выбора парамента изменяемого объекта", "Системная ошибка",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                break;
-                        }
-
-                        break;
-                    }
-                case Algorithms.Type.Discount:
-                    {
-                        Discount discount = Algorithms.Notary.Discount.FirstOrDefault(x => x.Name == SelectItemCB.Text
-                        && x.NewFlag == 1);
-
-                        ItemInfoL.Text = classField + " скидки: ";
-
-                        switch (classField)
-                        {
-                            case "Название":
-                                ItemInfoL.Text += discount.Name;
-                                break;
-                            case "Процент":
-                                ItemInfoL.Text += discount.Percent.ToString();
-                                break;
-                            case "Описание":
-                                ItemInfoL.Text += discount.Description;
-                                break;
-                            default:
-                                MessageBox.Show("Ошибка выбора парамента изменяемого объекта", "Системная ошибка",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                break;
-                        }
-
-                        break;
-                    }
-                case Algorithms.Type.Employee:
-                    {
-                        Employee employee = Algorithms.Notary.Employee.FirstOrDefault(x => x.Name == SelectItemCB.Text
-                        && x.DismissalDate == null);
-
-                        ItemInfoL.Text = classField + " работника: ";
-
-                        switch (classField)
-                        {
-                            case "ФИО":
-                                ItemInfoL.Text += employee.Name;
-                                break;
-                            case "Зарплата":
-                                ItemInfoL.Text += employee.Salary.ToString();
-                                break;
-                            case "Должность":
-                                ItemInfoL.Text += employee.Post;
-                                break;
-                            default:
-                                MessageBox.Show("Ошибка выбора парамента изменяемого объекта", "Системная ошибка",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                break;
-                        }
-
-                        break;
-                    }
+                    break;
                 default:
                     MessageBox.Show("Ошибка выбора типа изменяемого объекта", "Системная ошибка",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);

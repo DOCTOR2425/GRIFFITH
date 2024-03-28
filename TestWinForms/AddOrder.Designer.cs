@@ -83,7 +83,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(333, 98);
+            this.label6.Location = new System.Drawing.Point(333, 125);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(253, 16);
             this.label6.TabIndex = 21;
@@ -92,7 +92,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(333, 200);
+            this.label7.Location = new System.Drawing.Point(333, 218);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(238, 16);
             this.label7.TabIndex = 22;
@@ -133,7 +133,7 @@
             this.ServiceCB.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
             this.ServiceCB.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.ServiceCB.FormattingEnabled = true;
-            this.ServiceCB.Location = new System.Drawing.Point(336, 117);
+            this.ServiceCB.Location = new System.Drawing.Point(336, 147);
             this.ServiceCB.Name = "ServiceCB";
             this.ServiceCB.Size = new System.Drawing.Size(250, 24);
             this.ServiceCB.TabIndex = 30;
@@ -144,7 +144,7 @@
             this.EmployeeCB.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
             this.EmployeeCB.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.EmployeeCB.FormattingEnabled = true;
-            this.EmployeeCB.Location = new System.Drawing.Point(336, 225);
+            this.EmployeeCB.Location = new System.Drawing.Point(336, 237);
             this.EmployeeCB.Name = "EmployeeCB";
             this.EmployeeCB.Size = new System.Drawing.Size(250, 24);
             this.EmployeeCB.TabIndex = 31;
@@ -189,7 +189,7 @@
             // ServiceInfoL
             // 
             this.ServiceInfoL.AutoSize = true;
-            this.ServiceInfoL.Location = new System.Drawing.Point(333, 162);
+            this.ServiceInfoL.Location = new System.Drawing.Point(333, 177);
             this.ServiceInfoL.Name = "ServiceInfoL";
             this.ServiceInfoL.Size = new System.Drawing.Size(51, 16);
             this.ServiceInfoL.TabIndex = 35;
@@ -198,7 +198,7 @@
             // EmployeeInfoL
             // 
             this.EmployeeInfoL.AutoSize = true;
-            this.EmployeeInfoL.Location = new System.Drawing.Point(333, 261);
+            this.EmployeeInfoL.Location = new System.Drawing.Point(333, 264);
             this.EmployeeInfoL.Name = "EmployeeInfoL";
             this.EmployeeInfoL.Size = new System.Drawing.Size(68, 16);
             this.EmployeeInfoL.TabIndex = 36;

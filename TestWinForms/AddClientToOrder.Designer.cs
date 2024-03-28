@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.label4 = new System.Windows.Forms.Label();
-            this.BirthDateTB = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -37,6 +36,7 @@
             this.NameTB = new System.Windows.Forms.TextBox();
             this.AddClientB = new System.Windows.Forms.Button();
             this.TelephoneTB = new System.Windows.Forms.MaskedTextBox();
+            this.BirthDateTB = new System.Windows.Forms.MaskedTextBox();
             this.SuspendLayout();
             // 
             // label4
@@ -47,13 +47,6 @@
             this.label4.Size = new System.Drawing.Size(106, 16);
             this.label4.TabIndex = 27;
             this.label4.Text = "Дата рождения";
-            // 
-            // BirthDateTB
-            // 
-            this.BirthDateTB.Location = new System.Drawing.Point(12, 207);
-            this.BirthDateTB.Name = "BirthDateTB";
-            this.BirthDateTB.Size = new System.Drawing.Size(305, 22);
-            this.BirthDateTB.TabIndex = 3;
             // 
             // label3
             // 
@@ -115,6 +108,16 @@
             this.TelephoneTB.ResetOnSpace = false;
             this.TelephoneTB.Size = new System.Drawing.Size(305, 22);
             this.TelephoneTB.TabIndex = 1;
+            this.TelephoneTB.TextMaskFormat = System.Windows.Forms.MaskFormat.IncludePromptAndLiterals;
+            // 
+            // BirthDateTB
+            // 
+            this.BirthDateTB.Location = new System.Drawing.Point(12, 207);
+            this.BirthDateTB.Mask = "00.00.0000";
+            this.BirthDateTB.Name = "BirthDateTB";
+            this.BirthDateTB.Size = new System.Drawing.Size(305, 22);
+            this.BirthDateTB.TabIndex = 28;
+            this.BirthDateTB.TextMaskFormat = System.Windows.Forms.MaskFormat.IncludePromptAndLiterals;
             // 
             // AddClientToOrder
             // 
@@ -122,10 +125,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(333, 315);
+            this.Controls.Add(this.BirthDateTB);
             this.Controls.Add(this.TelephoneTB);
             this.Controls.Add(this.AddClientB);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.BirthDateTB);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -145,7 +148,6 @@
         #endregion
 
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox BirthDateTB;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
@@ -153,5 +155,6 @@
         private System.Windows.Forms.TextBox NameTB;
         private System.Windows.Forms.Button AddClientB;
         private System.Windows.Forms.MaskedTextBox TelephoneTB;
+        private System.Windows.Forms.MaskedTextBox BirthDateTB;
     }
 }
