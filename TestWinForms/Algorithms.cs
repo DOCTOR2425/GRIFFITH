@@ -6,12 +6,12 @@ using System.Windows.Forms;
 
 namespace TestWinForms
 {
-    public class Algorithms
+    public static class Algorithms
     {
         public enum Type { Client, Service, Order, Discount, Employee };
         public static NotaryBaseDataContext Notary = new NotaryBaseDataContext();
-
-        public static IQueryable<VisibleOrder> GetVisibleOrders()
+        
+        public static IEnumerable<VisibleOrder> GetVisibleOrders()
         {
             return from order in Notary.Order
                    join serv in Notary.Service on order.ServiceID equals serv.ServiceID
@@ -30,7 +30,8 @@ namespace TestWinForms
                        Скидка = disc.Percent
                    };
         }
-        public static IQueryable<VisibleService> GetVisibleServices()
+
+        public static IEnumerable<VisibleService> GetVisibleServices()
         {
             return from service in Notary.Service
                    where service.NewFlag == 1
@@ -41,7 +42,8 @@ namespace TestWinForms
                        Описание = service.Description
                    };
         }
-        public static IQueryable<VisibleClient> GetVisibleClients()
+
+        public static IEnumerable<VisibleClient> GetVisibleClients()
         {
             return from client in Notary.Client
                    select new VisibleClient
@@ -52,7 +54,8 @@ namespace TestWinForms
                        Работа = client.Activity
                    };
         }
-        public static IQueryable<VisibleDiscount> GetVisibleDiscounts()
+
+        public static IEnumerable<VisibleDiscount> GetVisibleDiscounts()
         {
             return from discount in Notary.Discount
                    where discount.NewFlag == 1
@@ -63,7 +66,8 @@ namespace TestWinForms
                        Описание = discount.Description
                    };
         }
-        public static IQueryable<VisibleEmployee> GetVisibleEmployees()
+
+        public static IEnumerable<VisibleEmployee> GetVisibleEmployees()
         {
             return from employee in Notary.Employee
                    select new VisibleEmployee
@@ -76,27 +80,32 @@ namespace TestWinForms
                        "Уволен " + employee.DismissalDate
                    };
         }
-        public static IQueryable<Client> GetClients()
+
+        public static IEnumerable<Client> GetClients()
         {
             return from cl in Notary.Client select cl;
         }
-        public static IQueryable<Order> GetOrders()
+
+        public static IEnumerable<Order> GetOrders()
         {
             return from ord in Notary.Order select ord;
         }
-        public static IQueryable<Service> GetServices()
+
+        public static IEnumerable<Service> GetServices()
         {
             return from serv in Notary.Service
                    where serv.NewFlag == 1
                    select serv;
         }
-        public static IQueryable<Discount> GetDiscounts()
+
+        public static IEnumerable<Discount> GetDiscounts()
         {
             return from disc in Notary.Discount
                    where disc.NewFlag == 1
                    select disc;
         }
-        public static IQueryable<Employee> GetEmployees()
+
+        public static IEnumerable<Employee> GetEmployees()
         {
             return from emp in Notary.Employee
                    where emp.DismissalDate == null
@@ -121,6 +130,7 @@ namespace TestWinForms
 
             return list;
         }
+
         public static string GetCheckedName(List<RadioButton> radioButtons)
         {
             foreach (var radiobutton in radioButtons)
@@ -129,6 +139,7 @@ namespace TestWinForms
 
             return null;
         }
+
         public static double CalculateLastMonthlyProfit()
         {
             double profit = (from order in Notary.Order
@@ -138,6 +149,17 @@ namespace TestWinForms
                              select (serv.Price - (serv.Price * disc.Percent / 100))).ToList().Sum();
 
             return profit;
+        }
+
+        public static string ToUpperFirstLetter(string source)
+        {
+            if (string.IsNullOrEmpty(source))
+                return string.Empty;
+
+            char[] letters = source.ToCharArray();
+            letters[0] = char.ToUpper(letters[0]);
+
+            return new string(letters);
         }
     }
 }

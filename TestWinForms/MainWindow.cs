@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace TestWinForms
 {
-    public partial class MainWindow : Form// TODO сделать меню и добавить пункт составить диаграмму
+    public partial class MainWindow : Form// TODO изменение удаление заказа в течение дня, поиск с начала строки
     {
         private Algorithms.Type CurrentTable;
 
@@ -34,31 +34,26 @@ namespace TestWinForms
 
         private void ShowClientToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Grid.DataSource = Algorithms.GetVisibleClients();
             ChangeCurrentTable(Algorithms.Type.Client);
         }
 
         private void ShowOrdersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Grid.DataSource = Algorithms.GetVisibleOrders();
             ChangeCurrentTable(Algorithms.Type.Order);
         }
 
         private void ShowServiceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Grid.DataSource = Algorithms.GetVisibleServices();
             ChangeCurrentTable(Algorithms.Type.Service);
         }
 
         private void ShowDiscountToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Grid.DataSource = Algorithms.GetVisibleDiscounts();
             ChangeCurrentTable(Algorithms.Type.Discount);
         }
 
         private void ShowEmployeeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Grid.DataSource = Algorithms.GetVisibleEmployees();
             ChangeCurrentTable(Algorithms.Type.Employee);
         }
 
@@ -67,7 +62,6 @@ namespace TestWinForms
             AddOrder AddOrder = new AddOrder();
             AddOrder.ShowDialog();
 
-            Grid.DataSource = Algorithms.GetVisibleOrders();
             ChangeCurrentTable(Algorithms.Type.Order);
 
             MoneyTextBox.Text = Algorithms.CalculateLastMonthlyProfit().ToString();
@@ -78,7 +72,6 @@ namespace TestWinForms
             AddServiceDiscount addService = new AddServiceDiscount(Algorithms.Type.Service);
             addService.ShowDialog();
 
-            Grid.DataSource = Algorithms.GetVisibleServices();
             ChangeCurrentTable(Algorithms.Type.Service);
         }
 
@@ -87,7 +80,6 @@ namespace TestWinForms
             AddServiceDiscount addDiscount = new AddServiceDiscount(Algorithms.Type.Discount);
             addDiscount.ShowDialog();
 
-            Grid.DataSource = Algorithms.GetVisibleDiscounts();
             ChangeCurrentTable(Algorithms.Type.Discount);
         }
 
@@ -96,86 +88,6 @@ namespace TestWinForms
             AddEmployee addEmployee = new AddEmployee();
             addEmployee.ShowDialog();
 
-            Grid.DataSource = Algorithms.GetVisibleEmployees();
-            ChangeCurrentTable(Algorithms.Type.Employee);
-        }
-
-        private void DeleteServiceToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            List<string> services = (from service in Algorithms.Notary.Service
-                                     where service.NewFlag == 1
-                                     select service.Name).ToList();
-
-            DeleteElement deleteElement = new DeleteElement(Algorithms.Type.Service);
-            deleteElement.ShowDialog();
-
-            Grid.DataSource = Algorithms.GetVisibleServices();
-            ChangeCurrentTable(Algorithms.Type.Service);
-        }
-
-        private void DeleteDiscountToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            List<string> discounst = (from discount in Algorithms.Notary.Discount
-                                      where discount.NewFlag == 1
-                                      select discount.Name).ToList();
-
-            DeleteElement deleteElement = new DeleteElement(Algorithms.Type.Discount);
-            deleteElement.ShowDialog();
-
-            Grid.DataSource = Algorithms.GetVisibleDiscounts();
-            ChangeCurrentTable(Algorithms.Type.Discount);
-        }
-
-        private void DeleteEmployeeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            List<string> employes = (from emp in Algorithms.Notary.Employee
-                                     where emp.DismissalDate == null
-                                     select emp.Name).ToList();
-
-            DeleteElement deleteElement = new DeleteElement(Algorithms.Type.Employee);
-            deleteElement.ShowDialog();
-
-            Grid.DataSource = Algorithms.GetVisibleEmployees();
-            ChangeCurrentTable(Algorithms.Type.Employee);
-        }
-
-        private void ClientToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ChangeElement changeElement = new ChangeElement(Algorithms.Type.Client,
-                ((ToolStripMenuItem)sender).Text);
-            changeElement.ShowDialog();
-
-            Grid.DataSource = Algorithms.GetVisibleClients();
-            ChangeCurrentTable(Algorithms.Type.Client);
-        }
-
-        private void ServiceToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ChangeElement changeElement = new ChangeElement(Algorithms.Type.Service,
-                ((ToolStripMenuItem)sender).Text);
-            changeElement.ShowDialog();
-
-            Grid.DataSource = Algorithms.GetVisibleServices();
-            ChangeCurrentTable(Algorithms.Type.Service);
-        }
-
-        private void DiscountToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ChangeElement changeElement = new ChangeElement(Algorithms.Type.Discount,
-                ((ToolStripMenuItem)sender).Text);
-            changeElement.ShowDialog();
-
-            Grid.DataSource = Algorithms.GetVisibleDiscounts();
-            ChangeCurrentTable(Algorithms.Type.Discount);
-        }
-
-        private void EmployeeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ChangeElement changeElement = new ChangeElement(Algorithms.Type.Employee,
-                ((ToolStripMenuItem)sender).Text);
-            changeElement.ShowDialog();
-
-            Grid.DataSource = Algorithms.GetVisibleEmployees();
             ChangeCurrentTable(Algorithms.Type.Employee);
         }
 
@@ -183,7 +95,7 @@ namespace TestWinForms
         {
             if (TableSelectCB.Text == "" || SearchFieldTB.Text == "")
             {
-                MessageBox.Show("Вы не ввели параметры фильтрации", "Нет данных", 
+                MessageBox.Show("Вы не ввели параметры фильтрации", "Нет данных",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -218,24 +130,7 @@ namespace TestWinForms
 
         private void DropFiltresB_Click(object sender, EventArgs e)
         {
-            switch (CurrentTable)
-            {
-                case Algorithms.Type.Client:
-                    Grid.DataSource = Algorithms.GetVisibleClients();
-                    break;
-                case Algorithms.Type.Order:
-                    Grid.DataSource = Algorithms.GetVisibleOrders();
-                    break;
-                case Algorithms.Type.Service:
-                    Grid.DataSource = Algorithms.GetVisibleServices();
-                    break;
-                case Algorithms.Type.Discount:
-                    Grid.DataSource = Algorithms.GetVisibleDiscounts();
-                    break;
-                case Algorithms.Type.Employee:
-                    Grid.DataSource = Algorithms.GetVisibleEmployees();
-                    break;
-            }
+            ChangeCurrentTable(CurrentTable);
         }
 
         public void ChangeCurrentTable(Algorithms.Type type)
@@ -245,18 +140,23 @@ namespace TestWinForms
             {
                 case Algorithms.Type.Client:
                     TableSelectCB.DataSource = VisibleClient.GetFieldsName();
+                    Grid.DataSource = Algorithms.GetVisibleClients();
                     break;
                 case Algorithms.Type.Service:
                     TableSelectCB.DataSource = VisibleService.GetFieldsName();
+                    Grid.DataSource = Algorithms.GetVisibleServices();
                     break;
                 case Algorithms.Type.Order:
                     TableSelectCB.DataSource = VisibleOrder.GetFieldsName();
+                    Grid.DataSource = Algorithms.GetVisibleOrders();
                     break;
                 case Algorithms.Type.Discount:
                     TableSelectCB.DataSource = VisibleDiscount.GetFieldsName();
+                    Grid.DataSource = Algorithms.GetVisibleDiscounts();
                     break;
                 case Algorithms.Type.Employee:
                     TableSelectCB.DataSource = VisibleEmployee.GetFieldsName();
+                    Grid.DataSource = Algorithms.GetVisibleEmployees();
                     break;
             }
         }
@@ -271,6 +171,92 @@ namespace TestWinForms
         {
             GenerateWordContractByOrder window = new GenerateWordContractByOrder();
             window.ShowDialog();
+        }
+
+        private void ChangeItemInLineTSMIClick(object sender, EventArgs e)
+        {
+            int index = Grid.CurrentCell.RowIndex;
+
+            switch (CurrentTable)
+            {
+                case Algorithms.Type.Service:
+                    {
+                        ChangeElement changeElement = new ChangeElement(Algorithms.Notary.Service.FirstOrDefault(
+                            x => x.Name == Grid.Rows[index].Cells[0].Value.ToString()));
+                        changeElement.ShowDialog();
+
+                        break;
+                    }
+                case Algorithms.Type.Discount:
+                    {
+                        ChangeElement changeElement = new ChangeElement(Algorithms.Notary.Discount.FirstOrDefault(
+                            x => x.Name == Grid.Rows[index].Cells[0].Value.ToString()));
+                        changeElement.ShowDialog();
+
+                        break;
+                    }
+                case Algorithms.Type.Client:
+                    {
+                        ChangeElement changeElement = new ChangeElement(Algorithms.Notary.Client.FirstOrDefault(
+                            x => x.Name == Grid.Rows[index].Cells[0].Value.ToString()));
+                        changeElement.ShowDialog();
+
+                        break;
+                    }
+                case Algorithms.Type.Employee:
+                    {
+                        ChangeElement changeElement = new ChangeElement(Algorithms.Notary.Employee.FirstOrDefault(
+                            x => x.Name == Grid.Rows[index].Cells[0].Value.ToString()));
+                        changeElement.ShowDialog();
+
+                        break;
+                    }
+                case Algorithms.Type.Order:
+                    {
+                        if (Grid.Rows[index].Cells[3].Value.ToString() != DateTime.Now.ToString("dd.MM.yyyy"))
+                        {
+                            MessageBox.Show("");
+                        }
+                        //ChangeElement changeElement = new ChangeElement(Algorithms.Notary.Order.FirstOrDefault(x => 
+                        //    x.Date.ToString("dd.MM.yyyy") == Grid.Rows[index].Cells[3].Value.ToString() &&
+                        //    x.Cl.ToString("dd.MM.yyyy") == Grid.Rows[index].Cells[3].Value.ToString()));
+                        //changeElement.ShowDialog();
+
+                        break;
+                    }
+            }
+            ChangeCurrentTable(CurrentTable);
+        }
+
+        private void DeleteItemInLineTSMIClick(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Вы действительно хотите удалить этот объект из бд?\n" +
+                "Для удаление нажмите \"Да\"", "Удаление объекта из базы",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                Visible obj = (Grid.DataSource as IEnumerable<Visible>).ToList()[Grid.CurrentRow.Index];
+
+                switch (obj.GetType().Name)
+                {
+                    case "VisibleService":
+                        Algorithms.Notary.Service.FirstOrDefault(x =>
+                        x.Name == (obj as VisibleService).Название && x.NewFlag == 1).NewFlag = 0;
+
+                        break;
+                    case "VisibleDiscount":
+                        Algorithms.Notary.Discount.FirstOrDefault(x =>
+                        x.Name == (obj as VisibleDiscount).Название && x.NewFlag == 1).NewFlag = 0;
+
+                        break;
+                    case "VisibleEmployee":
+                        Algorithms.Notary.Employee.FirstOrDefault(x =>
+                        x.Name == (obj as VisibleEmployee).Имя && x.DismissalDate == null).DismissalDate = DateTime.Now;
+
+                        break;
+                }
+                Algorithms.Notary.SubmitChanges();
+                ChangeCurrentTable(CurrentTable);
+            }
         }
     }
 }

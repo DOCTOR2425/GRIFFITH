@@ -7,7 +7,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace TestWinForms
 {
-    public partial class GenerateExelReport : Form// TODO Оформить отчёт нормально с выводом денег и чем нибудь ещё
+    public partial class GenerateExelReport : Form// TODO Добавить в отчёт статистику по услугам, и фильтр по работникам
     {
         public GenerateExelReport()
         {
@@ -39,10 +39,7 @@ namespace TestWinForms
                     excelApp.Cells[i + 2, 5] = orders[i].Цена;
                     excelApp.Cells[i + 2, 6] = orders[i].Скидка;
                 }
-                catch
-                {
-                    i--;
-                }
+                catch { i--; }
             }
 
             while (true)
@@ -116,7 +113,7 @@ namespace TestWinForms
 
         private List<VisibleOrder> GetVisibleOrdersForTimeSpan()
         {
-            IQueryable<VisibleOrder> orders = null;
+            IEnumerable<VisibleOrder> orders = null;
 
             if (CurrentMonthRB.Checked)
             {

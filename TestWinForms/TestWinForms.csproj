@@ -79,12 +79,6 @@
     <Compile Include="ChangeElement.Designer.cs">
       <DependentUpon>ChangeElement.cs</DependentUpon>
     </Compile>
-    <Compile Include="DeleteElement.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DeleteElement.Designer.cs">
-      <DependentUpon>DeleteElement.cs</DependentUpon>
-    </Compile>
     <Compile Include="GenerateCustomWordContract.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,9 +125,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ChangeElement.resx">
       <DependentUpon>ChangeElement.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DeleteElement.resx">
-      <DependentUpon>DeleteElement.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GenerateCustomWordContract.resx">
       <DependentUpon>GenerateCustomWordContract.cs</DependentUpon>

@@ -2,35 +2,63 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="NotaryBase">
   <DataContextMoniker Name="/NotaryBaseDataContext" />
   <nestedChildShapes>
-    <classShape Id="8024be5e-7d4e-4f1d-af6b-057568616f4b" absoluteBounds="0.75, 0.625, 2, 1.7708968098958331">
-      <DataClassMoniker Name="/NotaryBaseDataContext/Client" />
-      <nestedChildShapes>
-        <elementListCompartment Id="8c035954-19c2-44dc-901c-eefcbff34a83" absoluteBounds="0.765, 1.085, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="9a851c91-bac1-4378-9125-9a3fbb47cfab" absoluteBounds="3.625, 0.5, 2, 1.7708968098958331">
-      <DataClassMoniker Name="/NotaryBaseDataContext/Discount" />
-      <nestedChildShapes>
-        <elementListCompartment Id="9358e74b-e885-406e-97f5-02308f6c9864" absoluteBounds="3.64, 0.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="1db14ae4-761f-42b6-911d-3f50b132b0fb" absoluteBounds="6, 0.5, 2, 1.9631982421875">
-      <DataClassMoniker Name="/NotaryBaseDataContext/Employee" />
-      <nestedChildShapes>
-        <elementListCompartment Id="c3dd28c4-3870-4368-8734-b7bde1d392f7" absoluteBounds="6.015, 0.96, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="7139597a-7547-421a-9761-a2a68b310be0" absoluteBounds="1.125, 3, 2, 1.9631982421875">
-      <DataClassMoniker Name="/NotaryBaseDataContext/Order" />
-      <nestedChildShapes>
-        <elementListCompartment Id="926f47ba-195d-41a7-87f5-764af91fd637" absoluteBounds="1.1400000000000001, 3.46, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="1a0816e7-a29b-417d-b35a-29c1b1c3db2a" absoluteBounds="3.75, 2.875, 2, 1.7708968098958331">
+    <classShape Id="23f88994-7c89-4ab7-bdd0-8f5cdd5c97e9" absoluteBounds="7, 6.25, 2, 1.7708968098958326">
       <DataClassMoniker Name="/NotaryBaseDataContext/Service" />
       <nestedChildShapes>
-        <elementListCompartment Id="c72f0888-1522-447c-bd41-5f620801082d" absoluteBounds="3.7649999999999997, 3.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="3d77d8f3-7f23-4565-882a-de9b9e9f2c41" absoluteBounds="7.0150000000000006, 6.71, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="f723c9be-ccbd-4f5b-b4d4-ebb37ccc509a" absoluteBounds="3.625, 5, 2, 1.9631982421875003">
+      <DataClassMoniker Name="/NotaryBaseDataContext/Order" />
+      <nestedChildShapes>
+        <elementListCompartment Id="218c73f9-91c9-4b90-b0df-ae312d09760b" absoluteBounds="3.64, 5.46, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a719ec3b-6062-480c-8cdc-c6077675953d" absoluteBounds="6.625, 3.75, 2, 1.7708968098958326">
+      <DataClassMoniker Name="/NotaryBaseDataContext/Discount" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4cdeb3ce-a0a1-4b0e-b7b7-be1601040031" absoluteBounds="6.6400000000000006, 4.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(7 : 6.60659912109375); (5.625 : 6.60659912109375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/NotaryBaseDataContext/Service/Service_Order" />
+      <nodes>
+        <classShapeMoniker Id="23f88994-7c89-4ab7-bdd0-8f5cdd5c97e9" />
+        <classShapeMoniker Id="f723c9be-ccbd-4f5b-b4d4-ebb37ccc509a" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(6.625 : 5.26044840494792); (5.625 : 5.26044840494792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/NotaryBaseDataContext/Discount/Discount_Order" />
+      <nodes>
+        <classShapeMoniker Id="a719ec3b-6062-480c-8cdc-c6077675953d" />
+        <classShapeMoniker Id="f723c9be-ccbd-4f5b-b4d4-ebb37ccc509a" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="bd1e8b84-4fdc-4cd9-a04c-a95d977cdac8" absoluteBounds="1.125, 3.625, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/NotaryBaseDataContext/Client" />
+      <nestedChildShapes>
+        <elementListCompartment Id="02794f58-ea75-487e-86b1-26aaa8437eb3" absoluteBounds="1.1400000000000001, 4.085, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(3.125 : 5.19794840494792); (3.625 : 5.19794840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/NotaryBaseDataContext/Client/Client_Order" />
+      <nodes>
+        <classShapeMoniker Id="bd1e8b84-4fdc-4cd9-a04c-a95d977cdac8" />
+        <classShapeMoniker Id="f723c9be-ccbd-4f5b-b4d4-ebb37ccc509a" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="4131c6bd-0d4a-4e2b-9825-ee37e6c8dc1e" absoluteBounds="0.5, 6.25, 2, 1.9631982421875">
+      <DataClassMoniker Name="/NotaryBaseDataContext/Employee" />
+      <nestedChildShapes>
+        <elementListCompartment Id="32d60466-5634-49d0-9993-32a7f8448b0f" absoluteBounds="0.51500000000000012, 6.71, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.5 : 6.60659912109375); (3.625 : 6.60659912109375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/NotaryBaseDataContext/Employee/Employee_Order" />
+      <nodes>
+        <classShapeMoniker Id="4131c6bd-0d4a-4e2b-9825-ee37e6c8dc1e" />
+        <classShapeMoniker Id="f723c9be-ccbd-4f5b-b4d4-ebb37ccc509a" />
+      </nodes>
+    </associationConnector>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>
