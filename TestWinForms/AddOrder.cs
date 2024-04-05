@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace TestWinForms
 {
-    public partial class AddOrder : Form// TODO при добавлении сделать договор автоматически
+    public partial class AddOrder : Form
     {
         Client clientToAdd = null;
 
@@ -38,7 +38,7 @@ namespace TestWinForms
 
             EmployeeCB.DataSource = (from emp in Algorithms.Notary.Employee
                                      where emp.DismissalDate == null
-                                     where emp.Post.ToLower() == "нотариус"
+                                     where emp.Post == "Нотариус"
                                      select emp.Name).ToList();
 
             DiscountCB.DataSource = (from disc in Algorithms.Notary.Discount
@@ -48,26 +48,18 @@ namespace TestWinForms
 
         private void CheckBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if (AddNewClientChB.Checked == true)
-            {
-                AddNewClientB.Enabled = true;
+            AddNewClientB.Enabled = !AddNewClientB.Enabled;
 
-                ClientL.Enabled = false;
-                ClientCB.Enabled = false;
-                ClientInfoL.Enabled = false;
-            }
-            else
-            {
-                AddNewClientB.Enabled = false;
-
-                ClientL.Enabled = true;
-                ClientCB.Enabled = true;
-                ClientInfoL.Enabled = true;
-            }
+            ClientL.Enabled = !ClientL.Enabled;
+            ClientCB.Enabled = !ClientCB.Enabled;
+            ClientInfoL.Enabled = !ClientInfoL.Enabled;
         }
 
         private void AddOrderButton_Click(object sender, EventArgs e)
         {
+            AddOrderB.Cursor = Cursors.WaitCursor;
+            this.Cursor = Cursors.WaitCursor;
+
             Order order = new Order
             {
                 Date = DateTime.Now,
@@ -109,6 +101,8 @@ namespace TestWinForms
             Algorithms.Notary.Order.InsertOnSubmit(order);
             Algorithms.Notary.SubmitChanges();
 
+            ReportCreator.GenerateContract(order);
+
             this.Close();
         }
 
@@ -119,7 +113,28 @@ namespace TestWinForms
             window.ShowDialog();
 
             if (clientToAdd.BirthDate == DateTime.MinValue)
+            {
                 clientToAdd = null;
+                return;
+            }
+
+            Client toCheckRecentlyAdded = Algorithms.Notary.Client.FirstOrDefault(x =>
+            x.Name == clientToAdd.Name &&
+            x.BirthDate == clientToAdd.BirthDate &&
+            x.Telephone == clientToAdd.Telephone &&
+            x.Activity.ToString().ToLower() == clientToAdd.Activity.ToLower());
+
+            if (toCheckRecentlyAdded != null)
+            {
+                if (MessageBox.Show("Такой клиент уже есть в базе и его нельзя добавить повторно." +
+                    "\nВыбрать его для оказания услуги?", "Клиент существует",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    ClientCB.Text = clientToAdd.Name + ": " + clientToAdd.Telephone;
+                    AddNewClientChB.Checked = !AddNewClientChB.Checked;
+                }
+                clientToAdd = null;
+            }
         }
 
         private void AddDiscountChB_CheckedChanged(object sender, EventArgs e)

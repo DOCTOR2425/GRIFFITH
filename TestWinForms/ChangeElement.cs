@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace TestWinForms
 {
-    public partial class ChangeElement : Form// TODO добавить изменение заказа
+    public partial class ChangeElement : Form// TODO сделать маску комбобоксам (по возможности)
     {
         private object objToChange;
 
@@ -15,6 +14,14 @@ namespace TestWinForms
             InitializeComponent();
 
             this.objToChange = objToChange;
+            
+            FillLabels();
+            FillComboBoxesCollection();
+            ResetChangesB_Click(new object(), new EventArgs());
+        }
+
+        private void FillLabels()
+        {
             switch (objToChange.GetType().Name)
             {
                 case "Service":
@@ -52,9 +59,9 @@ namespace TestWinForms
                 case "Order":
                     ChangeButton.Text = "Изменить заказ";
                     this.Text = "Изменение заказа";
-                    Field1L.Text = "Имя клиента";
-                    Field2L.Text = "Телефон клиента";
-                    Field3L.Text = "Работа клиента";
+                    Field1L.Text = "Название услуги";
+                    Field2L.Text = "Название скики";
+                    Field3L.Text = "Имя работника";
 
                     break;
                 default:
@@ -63,12 +70,47 @@ namespace TestWinForms
                     this.Close();
                     break;
             }
-            SetDefaultValue();
+        }
+
+        private void FillComboBoxesCollection()
+        {
+            switch (objToChange.GetType().Name)
+            {
+                case "Service":
+                case "Discount":
+                case "Employee":
+                case "Client":
+                    Field1CB.DataBindings.Clear();
+                    Field2CB.DataBindings.Clear();
+                    Field3CB.DataBindings.Clear();
+
+                    break;
+                case "Order":
+                    Field1CB.DataSource = from obj in Algorithms.Notary.Service
+                                          where obj.NewFlag == 1
+                                          select obj.Name;
+
+                    Field2CB.DataSource = from obj in Algorithms.Notary.Discount
+                                          where obj.NewFlag == 1 || obj.Name == "ZERO"
+                                          select obj.Name;
+
+                    Field3CB.DataSource = from obj in Algorithms.Notary.Employee
+                                          where obj.DismissalDate == null
+                                          where obj.Post == "Нотариус"
+                                          select obj.Name;
+
+                    break;
+                default:
+                    MessageBox.Show("Ошибка выбора типа изменяемого объекта", "Системная ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Close();
+                    break;
+            }
         }
 
         private void ChangeButton_Click(object sender, EventArgs e)
         {
-            if (Field1TB.Text == "" || Field2TB.Text == "" || Field3TB.Text == "")
+            if (Field1CB.Text == "" || Field2CB.Text == "" || Field3CB.Text == "")
             {
                 MessageBox.Show("Вы не ввели новые данные об объекте изменения", "Нет данных",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -81,19 +123,18 @@ namespace TestWinForms
                 {
                     case "Service":
                         ChangeService();
-
                         break;
                     case "Discount":
                         ChangeDiscount();
-
                         break;
                     case "Employee":
                         ChangeEmployee();
-
                         break;
                     case "Client":
                         ChangeClient();
-
+                        break;
+                    case "Order":
+                        ChangeOrder();
                         break;
                     default:
                         MessageBox.Show("Ошибка выбора типа изменяемого объекта", "Системная ошибка",
@@ -111,35 +152,16 @@ namespace TestWinForms
             }
         }
 
-        private void SetDefaultValue()
+        private void ChangeOrder()
         {
-            switch (objToChange.GetType().Name)
-            {
-                case "Service":
-                    Field1TB.Text = (objToChange as Service).Name;
-                    Field2TB.Text = (objToChange as Service).Price.ToString();
-                    Field3TB.Text = (objToChange as Service).Description;
+            (objToChange as Order).Service = Algorithms.Notary.Service.FirstOrDefault(x=>
+            x.Name == Field1CB.Text && x.NewFlag == 1);
 
-                    break;
-                case "Discount":
-                    Field1TB.Text = (objToChange as Discount).Name;
-                    Field2TB.Text = (objToChange as Discount).Percent.ToString();
-                    Field3TB.Text = (objToChange as Discount).Description;
+            (objToChange as Order).Discount = Algorithms.Notary.Discount.FirstOrDefault(x =>
+            x.Name == Field2CB.Text && (x.NewFlag == 1 || x.Name == "ZERO"));
 
-                    break;
-                case "Employee":
-                    Field1TB.Text = (objToChange as Employee).Name;
-                    Field2TB.Text = (objToChange as Employee).Salary.ToString();
-                    Field3TB.Text = (objToChange as Employee).Post;
-
-                    break;
-                case "Client":
-                    Field1TB.Text = (objToChange as Client).Name;
-                    Field2TB.Text = (objToChange as Client).Telephone;
-                    Field3TB.Text = (objToChange as Client).Activity;
-
-                    break;
-            }
+            (objToChange as Order).Employee = Algorithms.Notary.Employee.FirstOrDefault(x =>
+            x.Name == Field3CB.Text && x.DismissalDate == null);
         }
 
         private void ChangeService()
@@ -148,9 +170,9 @@ namespace TestWinForms
 
             Service newServ = new Service()
             {
-                Name = Field1TB.Text,
-                Price = Convert.ToDouble(Field2TB.Text),
-                Description = Field3TB.Text,
+                Name = Field1CB.Text,
+                Price = Convert.ToDouble(Field2CB.Text),
+                Description = Field3CB.Text,
                 NewFlag = 1
             };
 
@@ -163,9 +185,9 @@ namespace TestWinForms
 
             Discount newDisc = new Discount()
             {
-                Name = Field1TB.Text,
-                Percent = Convert.ToDouble(Field2TB.Text),
-                Description = Field3TB.Text,
+                Name = Field1CB.Text,
+                Percent = Convert.ToDouble(Field2CB.Text),
+                Description = Field3CB.Text,
                 NewFlag = 1
             };
 
@@ -178,9 +200,9 @@ namespace TestWinForms
 
             Employee newEmp = new Employee()
             {
-                Name = Field1TB.Text,
-                Salary = Convert.ToDouble(Field2TB.Text),
-                Post = Field3TB.Text,
+                Name = Field1CB.Text,
+                Salary = Convert.ToDouble(Field2CB.Text),
+                Post = Field3CB.Text,
                 HireDate = (objToChange as Employee).HireDate
             };
 
@@ -189,9 +211,9 @@ namespace TestWinForms
 
         private void ChangeClient()
         {
-            (objToChange as Client).Name = Field1TB.Text;
-            (objToChange as Client).Telephone = Field2TB.Text;
-            (objToChange as Client).Activity = Field3TB.Text;
+            (objToChange as Client).Name = Field1CB.Text;
+            (objToChange as Client).Telephone = Field2CB.Text;
+            (objToChange as Client).Activity = Field3CB.Text;
         }
 
         private void ResetChangesB_Click(object sender, EventArgs e)
@@ -199,32 +221,34 @@ namespace TestWinForms
             switch (objToChange.GetType().Name)
             {
                 case "Service":
-                    Field1TB.Text = (objToChange as Service).Name;
-                    Field2TB.Text = (objToChange as Service).Price.ToString();
-                    Field3TB.Text = (objToChange as Service).Description;
+                    Field1CB.Text = (objToChange as Service).Name;
+                    Field2CB.Text = (objToChange as Service).Price.ToString();
+                    Field3CB.Text = (objToChange as Service).Description;
 
                     break;
                 case "Discount":
-                    Field1TB.Text = (objToChange as Discount).Name;
-                    Field2TB.Text = (objToChange as Discount).Percent.ToString();
-                    Field3TB.Text = (objToChange as Discount).Description;
+                    Field1CB.Text = (objToChange as Discount).Name;
+                    Field2CB.Text = (objToChange as Discount).Percent.ToString();
+                    Field3CB.Text = (objToChange as Discount).Description;
 
                     break;
                 case "Employee":
-                    Field1TB.Text = (objToChange as Employee).Name;
-                    Field2TB.Text = (objToChange as Employee).Salary.ToString();
-                    Field3TB.Text = (objToChange as Employee).Post;
+                    Field1CB.Text = (objToChange as Employee).Name;
+                    Field2CB.Text = (objToChange as Employee).Salary.ToString();
+                    Field3CB.Text = (objToChange as Employee).Post;
 
                     break;
                 case "Client":
-                    Field1TB.Text = (objToChange as Client).Name;
-                    Field2TB.Text = (objToChange as Client).Telephone;
-                    Field3TB.Text = (objToChange as Client).Activity;
+                    Field1CB.Text = (objToChange as Client).Name;
+                    Field2CB.Text = (objToChange as Client).Telephone;
+                    Field3CB.Text = (objToChange as Client).Activity;
 
                     break;
-                default:
-                    MessageBox.Show("Ошибка выбора типа изменяемого объекта", "Системная ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                case "Order":
+                    Field1CB.Text = (objToChange as Order).Service.Name;
+                    Field2CB.Text = (objToChange as Order).Discount.Name;
+                    Field3CB.Text = (objToChange as Order).Employee.Name;
+
                     break;
             }
         }

@@ -14,20 +14,14 @@ namespace TestWinForms
         public static IEnumerable<VisibleOrder> GetVisibleOrders()
         {
             return from order in Notary.Order
-                   join serv in Notary.Service on order.ServiceID equals serv.ServiceID
-                   join client in Notary.Client on order.ClientID equals client.ClientID
-                   join emp in Notary.Employee on order.EmployeeID equals emp.EmployeeID
-                   join discount in Notary.Discount on order.DiscountID equals discount.DiscountID
-                   into discounts
-                   from disc in discounts.DefaultIfEmpty()
                    select new VisibleOrder
                    {
-                       Клиент = client.Name,
-                       Услуга = serv.Name,
-                       Нотариус = emp.Name,
+                       Клиент = order.Client.Name,
+                       Услуга = order.Service.Name,
+                       Нотариус = order.Employee.Name,
                        Дата = order.Date,
-                       Цена = serv.Price,
-                       Скидка = disc.Percent
+                       Цена = order.Service.Price,
+                       Скидка = order.Discount.Percent
                    };
         }
 
@@ -112,41 +106,11 @@ namespace TestWinForms
                    select emp;
         }
 
-        public static List<RadioButton> FillGroupBox(GroupBox groupBox, List<string> names)
-        {
-            groupBox.Controls.Clear();
-
-            var list = new List<RadioButton>(names.Count);
-
-            Point GBLoc = groupBox.Location;
-
-            for (int i = 0; i < names.Count; i++)
-            {
-                list.Add(new RadioButton());
-                list[i].Text = names[i];
-                list[i].Parent = groupBox;
-                list[i].Location = new Point(5, GBLoc.Y + 20 * (i + 1));
-            }
-
-            return list;
-        }
-
-        public static string GetCheckedName(List<RadioButton> radioButtons)
-        {
-            foreach (var radiobutton in radioButtons)
-                if (radiobutton.Checked)
-                    return radiobutton.Text;
-
-            return null;
-        }
-
         public static double CalculateLastMonthlyProfit()
         {
             double profit = (from order in Notary.Order
                              where order.Date.Month == DateTime.Now.Month
-                             join serv in Notary.Service on order.ServiceID equals serv.ServiceID
-                             join disc in Notary.Discount on order.DiscountID equals disc.DiscountID
-                             select (serv.Price - (serv.Price * disc.Percent / 100))).ToList().Sum();
+                             select (order.Service.Price - (order.Service.Price * order.Discount.Percent / 100))).ToList().Sum();
 
             return profit;
         }

@@ -30,8 +30,6 @@ namespace TestWinForms
 
         private bool ValidateInput()
         {
-            MessageBox.Show(BirthDateTB.Text);
-            MessageBox.Show(TelephoneTB.Text);
             if (NameTB.Text == "" || ActivityTB.Text == "")
             {
                 MessageBox.Show("Вы не ввели все данные в поля", "Ошибка данных",

@@ -84,6 +84,7 @@
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.GenerateContractB);
             this.Name = "GenerateWordContractByOrder";
+            this.ShowInTaskbar = false;
             this.Text = "GenerateWordContractByOrder";
             this.Load += new System.EventHandler(this.GenerateWordContractByOrder_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();

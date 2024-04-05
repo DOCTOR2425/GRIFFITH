@@ -113,6 +113,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AddEmployee";
+            this.ShowInTaskbar = false;
             this.Text = "Добавление работника";
             this.ResumeLayout(false);
             this.PerformLayout();

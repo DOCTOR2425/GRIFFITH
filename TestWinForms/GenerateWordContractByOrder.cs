@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Word = Microsoft.Office.Interop.Word;
 using System.IO;
 using System.Linq;
 
@@ -18,35 +17,10 @@ namespace TestWinForms
             Grid.DataSource = Algorithms.GetVisibleOrders();
         }
 
-        private void DisplayInWord(KeyValuePair<string, string>[] pairsToChange)
-        {
-            var wordApp = new Word.Application();
-            object mis = Type.Missing;
-            wordApp.Documents.Open(fileTeplate);
-
-            Word.Find find = wordApp.Selection.Find;
-
-            for (int i = 0; i < pairsToChange.Length; i++)
-            {
-                try
-                {
-                    find.Text = pairsToChange[i].Key;
-                    find.Replacement.Text = pairsToChange[i].Value;
-
-                    object wrap = Word.WdFindWrap.wdFindContinue;
-                    object replace = Word.WdReplace.wdReplaceAll;
-
-                    find.Execute(FindText: mis, MatchSoundsLike: mis, Forward: true,
-                        Wrap: wrap, ReplaceWith: mis, Replace: replace);
-                }
-                catch { i--; }
-            }
-
-            wordApp.Visible = true;
-        }
-
         private void GenerateContractB_Click(object sender, EventArgs e)
         {
+            GenerateContractB.Cursor = Cursors.WaitCursor;
+
             if (File.Exists(fileTeplate) == false)
             {
                 MessageBox.Show("Не удалось найти шаблон файла для составления договора", "Ошибка файла",
@@ -72,7 +46,7 @@ namespace TestWinForms
                     x=> x.Name == Grid.Rows[selectedRow].Cells[0].Value.ToString()).Activity),
             };
 
-            DisplayInWord(pairsToChange);
+            ReportCreator.GenerateContract(pairsToChange);
 
             this.Close();
         }

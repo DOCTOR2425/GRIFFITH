@@ -110,6 +110,7 @@
     <Compile Include="GenerateExelReport.Designer.cs">
       <DependentUpon>GenerateExelReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="ReportCreator.cs" />
     <Compile Include="VisibleClasses.cs" />
     <EmbeddedResource Include="AddClientToOrder.resx">
       <DependentUpon>AddClientToOrder.cs</DependentUpon>

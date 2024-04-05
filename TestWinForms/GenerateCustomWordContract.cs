@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
-using Word = Microsoft.Office.Interop.Word;
 using System.IO;
 
 namespace TestWinForms
@@ -36,35 +35,10 @@ namespace TestWinForms
                                     select disc.Name;
         }
 
-        private void DisplayInWord(KeyValuePair<string, string>[] pairsToChange)
-        {
-            var wordApp = new Word.Application();
-            object mis = Type.Missing;
-            wordApp.Documents.Open(fileTeplate);
-
-            Word.Find find = wordApp.Selection.Find;
-
-            for (int i = 0; i < pairsToChange.Length; i++)
-            {
-                try
-                {
-                    find.Text = pairsToChange[i].Key;
-                    find.Replacement.Text = pairsToChange[i].Value;
-
-                    object wrap = Word.WdFindWrap.wdFindContinue;
-                    object replace = Word.WdReplace.wdReplaceAll;
-
-                    find.Execute(FindText: mis, MatchSoundsLike: mis, Forward: true,
-                        Wrap: wrap, ReplaceWith: mis, Replace: replace);
-                }
-                catch { i--; }
-            }
-
-            wordApp.Visible = true;
-        }
-
         private void GenerateContract_Click(object sender, EventArgs e)
         {
+            GenerateContractB.Cursor = Cursors.WaitCursor;
+
             if (File.Exists(fileTeplate) == false)
             {
                 MessageBox.Show("Не удалось найти шаблон файла для составления договора", "Ошибка файла",
@@ -78,14 +52,18 @@ namespace TestWinForms
                 new KeyValuePair<string, string>( "<service>", ServiceCB.Text ),
                 new KeyValuePair<string, string>( "<employee>", NotaryEmpCB.Text ),
                 new KeyValuePair<string, string>( "<discount>", DiscountCB.Text ),
-                new KeyValuePair<string, string>( "<date>", Calendar.SelectionStart.ToString("dd.MM.yyyy") ),
+                new KeyValuePair<string, string>("<activity>", Algorithms.Notary.Client.FirstOrDefault(x=>
+                                                               x.Name == ClientCB.Text).Activity),
                 new KeyValuePair<string, string>( "<price>", (from serv in Algorithms.Notary.Service
                                                              where serv.NewFlag == 1
                                                              where serv.Name == ServiceCB.Text
-                                                             select serv.Price).ToList().First().ToString())
+                                                             select serv.Price).ToList().First().ToString()),
+                new KeyValuePair<string, string>("<day>", Calendar.SelectionStart.Day.ToString()),
+                new KeyValuePair<string, string>("<month>", Calendar.SelectionStart.ToString("MMMM")),
+                new KeyValuePair<string, string>("<year>", Calendar.SelectionStart.Year.ToString()),
             };
 
-            DisplayInWord(pairsToChange);
+            ReportCreator.GenerateContract(pairsToChange);
 
             this.Close();
         }

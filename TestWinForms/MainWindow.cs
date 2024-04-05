@@ -7,15 +7,13 @@ using System.Windows.Forms;
 
 namespace TestWinForms
 {
-    public partial class MainWindow : Form// TODO изменение удаление заказа в течение дня, поиск с начала строки
+    public partial class MainWindow : Form
     {
         private Algorithms.Type CurrentTable;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            Grid.DataSource = Algorithms.GetVisibleOrders();
 
             MoneyTextBox.Text = Algorithms.CalculateLastMonthlyProfit().ToString();
             ChangeCurrentTable(Algorithms.Type.Order);
@@ -124,7 +122,7 @@ namespace TestWinForms
 
             Grid.DataSource = (from obj in list
                                where field.GetValue(obj).ToString().ToLower()
-                               .Contains(SearchFieldTB.Text.ToLower())
+                               .StartsWith(SearchFieldTB.Text.ToLower())
                                select obj).ToList();
         }
 
@@ -149,6 +147,7 @@ namespace TestWinForms
                 case Algorithms.Type.Order:
                     TableSelectCB.DataSource = VisibleOrder.GetFieldsName();
                     Grid.DataSource = Algorithms.GetVisibleOrders();
+                    MoneyTextBox.Text = Algorithms.CalculateLastMonthlyProfit().ToString();
                     break;
                 case Algorithms.Type.Discount:
                     TableSelectCB.DataSource = VisibleDiscount.GetFieldsName();
@@ -213,18 +212,25 @@ namespace TestWinForms
                     }
                 case Algorithms.Type.Order:
                     {
-                        if (Grid.Rows[index].Cells[3].Value.ToString() != DateTime.Now.ToString("dd.MM.yyyy"))
+                        if (DateTime.Now.Date.ToString() != Grid.Rows[index].Cells[3].Value.ToString())
                         {
-                            MessageBox.Show("");
+                            MessageBox.Show("Этот заказ оформлен более одного дня назад\n" +
+                                "Заказы, оформленные позже сегодняшней даты, нельзя изменить", "Нельзя изменить заказ",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
                         }
-                        //ChangeElement changeElement = new ChangeElement(Algorithms.Notary.Order.FirstOrDefault(x => 
-                        //    x.Date.ToString("dd.MM.yyyy") == Grid.Rows[index].Cells[3].Value.ToString() &&
-                        //    x.Cl.ToString("dd.MM.yyyy") == Grid.Rows[index].Cells[3].Value.ToString()));
-                        //changeElement.ShowDialog();
+
+                        ChangeElement changeElement = new ChangeElement(Algorithms.Notary.Order.FirstOrDefault(x =>
+                            x.Date.Date == DateTime.Parse(Grid.Rows[index].Cells[3].Value.ToString()).Date &&
+                            x.Client.Name == Grid.Rows[index].Cells[0].Value.ToString() &&
+                            x.Service.Name == Grid.Rows[index].Cells[1].Value.ToString() &&
+                            x.Employee.Name == Grid.Rows[index].Cells[2].Value.ToString()));
+                        changeElement.ShowDialog();
 
                         break;
                     }
             }
+            MoneyTextBox.Text = Algorithms.CalculateLastMonthlyProfit().ToString();
             ChangeCurrentTable(CurrentTable);
         }
 
@@ -253,8 +259,30 @@ namespace TestWinForms
                         x.Name == (obj as VisibleEmployee).Имя && x.DismissalDate == null).DismissalDate = DateTime.Now;
 
                         break;
+                    case "VisibleOrder":
+                        if (DateTime.Now.Date.ToString() != Grid.Rows[Grid.CurrentCell.RowIndex].Cells[3].Value.ToString())
+                        {
+                            MessageBox.Show("Этот заказ оформлен более одного дня назад\n" +
+                                "Заказы, оформленные позже сегодняшней даты, нельзя удалить", "Нельзя изменить заказ",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
+                        Order toDelete = Algorithms.Notary.Order.FirstOrDefault(x =>
+                        x.Date.Date == DateTime.Parse(Grid.Rows[Grid.CurrentRow.Index].Cells[3].Value.ToString()).Date &&
+                        x.Client.Name == (obj as VisibleOrder).Клиент &&
+                        x.Service.Name == (obj as VisibleOrder).Услуга &&
+                        x.Discount.Percent == (obj as VisibleOrder).Скидка &&
+                        x.Employee.Name == (obj as VisibleOrder).Нотариус);
+
+                        Algorithms.Notary.Order.DeleteOnSubmit(toDelete);
+
+                        break;
                 }
+
                 Algorithms.Notary.SubmitChanges();
+                MoneyTextBox.Text = Algorithms.CalculateLastMonthlyProfit().ToString();
+
                 ChangeCurrentTable(CurrentTable);
             }
         }

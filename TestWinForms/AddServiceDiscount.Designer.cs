@@ -114,6 +114,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AddServiceDiscount";
+            this.ShowInTaskbar = false;
             this.Text = "AddServiceDiscount";
             this.ResumeLayout(false);
             this.PerformLayout();

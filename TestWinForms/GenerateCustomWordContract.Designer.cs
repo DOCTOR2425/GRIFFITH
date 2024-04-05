@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.GenerateContract = new System.Windows.Forms.Button();
+            this.GenerateContractB = new System.Windows.Forms.Button();
             this.ClientCB = new System.Windows.Forms.ComboBox();
             this.ServiceCB = new System.Windows.Forms.ComboBox();
             this.NotaryEmpCB = new System.Windows.Forms.ComboBox();
@@ -41,18 +41,18 @@
             this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // GenerateContract
+            // GenerateContractB
             // 
-            this.GenerateContract.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.GenerateContract.Location = new System.Drawing.Point(418, 269);
-            this.GenerateContract.MaximumSize = new System.Drawing.Size(192, 41);
-            this.GenerateContract.MinimumSize = new System.Drawing.Size(192, 41);
-            this.GenerateContract.Name = "GenerateContract";
-            this.GenerateContract.Size = new System.Drawing.Size(192, 41);
-            this.GenerateContract.TabIndex = 0;
-            this.GenerateContract.Text = "Сгенерировать договор";
-            this.GenerateContract.UseVisualStyleBackColor = true;
-            this.GenerateContract.Click += new System.EventHandler(this.GenerateContract_Click);
+            this.GenerateContractB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.GenerateContractB.Location = new System.Drawing.Point(418, 269);
+            this.GenerateContractB.MaximumSize = new System.Drawing.Size(192, 41);
+            this.GenerateContractB.MinimumSize = new System.Drawing.Size(192, 41);
+            this.GenerateContractB.Name = "GenerateContractB";
+            this.GenerateContractB.Size = new System.Drawing.Size(192, 41);
+            this.GenerateContractB.TabIndex = 0;
+            this.GenerateContractB.Text = "Сгенерировать договор";
+            this.GenerateContractB.UseVisualStyleBackColor = true;
+            this.GenerateContractB.Click += new System.EventHandler(this.GenerateContract_Click);
             // 
             // ClientCB
             // 
@@ -166,11 +166,12 @@
             this.Controls.Add(this.NotaryEmpCB);
             this.Controls.Add(this.ServiceCB);
             this.Controls.Add(this.ClientCB);
-            this.Controls.Add(this.GenerateContract);
+            this.Controls.Add(this.GenerateContractB);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "GenerateCustomWordContract";
+            this.ShowInTaskbar = false;
             this.Text = "Выбор данных для договора";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -179,7 +180,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button GenerateContract;
+        private System.Windows.Forms.Button GenerateContractB;
         private System.Windows.Forms.ComboBox ClientCB;
         private System.Windows.Forms.ComboBox ServiceCB;
         private System.Windows.Forms.ComboBox NotaryEmpCB;

@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.AddOrderButton = new System.Windows.Forms.Button();
+            this.AddOrderB = new System.Windows.Forms.Button();
             this.AddNewClientChB = new System.Windows.Forms.CheckBox();
             this.DiscountL = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -46,17 +46,17 @@
             this.ClientInfoL = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // AddOrderButton
+            // AddOrderB
             // 
-            this.AddOrderButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddOrderButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AddOrderButton.Location = new System.Drawing.Point(336, 310);
-            this.AddOrderButton.Name = "AddOrderButton";
-            this.AddOrderButton.Size = new System.Drawing.Size(250, 57);
-            this.AddOrderButton.TabIndex = 9;
-            this.AddOrderButton.Text = "Добавить заказ";
-            this.AddOrderButton.UseVisualStyleBackColor = true;
-            this.AddOrderButton.Click += new System.EventHandler(this.AddOrderButton_Click);
+            this.AddOrderB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.AddOrderB.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.AddOrderB.Location = new System.Drawing.Point(336, 310);
+            this.AddOrderB.Name = "AddOrderB";
+            this.AddOrderB.Size = new System.Drawing.Size(250, 57);
+            this.AddOrderB.TabIndex = 9;
+            this.AddOrderB.Text = "Добавить заказ";
+            this.AddOrderB.UseVisualStyleBackColor = true;
+            this.AddOrderB.Click += new System.EventHandler(this.AddOrderButton_Click);
             // 
             // AddNewClientChB
             // 
@@ -234,7 +234,7 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.DiscountL);
             this.Controls.Add(this.AddNewClientChB);
-            this.Controls.Add(this.AddOrderButton);
+            this.Controls.Add(this.AddOrderB);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -247,7 +247,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button AddOrderButton;
+        private System.Windows.Forms.Button AddOrderB;
         private System.Windows.Forms.CheckBox AddNewClientChB;
         private System.Windows.Forms.Label DiscountL;
         private System.Windows.Forms.Label label6;
