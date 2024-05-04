@@ -1,38 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using Word = Microsoft.Office.Interop.Word;
 
 namespace TestWinForms
 {
-    public class ReportCreator// TODO Розочка стат работника для отчёта
+    public class ReportCreator// TODO Сделать розочке максимальное значение
     {
-        public static string fileTeplate { get { return "D:\\Project\\Course_3\\Проект GRIFFITH\\GRIFFITH\\TestWinForms\\Template.docx"; } }
+        public static string FileTeplate { get { return "Template.docx"; } }
 
-        public static void GenerateContract(KeyValuePair<string, string>[] pairsToChange)
+        public static void GenerateContract(Dictionary<string, string> pairsToChange)
         {
-            if (File.Exists(fileTeplate) == false)
+            if (File.Exists(FileTeplate) == false)
             {
                 MessageBox.Show("Не удалось найти шаблон файла для составления договора", "Ошибка файла",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
+            string newFile = GetValidFile(pairsToChange["<client>"] + " " + pairsToChange["<service>"]);
+
+            AddEndDate(pairsToChange);
+            MessageBox.Show(pairsToChange["<day2>"]);
+
             var wordApp = new Word.Application();
-            object mis = Type.Missing;
-            wordApp.Documents.Open(fileTeplate);
 
-            Word.Find find = wordApp.Selection.Find;
-
-            for (int i = 0; i < pairsToChange.Length; i++)
+            try
             {
-                try
+                File.Copy(FileTeplate, newFile);
+                wordApp.Documents.Open(newFile);
+                object mis = Type.Missing;
+
+                Word.Find find = wordApp.Selection.Find;
+
+                for (int i = 0; i < pairsToChange.Count; i++)
                 {
-                    find.Text = pairsToChange[i].Key;
-                    find.Replacement.Text = pairsToChange[i].Value;
+                    find.Text = pairsToChange.ElementAt(i).Key;
+                    find.Replacement.Text = pairsToChange.ElementAt(i).Value;
 
                     object wrap = Word.WdFindWrap.wdFindContinue;
                     object replace = Word.WdReplace.wdReplaceAll;
@@ -40,65 +49,68 @@ namespace TestWinForms
                     find.Execute(FindText: mis, MatchSoundsLike: mis, Forward: true,
                         Wrap: wrap, ReplaceWith: mis, Replace: replace);
                 }
-                catch { i--; }
-            }
 
-            wordApp.Visible = true;
+                wordApp.Visible = true;
+                wordApp.ActiveDocument.Save();
+            }
+            catch (COMException ex)
+            {
+                MessageBox.Show("Для составления договора закройте шаблон",
+                    "Ошибка файла", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка файла", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        public static void GenerateContract(Order order)
+        private static string GetValidFile(string name)
         {
-            if (File.Exists(fileTeplate) == false)
+            name = Environment.CurrentDirectory + "\\" + name + ".docx";
+            if (File.Exists(name) == false)
+                return name;
+
+            int number = 2;
+            string newName = name.Insert(name.Length - 5, number.ToString());
+            while (File.Exists(newName))
             {
-                MessageBox.Show("Не удалось найти шаблон файла для составления договора", "Ошибка файла",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                number++;
+                newName = name.Insert(name.Length - 5, number.ToString());
             }
-
-            KeyValuePair<string, string>[] pairsToChange = GetPairsToChange(order);
-
-            var wordApp = new Word.Application();
-            object mis = Type.Missing;
-            wordApp.Documents.Open(fileTeplate);
-
-            Word.Find find = wordApp.Selection.Find;
-
-            for (int i = 0; i < pairsToChange.Length; i++)
-            {
-                try
-                {
-                    find.Text = pairsToChange[i].Key;
-                    find.Replacement.Text = pairsToChange[i].Value;
-
-                    object wrap = Word.WdFindWrap.wdFindContinue;
-                    object replace = Word.WdReplace.wdReplaceAll;
-
-                    find.Execute(FindText: mis, MatchSoundsLike: mis, Forward: true,
-                        Wrap: wrap, ReplaceWith: mis, Replace: replace);
-                }
-                catch { i--; }
-            }
-
-            wordApp.Visible = true;
+            return newName;
         }
 
-        private static KeyValuePair<string, string>[] GetPairsToChange(Order order)
+        private static Dictionary<string, string> GetPairsToChange(Order order)
         {
-            return new KeyValuePair<string, string>[9]
+            return new Dictionary<string, string>
             {
-                new KeyValuePair<string, string>( "<client>", order.Client.Name ),
-                new KeyValuePair<string, string>( "<service>", order.Service.Name ),
-                new KeyValuePair<string, string>( "<employee>", order.Employee.Name ),
-                new KeyValuePair<string, string>( "<price>", order.Service.Price.ToString() ),
-                new KeyValuePair<string, string>( "<discount>", order.Discount.Percent.ToString() ),
+                {"<client>", order.Client.Name },
+                { "<service>", order.Service.Name },
+                { "<employee>", order.Employee.Name },
+                { "<price>", order.Service.Price.ToString() },
+                { "<discount>", order.Discount.Percent.ToString() },
 
-                new KeyValuePair<string, string>("<day>", order.Date.Day.ToString()),
-                new KeyValuePair<string, string>("<month>", order.Date.ToString("MMMM")),
-                new KeyValuePair<string, string>("<year>", order.Date.Year.ToString()),
-
-                new KeyValuePair<string, string>( "<activity>", order.Client.Activity)
+                { "<day>", order.Date.Day.ToString() },
+                { "<month>", order.Date.ToString("MMMM") },
+                { "<year>", order.Date.Year.ToString() }
             };
+        }
 
+        private static void AddEndDate(Dictionary<string, string> pair)
+        {
+            int month = DateTime.ParseExact(pair["<month>"], "MMMM", CultureInfo.CurrentCulture).Month;
+            if (month == 12)
+            {
+                pair.Add("<year2>", (Convert.ToInt32(pair["<year>"]) + 1).ToString());
+                pair.Add("<month2>", "Январь");
+            }
+            else
+            {
+                pair.Add("<year2>", pair["<year>"]);
+                pair.Add("<month2>", new DateTime(2024, month + 1, 1).ToString("MMMM"));
+            }
+
+            pair.Add("<day2>", DateTime.DaysInMonth(Convert.ToInt32(pair["<year2>"]), month + 1).ToString());
         }
 
         public static Excel.Application GenerateExcelReport(List<VisibleOrder> orders)
@@ -133,8 +145,91 @@ namespace TestWinForms
                       where ord.Нотариус == employee.Name
                       select ord).ToList();
 
-            CreateProfitStatistic(excelApp.ActiveWorkbook, orders, employee);
-            CreateEmployeeServiceStatistic(excelApp.ActiveWorkbook, orders, employee);
+            if (orders.Count() != 0)
+            {
+                CreateProfitStatistic(excelApp.ActiveWorkbook, orders, employee);
+                CreateEmployeeServiceStatistic(excelApp.ActiveWorkbook, orders, employee);
+                EmployeePentagram(excelApp.ActiveWorkbook, employee);
+            }
+            else
+            {
+                MessageBox.Show("У работника " + employee.Name + " нет выполненных заказов", "Нет данных для статистики",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        public static void EmployeePentagram(Excel.Workbook currentApp, Employee employee)
+        {
+            double[] stats = CalculateStats(employee);
+
+            var excelApp = currentApp.Worksheets.Add();
+            excelApp.Name = "Для статок";
+
+            Dictionary<string, double> fullStats = new Dictionary<string, double>
+            {
+                { "Опыт работы", stats[0] },
+                { "Колличество заказов", stats[1] },
+                { "Средняя цена за заказ", stats[2] },
+                { "Опыт работы1", stats[3] },// поменять
+                { "Опыт работы2", stats[4] }//  поменять
+            };
+
+            for (int i = 0; i < fullStats.Count; i++)
+            {
+                excelApp.Cells[i + 1, 1] = fullStats.Keys.ToArray()[i];
+                excelApp.Cells[i + 1, 2] = fullStats.Values.ToArray()[i];
+
+                excelApp.Columns.AutoFit();
+            }
+
+            currentApp.Charts.Add();
+            currentApp.ActiveChart.ChartType = Excel.XlChartType.xlRadar;
+            currentApp.ActiveChart.HasLegend = false;
+            currentApp.ActiveChart.HasTitle = true;
+
+            currentApp.ActiveChart.Name = "Стата " + employee.Name;
+
+            currentApp.ActiveChart.ChartTitle.Characters.Text = "СТАТА " + employee.Name;
+        }
+        private static double[] CalculateStats(Employee employee)
+        {
+            double[] maxStats = new double[5];
+            foreach (Employee emp in Algorithms.Notary.Employee)
+            {   //  опыт работы
+                if ((DateTime.Now.Date - emp.HireDate.Date).Days > maxStats[0])
+                    maxStats[0] = (DateTime.Now.Date - emp.HireDate.Date).Days;
+                //  колличество заказов
+                int servCount = (from ord in Algorithms.Notary.Order
+                                 where ord.EmployeeID == emp.EmployeeID
+                                 select ord).Count();
+
+                if (servCount > maxStats[1])
+                    maxStats[1] = servCount;
+                //  средняя цена за заказ
+                try
+                {
+                    double averageProffit = (from ord in Algorithms.Notary.Order
+                                             where ord.EmployeeID == emp.EmployeeID
+                                             select ord.Service.Price).Average();
+
+                    if (averageProffit > maxStats[2])
+                        maxStats[2] = averageProffit;
+                }
+                catch { }
+            }
+            maxStats[3] = 5;
+            maxStats[4] = 5;
+
+            maxStats[0] = (DateTime.Now.Date - employee.HireDate.Date).Days / maxStats[0] * 10;
+            maxStats[1] = (from ord in Algorithms.Notary.Order
+                           where ord.EmployeeID == employee.EmployeeID
+                           select ord).Count() / maxStats[1] * 10;
+
+            maxStats[2] = (from ord in Algorithms.Notary.Order
+                           where ord.EmployeeID == employee.EmployeeID
+                           select ord.Service.Price).Average() / maxStats[2] * 10;
+
+            return maxStats;
         }
 
         private static void CreateEmployeeServiceStatistic(Excel.Workbook currentApp, List<VisibleOrder> orders, Employee employee)
@@ -168,14 +263,10 @@ namespace TestWinForms
 
             for (int i = 0; i < profit.Count; i++)
             {
-                try
-                {
-                    excelApp.Cells[i + 1, 1] = profit.Keys.ToArray()[i];
-                    excelApp.Cells[i + 1, 2] = profit.Values.ToArray()[i];
+                excelApp.Cells[i + 1, 1] = profit.Keys.ToArray()[i];
+                excelApp.Cells[i + 1, 2] = profit.Values.ToArray()[i];
 
-                    excelApp.Columns.AutoFit();
-                }
-                catch { i--; }
+                excelApp.Columns.AutoFit();
             }
 
             currentApp.Charts.Add();
@@ -207,14 +298,10 @@ namespace TestWinForms
 
             for (int i = 0; i < profit.Count; i++)
             {
-                try
-                {
-                    excelApp.Cells[i + 1, 1] = profit.Keys.ToArray()[i];
-                    excelApp.Cells[i + 1, 2] = profit.Values.ToArray()[i];
+                excelApp.Cells[i + 1, 1] = profit.Keys.ToArray()[i];
+                excelApp.Cells[i + 1, 2] = profit.Values.ToArray()[i];
 
-                    excelApp.Columns.AutoFit();
-                }
-                catch { i--; }
+                excelApp.Columns.AutoFit();
             }
 
             currentApp.Charts.Add();
@@ -249,31 +336,23 @@ namespace TestWinForms
 
             for (int i = 0; i < orders.Count(); i++)
             {
-                try
-                {
-                    excelApp.Cells[i + 2, 1] = orders[i].Клиент;
-                    excelApp.Cells[i + 2, 2] = orders[i].Услуга;
-                    excelApp.Cells[i + 2, 3] = orders[i].Нотариус;
-                    excelApp.Cells[i + 2, 4] = orders[i].Дата;
-                    excelApp.Cells[i + 2, 5] = orders[i].Цена;
-                    excelApp.Cells[i + 2, 6] = orders[i].Скидка;
-                }
-                catch { i--; }
+                excelApp.Cells[i + 2, 1] = orders[i].Клиент;
+                excelApp.Cells[i + 2, 2] = orders[i].Услуга;
+                excelApp.Cells[i + 2, 3] = orders[i].Нотариус;
+                excelApp.Cells[i + 2, 4] = orders[i].Дата;
+                excelApp.Cells[i + 2, 5] = orders[i].Цена;
+                excelApp.Cells[i + 2, 6] = orders[i].Скидка;
             }
 
             while (true)
             {
-                try
-                {
-                    excelApp.Columns[1].AutoFit();
-                    excelApp.Columns[2].AutoFit();
-                    excelApp.Columns[3].AutoFit();
-                    excelApp.Columns[4].AutoFit();
-                    excelApp.Columns[5].AutoFit();
-                    excelApp.Columns[6].AutoFit();
-                    break;
-                }
-                catch { }
+                excelApp.Columns[1].AutoFit();
+                excelApp.Columns[2].AutoFit();
+                excelApp.Columns[3].AutoFit();
+                excelApp.Columns[4].AutoFit();
+                excelApp.Columns[5].AutoFit();
+                excelApp.Columns[6].AutoFit();
+                break;
             }
         }
 
@@ -284,14 +363,8 @@ namespace TestWinForms
 
             for (int i = 0; i < earnings.Count; i++)
             {
-                try
-                {
-                    excelApp.Cells[i + 1, 1] = earnings.Keys.ToArray()[i];
-                    excelApp.Cells[i + 1, 2] = earnings.Values.ToArray()[i];
-
-                    excelApp.Columns.AutoFit();
-                }
-                catch { i--; }
+                excelApp.Cells[i + 1, 1] = earnings.Keys.ToArray()[i];
+                excelApp.Cells[i + 1, 2] = earnings.Values.ToArray()[i];
             }
 
             currentApp.Charts.Add();
@@ -369,6 +442,9 @@ namespace TestWinForms
 
         private static int GetTimeSpan(List<VisibleOrder> orders)
         {
+            if (orders.Count == 0)
+                return 0;
+
             DateTime start = orders[0].Дата;
             DateTime end = orders[0].Дата;
 

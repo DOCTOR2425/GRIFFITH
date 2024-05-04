@@ -8,8 +8,6 @@ namespace TestWinForms
 {
     public partial class GenerateCustomWordContract : Form
     {
-        string fileTeplate = "D:\\Project\\Course_3\\Проект GRIFFITH\\GRIFFITH\\TestWinForms\\Template.docx";
-
         public GenerateCustomWordContract()
         {
             InitializeComponent();
@@ -31,7 +29,7 @@ namespace TestWinForms
                                      select emp.Name;
 
             DiscountCB.DataSource = from disc in Algorithms.Notary.Discount
-                                    where disc.NewFlag == 1
+                                    where disc.NewFlag == 1 || disc.Name == "ZERO"
                                     select disc.Name;
         }
 
@@ -39,28 +37,19 @@ namespace TestWinForms
         {
             GenerateContractB.Cursor = Cursors.WaitCursor;
 
-            if (File.Exists(fileTeplate) == false)
+            Dictionary<string, string> pairsToChange = new Dictionary<string, string>()
             {
-                MessageBox.Show("Не удалось найти шаблон файла для составления договора", "Ошибка файла",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            KeyValuePair<string, string>[] pairsToChange = new KeyValuePair<string, string>[]
-            {
-                new KeyValuePair<string, string>( "<client>", ClientCB.Text ),
-                new KeyValuePair<string, string>( "<service>", ServiceCB.Text ),
-                new KeyValuePair<string, string>( "<employee>", NotaryEmpCB.Text ),
-                new KeyValuePair<string, string>( "<discount>", DiscountCB.Text ),
-                new KeyValuePair<string, string>("<activity>", Algorithms.Notary.Client.FirstOrDefault(x=>
-                                                               x.Name == ClientCB.Text).Activity),
-                new KeyValuePair<string, string>( "<price>", (from serv in Algorithms.Notary.Service
-                                                             where serv.NewFlag == 1
-                                                             where serv.Name == ServiceCB.Text
-                                                             select serv.Price).ToList().First().ToString()),
-                new KeyValuePair<string, string>("<day>", Calendar.SelectionStart.Day.ToString()),
-                new KeyValuePair<string, string>("<month>", Calendar.SelectionStart.ToString("MMMM")),
-                new KeyValuePair<string, string>("<year>", Calendar.SelectionStart.Year.ToString()),
+                { "<client>", ClientCB.Text },
+                { "<service>", ServiceCB.Text },
+                { "<employee>", NotaryEmpCB.Text },
+                { "<discount>", Algorithms.Notary.Discount.FirstOrDefault(
+                    x=> x.Name == DiscountCB.Text && x.NewFlag == 1 ||
+                    DiscountCB.Text == "ZERO" && x.Name == "ZERO").Percent.ToString()},
+                { "<price>", Algorithms.Notary.Service.FirstOrDefault(
+                    x=> x.NewFlag == 1 && x.Name == ServiceCB.Text).Price.ToString()},
+                {"<day>", Calendar.SelectionStart.Day.ToString()},
+                {"<month>", Calendar.SelectionStart.ToString("MMMM")},
+                {"<year>", Calendar.SelectionStart.Year.ToString()},
             };
 
             ReportCreator.GenerateContract(pairsToChange);

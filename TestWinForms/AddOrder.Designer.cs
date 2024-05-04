@@ -63,9 +63,9 @@
             this.AddNewClientChB.AutoSize = true;
             this.AddNewClientChB.Location = new System.Drawing.Point(12, 121);
             this.AddNewClientChB.Name = "AddNewClientChB";
-            this.AddNewClientChB.Size = new System.Drawing.Size(225, 20);
+            this.AddNewClientChB.Size = new System.Drawing.Size(177, 20);
             this.AddNewClientChB.TabIndex = 4;
-            this.AddNewClientChB.Text = "Выбор добавленного клиента";
+            this.AddNewClientChB.Text = "Выбор нового клиента";
             this.AddNewClientChB.UseVisualStyleBackColor = true;
             this.AddNewClientChB.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
             // 

@@ -5,10 +5,10 @@ using System.Windows.Forms;
 
 namespace TestWinForms
 {
-    public partial class ChangeElement : Form// TODO сделать маску комбобоксам (по возможности)
+    public partial class ChangeElement : Form
     {
         private object objToChange;
-
+        
         public ChangeElement(object objToChange)
         {
             InitializeComponent();
@@ -173,7 +173,8 @@ namespace TestWinForms
                 Name = Field1CB.Text,
                 Price = Convert.ToDouble(Field2CB.Text),
                 Description = Field3CB.Text,
-                NewFlag = 1
+                NewFlag = 1,
+                ServiceID = Guid.NewGuid()
             };
 
             Algorithms.Notary.Service.InsertOnSubmit(newServ);
@@ -188,7 +189,8 @@ namespace TestWinForms
                 Name = Field1CB.Text,
                 Percent = Convert.ToDouble(Field2CB.Text),
                 Description = Field3CB.Text,
-                NewFlag = 1
+                NewFlag = 1,
+                DiscountID = Guid.NewGuid()
             };
 
             Algorithms.Notary.Discount.InsertOnSubmit(newDisc);
@@ -196,17 +198,9 @@ namespace TestWinForms
 
         private void ChangeEmployee()
         {
-            (objToChange as Employee).DismissalDate = DateTime.Now;
-
-            Employee newEmp = new Employee()
-            {
-                Name = Field1CB.Text,
-                Salary = Convert.ToDouble(Field2CB.Text),
-                Post = Field3CB.Text,
-                HireDate = (objToChange as Employee).HireDate
-            };
-
-            Algorithms.Notary.Employee.InsertOnSubmit(newEmp);
+            (objToChange as Employee).Name = Field1CB.Text;
+            (objToChange as Employee).Salary = Convert.ToDouble(Field2CB.Text);
+            (objToChange as Employee).Post = Field3CB.Text;
         }
 
         private void ChangeClient()

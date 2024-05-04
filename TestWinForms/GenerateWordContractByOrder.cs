@@ -6,10 +6,8 @@ using System.Linq;
 
 namespace TestWinForms
 {
-    public partial class GenerateWordContractByOrder : Form// TODO Оформить договор нормально с шаблоном
+    public partial class GenerateWordContractByOrder : Form
     {
-        string fileTeplate = "D:\\Project\\Course_3\\Проект GRIFFITH\\GRIFFITH\\TestWinForms\\Template.docx";
-
         public GenerateWordContractByOrder()
         {
             InitializeComponent();
@@ -21,29 +19,18 @@ namespace TestWinForms
         {
             GenerateContractB.Cursor = Cursors.WaitCursor;
 
-            if (File.Exists(fileTeplate) == false)
-            {
-                MessageBox.Show("Не удалось найти шаблон файла для составления договора", "Ошибка файла",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
             int selectedRow = Grid.CurrentRow.Index;
 
-            KeyValuePair<string, string>[] pairsToChange = new KeyValuePair<string, string>[9]
+            Dictionary<string, string> pairsToChange = new Dictionary<string, string>()
             {
-                new KeyValuePair<string, string>( "<client>", Grid.Rows[selectedRow].Cells[0].Value.ToString() ),
-                new KeyValuePair<string, string>( "<service>", Grid.Rows[selectedRow].Cells[1].Value.ToString() ),
-                new KeyValuePair<string, string>( "<employee>", Grid.Rows[selectedRow].Cells[2].Value.ToString() ),
-                new KeyValuePair<string, string>( "<price>", Grid.Rows[selectedRow].Cells[4].Value.ToString() ),
-                new KeyValuePair<string, string>( "<discount>", Grid.Rows[selectedRow].Cells[5].Value.ToString() ),
-
-                new KeyValuePair<string, string>("<day>", ((DateTime)Grid.Rows[selectedRow].Cells[3].Value).Day.ToString()),
-                new KeyValuePair<string, string>("<month>", ((DateTime)Grid.Rows[selectedRow].Cells[3].Value).ToString("MMMM")),
-                new KeyValuePair<string, string>("<year>", ((DateTime)Grid.Rows[selectedRow].Cells[3].Value).Year.ToString()),
-
-                new KeyValuePair<string, string>( "<activity>", Algorithms.Notary.Client.FirstOrDefault(
-                    x=> x.Name == Grid.Rows[selectedRow].Cells[0].Value.ToString()).Activity),
+                { "<client>", Grid.Rows[selectedRow].Cells[0].Value.ToString() },
+                { "<service>", Grid.Rows[selectedRow].Cells[1].Value.ToString() },
+                { "<employee>", Grid.Rows[selectedRow].Cells[2].Value.ToString() },
+                { "<price>", Grid.Rows[selectedRow].Cells[4].Value.ToString() },
+                { "<discount>", Grid.Rows[selectedRow].Cells[5].Value.ToString() },
+                { "<day>", ((DateTime)Grid.Rows[selectedRow].Cells[3].Value).Day.ToString() },
+                { "<month>", ((DateTime)Grid.Rows[selectedRow].Cells[3].Value).ToString("MMMM") },
+                { "<year>", ((DateTime)Grid.Rows[selectedRow].Cells[3].Value).Year.ToString() }
             };
 
             ReportCreator.GenerateContract(pairsToChange);

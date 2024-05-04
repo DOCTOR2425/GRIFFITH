@@ -30,12 +30,12 @@ namespace TestWinForms
                 return;
             }
             var excel = ReportCreator.GenerateExcelReport(orders);
+            excel.Visible = true;
 
             if (EmployeeSelectChB.Checked)
                 ReportCreator.GenerateExlelEmployeeStatistic(excel, orders, Algorithms.Notary.Employee.FirstOrDefault(
                     x => x.Name == EmployeeSelectCB.Text && x.DismissalDate == null));
 
-            excel.Visible = true;
 
             this.Close();
         }

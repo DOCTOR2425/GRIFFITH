@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Remoting.Messaging;
 using System.Windows.Forms;
 
 namespace TestWinForms
@@ -30,32 +31,80 @@ namespace TestWinForms
 
         private bool ValidateInput()
         {
-            if (NameTB.Text == "" || ActivityTB.Text == "")
+            if (IsNameValid() == false)
             {
-                MessageBox.Show("Вы не ввели все данные в поля", "Ошибка данных",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                NameTB.Text = "";
+                MessageBox.Show("Неверно введённая данные ФИО клиента\nПроверьте правильность введённого ФИО клиента",
+                                "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
-
-            if (TelephoneTB.Text.Contains("_"))
+            if (IsTelephoneValid() == false)
             {
                 BirthDateTB.Text = "";
                 MessageBox.Show("Неверно введённая данные номера телефона\nПроверьте правильность введённого номера телефона",
                                 "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
                 return false;
             }
-
-            if (BirthDateTB.Text.Contains("_"))
+            if (ActivityTB.Text.Length < 4)
+            {
+                ActivityTB.Text = "";
+                MessageBox.Show("Неверно введённая данные активности клиента\nПроверьте правильность введённой активности клиента",
+                                "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (IsDateValid() == false)
             {
                 BirthDateTB.Text = "";
                 MessageBox.Show("Неверно введённая данные даты рождения\nПроверьте правильность введённой даты",
                                 "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
                 return false;
             }
 
             return true;
+        }
+
+        private bool IsDateValid()
+        {
+            if (BirthDateTB.Text.Contains("_"))
+                return false;
+            else if (DateTime.Parse(BirthDateTB.Text).Year - DateTime.Now.Year > 100)
+                return false;
+
+            return true;
+        }
+
+        private bool IsNameValid()
+        {
+            if (NameTB.Text.Contains(" ") == false)
+                return false;
+            else if (NameTB.Text.Length < 6)
+                return false;
+
+            foreach(char s in NameTB.Text)
+                if (Char.IsDigit(s))
+                    return false;
+
+            return true;
+        }
+
+        private bool IsTelephoneValid()
+        {
+            if (TelephoneTB.Text.Contains("_"))
+                return false;
+            foreach (char s in NameTB.Text)
+                if (Char.IsLetter(s))
+                    return false;
+
+
+            return true;
+        }
+
+        private void ActivityTB_Leave(object sender, EventArgs e)
+        {
+            if (ActivityTB.Text == "")
+                return;
+
+            ActivityTB.Text = Algorithms.ToUpperFirstLetter(ActivityTB.Text);
         }
     }
 }

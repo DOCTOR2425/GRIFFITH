@@ -81,6 +81,7 @@
             this.ActivityTB.Name = "ActivityTB";
             this.ActivityTB.Size = new System.Drawing.Size(305, 22);
             this.ActivityTB.TabIndex = 2;
+            this.ActivityTB.Leave += new System.EventHandler(this.ActivityTB_Leave);
             // 
             // NameTB
             // 

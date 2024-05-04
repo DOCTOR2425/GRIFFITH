@@ -150,6 +150,8 @@
             // 
             // EmployeeSelectCB
             // 
+            this.EmployeeSelectCB.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+            this.EmployeeSelectCB.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.EmployeeSelectCB.Enabled = false;
             this.EmployeeSelectCB.FormattingEnabled = true;
             this.EmployeeSelectCB.Location = new System.Drawing.Point(18, 434);

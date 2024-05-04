@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
@@ -101,10 +102,27 @@ namespace TestWinForms
             Algorithms.Notary.Order.InsertOnSubmit(order);
             Algorithms.Notary.SubmitChanges();
 
-            ReportCreator.GenerateContract(order);
+            ReportCreator.GenerateContract(GetPairsToChange(order));
 
             this.Close();
         }
+
+        private static Dictionary<string, string> GetPairsToChange(Order order)
+        {
+            return new Dictionary<string, string>
+            {
+                {"<client>", order.Client.Name },
+                { "<service>", order.Service.Name },
+                { "<employee>", order.Employee.Name },
+                { "<price>", order.Service.Price.ToString() },
+                { "<discount>", order.Discount.Percent.ToString() },
+
+                { "<day>", order.Date.Day.ToString() },
+                { "<month>", order.Date.ToString("MMMM") },
+                { "<year>", order.Date.Year.ToString() }
+            };
+        }
+
 
         private void AddNewClientB_Click(object sender, EventArgs e)
         {
