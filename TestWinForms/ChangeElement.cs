@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace TestWinForms
@@ -8,15 +9,15 @@ namespace TestWinForms
     public partial class ChangeElement : Form
     {
         private object objToChange;
-        
+
         public ChangeElement(object objToChange)
         {
             InitializeComponent();
 
             this.objToChange = objToChange;
-            
+
             FillLabels();
-            FillComboBoxesCollection();
+            FillComboBoxes();
             ResetChangesB_Click(new object(), new EventArgs());
         }
 
@@ -72,7 +73,7 @@ namespace TestWinForms
             }
         }
 
-        private void FillComboBoxesCollection()
+        private void FillComboBoxes()
         {
             switch (objToChange.GetType().Name)
             {
@@ -117,30 +118,33 @@ namespace TestWinForms
                 return;
             }
 
+            bool isComplite = false;
             try
             {
                 switch (objToChange.GetType().Name)
                 {
                     case "Service":
-                        ChangeService();
+                        isComplite = ChangeService();
                         break;
                     case "Discount":
-                        ChangeDiscount();
+                        isComplite = ChangeDiscount();
                         break;
                     case "Employee":
-                        ChangeEmployee();
+                        isComplite = ChangeEmployee();
                         break;
                     case "Client":
-                        ChangeClient();
+                        isComplite = ChangeClient();
                         break;
                     case "Order":
-                        ChangeOrder();
+                        isComplite = ChangeOrder();
                         break;
                     default:
                         MessageBox.Show("Ошибка выбора типа изменяемого объекта", "Системная ошибка",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                 }
+                if (isComplite == false)
+                    return;
 
                 Algorithms.Notary.SubmitChanges();
                 this.Close();
@@ -152,9 +156,9 @@ namespace TestWinForms
             }
         }
 
-        private void ChangeOrder()
+        private bool ChangeOrder()
         {
-            (objToChange as Order).Service = Algorithms.Notary.Service.FirstOrDefault(x=>
+            (objToChange as Order).Service = Algorithms.Notary.Service.FirstOrDefault(x =>
             x.Name == Field1CB.Text && x.NewFlag == 1);
 
             (objToChange as Order).Discount = Algorithms.Notary.Discount.FirstOrDefault(x =>
@@ -162,10 +166,20 @@ namespace TestWinForms
 
             (objToChange as Order).Employee = Algorithms.Notary.Employee.FirstOrDefault(x =>
             x.Name == Field3CB.Text && x.DismissalDate == null);
+
+            return true;
         }
 
-        private void ChangeService()
+        private bool ChangeService()
         {
+            if (ValidateNumber(20) == false)
+            {
+                MessageBox.Show("Неверно введённые данные о цене услуги\nВы ввели отрицательную или нулевую цену",
+                "Ошибка данных", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return false;
+            }
+
             (objToChange as Service).NewFlag = 0;
 
             Service newServ = new Service()
@@ -178,10 +192,21 @@ namespace TestWinForms
             };
 
             Algorithms.Notary.Service.InsertOnSubmit(newServ);
+
+            return true;
         }
 
-        private void ChangeDiscount()
+        private bool ChangeDiscount()
         {
+            if (ValidateNumber(1) == false)
+            {
+                Field2CB.Text = (objToChange as Discount).Percent.ToString();
+                MessageBox.Show("Неверно введённые данные о проценте скидки\nВы ввели отрицательный или нулевой процент",
+                    "Ошибка данных", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return false;
+            }
+
             (objToChange as Discount).NewFlag = 0;
 
             Discount newDisc = new Discount()
@@ -194,20 +219,89 @@ namespace TestWinForms
             };
 
             Algorithms.Notary.Discount.InsertOnSubmit(newDisc);
+
+            return true;
         }
 
-        private void ChangeEmployee()
+        private bool ChangeEmployee()
         {
+            if (ValidateName() == false)
+            {
+                Field1CB.Text = (objToChange as Employee).Name;
+                MessageBox.Show("Неверно введённая данные ФИО работника\nПроверьте правильность введённого ФИО работника",
+                    "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return false;
+            }
+            if (ValidateNumber(600) == false)
+            {
+                Field2CB.Text = (objToChange as Employee).Salary.ToString();
+                MessageBox.Show("Неверно введённые данные о зарплате\n" +
+                    "Вы ввели отрицательную или нулевую зарплату или неверный формат данных",
+                    "Ошибка данных", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return false;
+            }
+
             (objToChange as Employee).Name = Field1CB.Text;
             (objToChange as Employee).Salary = Convert.ToDouble(Field2CB.Text);
             (objToChange as Employee).Post = Field3CB.Text;
+
+            return true;
+        }
+        private bool ValidateNumber(int number)
+        {
+            if (double.TryParse(Field2CB.Text, out _) == false)
+                return false;
+            if (Convert.ToDouble(Field2CB.Text) < number)
+                return false;
+
+            return true;
         }
 
-        private void ChangeClient()
+        private bool ChangeClient()
         {
+            if (ValidateName() == false)
+            {
+                Field1CB.Text = (objToChange as Client).Name;
+                MessageBox.Show("Неверно введённая данные ФИО клиента\nПроверьте правильность введённого ФИО клиента",
+                    "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (ValidateClientTelephone() == false)
+            {
+                Field2CB.Text = (objToChange as Client).Telephone;
+                MessageBox.Show("Неверно введённая данные номера телефона\nПроверьте правильность введённого номера телефона",
+                "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return false;
+            }
+
             (objToChange as Client).Name = Field1CB.Text;
             (objToChange as Client).Telephone = Field2CB.Text;
             (objToChange as Client).Activity = Field3CB.Text;
+
+            return true;
+        }
+        private bool ValidateClientTelephone()
+        {
+            Regex regex = new Regex(@"^\+375\s\(((29)|(33)|(25)|(44))\)\s\d{3}-\d{2}-\d{2}$");
+            if (regex.IsMatch(Field2CB.Text) == false)
+                return false;
+            return true;
+        }
+        private bool ValidateName()
+        {
+            if (Field1CB.Text.Contains(" ") == false)
+                return false;
+            else if (Field1CB.Text.Length < 6)
+                return false;
+
+            foreach (char s in Field1CB.Text)
+                if (Char.IsDigit(s))
+                    return false;
+
+            return true;
         }
 
         private void ResetChangesB_Click(object sender, EventArgs e)

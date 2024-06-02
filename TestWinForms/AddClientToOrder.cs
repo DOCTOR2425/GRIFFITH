@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Remoting.Messaging;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace TestWinForms
@@ -54,9 +55,11 @@ namespace TestWinForms
             }
             if (IsDateValid() == false)
             {
-                BirthDateTB.Text = "";
-                MessageBox.Show("Неверно введённая данные даты рождения\nПроверьте правильность введённой даты",
+                MessageBox.Show("Неверно введённая данные даты рождения\nКлиент должен быть старше 18 лет и младше 120 лет\n" +
+                    "Текущий возраст клиента:" + (int)(DateTime.Now - DateTime.Parse(BirthDateTB.Text)).Days/365,
                                 "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                BirthDateTB.Text = "";
+
                 return false;
             }
 
@@ -65,9 +68,11 @@ namespace TestWinForms
 
         private bool IsDateValid()
         {
-            if (BirthDateTB.Text.Contains("_"))
+            if (DateTime.TryParse(BirthDateTB.Text, out _) == false)
                 return false;
-            else if (DateTime.Parse(BirthDateTB.Text).Year - DateTime.Now.Year > 100)
+            else if ((DateTime.Now - DateTime.Parse(BirthDateTB.Text)).Days < 365 * 18)
+                return false;
+            else if ((DateTime.Now - DateTime.Parse(BirthDateTB.Text)).Days > 365 * 120)
                 return false;
 
             return true;
@@ -80,7 +85,7 @@ namespace TestWinForms
             else if (NameTB.Text.Length < 6)
                 return false;
 
-            foreach(char s in NameTB.Text)
+            foreach (char s in NameTB.Text)
                 if (Char.IsDigit(s))
                     return false;
 
@@ -89,12 +94,9 @@ namespace TestWinForms
 
         private bool IsTelephoneValid()
         {
-            if (TelephoneTB.Text.Contains("_"))
+            Regex regex = new Regex(@"^\+375\s\(((29)|(33)|(25)|(44))\)\s\d{3}-\d{2}-\d{2}$");
+            if (regex.IsMatch(TelephoneTB.Text) == false)
                 return false;
-            foreach (char s in NameTB.Text)
-                if (Char.IsLetter(s))
-                    return false;
-
 
             return true;
         }

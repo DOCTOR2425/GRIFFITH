@@ -26,7 +26,6 @@ namespace TestWinForms
             string newFile = GetValidFile(pairsToChange["<client>"] + " " + pairsToChange["<service>"]);
 
             AddEndDate(pairsToChange);
-            MessageBox.Show(pairsToChange["<day2>"]);
 
             var wordApp = new Word.Application();
 
@@ -80,22 +79,6 @@ namespace TestWinForms
             return newName;
         }
 
-        private static Dictionary<string, string> GetPairsToChange(Order order)
-        {
-            return new Dictionary<string, string>
-            {
-                {"<client>", order.Client.Name },
-                { "<service>", order.Service.Name },
-                { "<employee>", order.Employee.Name },
-                { "<price>", order.Service.Price.ToString() },
-                { "<discount>", order.Discount.Percent.ToString() },
-
-                { "<day>", order.Date.Day.ToString() },
-                { "<month>", order.Date.ToString("MMMM") },
-                { "<year>", order.Date.Year.ToString() }
-            };
-        }
-
         private static void AddEndDate(Dictionary<string, string> pair)
         {
             int month = DateTime.ParseExact(pair["<month>"], "MMMM", CultureInfo.CurrentCulture).Month;
@@ -139,7 +122,7 @@ namespace TestWinForms
 
         public static void GenerateExlelEmployeeStatistic(Excel.Application excelApp, List<VisibleOrder> orders, Employee employee)
         {
-            // сделать розочку статистики(опыт в годах, выполненные заказы, средний зароботок в месяц, )
+            // сделать розочку статистики(опыт в годах, выполненные заказы, средний Заработок в месяц, )
             // высчитывать у всех работников максимальный показатель
             orders = (from ord in orders
                       where ord.Нотариус == employee.Name
@@ -280,7 +263,7 @@ namespace TestWinForms
         private static void CreateProfitStatistic(Excel.Workbook currentApp, List<VisibleOrder> orders, Employee employee)
         {
             var excelApp = currentApp.Worksheets.Add();
-            excelApp.Name = "Для зароботока за месяц";
+            excelApp.Name = "Для заработока за месяц";
 
             Dictionary<string, double> profit = new Dictionary<string, double>();
 
@@ -312,7 +295,7 @@ namespace TestWinForms
             currentApp.ActiveChart.Axes(Excel.XlAxisType.xlCategory).HasTitle = true;
 
             currentApp.ActiveChart.Axes(Excel.XlAxisType.xlValue).HasTitle = true;
-            currentApp.ActiveChart.Name = "Зароботок " + employee.Name;
+            currentApp.ActiveChart.Name = "Заработок " + employee.Name;
 
             currentApp.ActiveChart.Axes(Excel.XlAxisType.xlCategory).AxisTitle.Characters.Text = "Месяца";
             currentApp.ActiveChart.ChartTitle.Characters.Text = "ЗАРАБОТОК " + employee.Name + " ЗА " +
@@ -384,24 +367,24 @@ namespace TestWinForms
         {
             Dictionary<string, double> earnings = GetEmployeeEarnings(orders);
 
-            var empChart = CreateNewChart(currentApp, earnings, "Зароботок с рабочих");
+            var empChart = CreateNewChart(currentApp, earnings, "Заработок с рабочих");
 
             empChart.Axes(Excel.XlAxisType.xlCategory).AxisTitle.Characters.Text = "Работники";
             empChart.ChartTitle.Characters.Text = "ЗАРАБОТОК С РАБОЧИХ ЗА " +
                 GetTimeSpan(orders) + " МЕСЯЦЕВ";
-            empChart.Axes(Excel.XlAxisType.xlValue).AxisTitle.Characters.Text = "Зароботок (BYN)";
+            empChart.Axes(Excel.XlAxisType.xlValue).AxisTitle.Characters.Text = "Заработок (BYN)";
         }
 
         private static void CreateServiceStatistics(Excel.Workbook currentApp, List<VisibleOrder> orders)
         {
             Dictionary<string, double> earnings = GetServiceEarnings(orders);
 
-            var servChart = CreateNewChart(currentApp, earnings, "Зароботок с услуг");
+            var servChart = CreateNewChart(currentApp, earnings, "Заработок с услуг");
 
             servChart.Axes(Excel.XlAxisType.xlCategory).AxisTitle.Characters.Text = "Услуги";
             servChart.ChartTitle.Characters.Text = "ЗАРАБОТОК С УСЛУГ ЗА " +
                 GetTimeSpan(orders) + " МЕСЯЦЕВ";
-            servChart.Axes(Excel.XlAxisType.xlValue).AxisTitle.Characters.Text = "Зароботок (BYN)";
+            servChart.Axes(Excel.XlAxisType.xlValue).AxisTitle.Characters.Text = "Заработок (BYN)";
         }
 
         private static Dictionary<string, double> GetServiceEarnings(List<VisibleOrder> orders)

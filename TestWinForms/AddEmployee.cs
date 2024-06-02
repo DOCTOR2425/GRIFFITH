@@ -14,23 +14,41 @@ namespace TestWinForms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (SalaryTextBox.Text == "" || NameTextBox.Text == "")
+            if (SalaryTB.Text == "" || NameTB.Text == "")
+            {
+                MessageBox.Show("Вы не ввели все данные", "Нет данных", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
+            }
+            if(IsNameValid() == false)
+            {
+                MessageBox.Show("Неправильно введённые данные ФИО работника", "Ошибка формата данных",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             double salary;
-            if (double.TryParse(SalaryTextBox.Text, out salary) == false)
+            if (double.TryParse(SalaryTB.Text, out salary) == false)
             {
-                SalaryTextBox.Text = "";
-                MessageBox.Show("Неверно введённые данные\nПроверьте правильность формата введённых данных",
-                                "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                SalaryTB.Text = "";
+                MessageBox.Show("Неверно введённые данные о зарплате\nПроверьте правильность формата введённых данных",
+                                "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return;
+            }
+            if(salary < 600)
+            {
+                SalaryTB.Text = "";
+                MessageBox.Show("Неверно введённые данные о зарплате\nВы ввели зарплату меньше минимальной (меньше 600)",
+                                "Ошибка введённых данных", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 return;
             }
 
             Employee emp = new Employee();
-            emp.Name = NameTextBox.Text;
+            emp.Name = NameTB.Text;
             emp.Salary = salary;
-            emp.Post = PostTextBox.Text;
+            emp.Post = PostTB.Text;
             emp.HireDate = DateTime.Now;
             emp.EmployeeID = Guid.NewGuid();
 
@@ -39,7 +57,18 @@ namespace TestWinForms
 
             this.Close();
         }
+        private bool IsNameValid()
+        {
+            if (NameTB.Text.Contains(" ") == false)
+                return false;
+            else if (NameTB.Text.Length < 6)
+                return false;
+
+            foreach (char s in NameTB.Text)
+                if (Char.IsDigit(s))
+                    return false;
+
+            return true;
+        }
     }
 }
-
-AddEmployee.cs

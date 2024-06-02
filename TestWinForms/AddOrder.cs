@@ -116,6 +116,7 @@ namespace TestWinForms
                 { "<employee>", order.Employee.Name },
                 { "<price>", order.Service.Price.ToString() },
                 { "<discount>", order.Discount.Percent.ToString() },
+                { "<telephone>", order.Client.Telephone },
 
                 { "<day>", order.Date.Day.ToString() },
                 { "<month>", order.Date.ToString("MMMM") },

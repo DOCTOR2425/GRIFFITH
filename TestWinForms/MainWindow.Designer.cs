@@ -53,6 +53,7 @@
             this.DropFiltresB = new System.Windows.Forms.Button();
             this.SearchFieldTB = new System.Windows.Forms.TextBox();
             this.TableSelectCB = new System.Windows.Forms.ComboBox();
+            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
             this.GridContextMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -67,6 +68,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Grid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.Grid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
+            this.Grid.BackgroundColor = System.Drawing.SystemColors.Window;
             this.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Grid.ContextMenuStrip = this.GridContextMenu;
             this.Grid.Location = new System.Drawing.Point(13, 34);
@@ -76,9 +78,9 @@
             this.Grid.RowHeadersWidth = 51;
             this.Grid.RowTemplate.Height = 24;
             this.Grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.helpProvider1.SetShowHelp(this.Grid, false);
             this.Grid.Size = new System.Drawing.Size(1149, 505);
             this.Grid.TabIndex = 4;
-            this.Grid.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Grid_RowHeaderMouseDoubleClick);
             // 
             // GridContextMenu
             // 
@@ -114,7 +116,7 @@
             this.AddTSMI});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(418, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(268, 28);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -290,6 +292,10 @@
             this.TableSelectCB.Size = new System.Drawing.Size(148, 24);
             this.TableSelectCB.TabIndex = 12;
             // 
+            // helpProvider1
+            // 
+            this.helpProvider1.HelpNamespace = "D:\\Project\\Course_3\\Проект GRIFFITH\\GRIFFITH\\TestWinForms\\bin\\Debug\\help.chm";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -303,9 +309,11 @@
             this.Controls.Add(this.MoneyTextBox);
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.menuStrip1);
+            this.HelpButton = true;
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(1192, 300);
             this.Name = "MainWindow";
+            this.helpProvider1.SetShowHelp(this, true);
             this.Text = "GRIFFITH";
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
             this.GridContextMenu.ResumeLayout(false);
@@ -341,6 +349,7 @@
         private System.Windows.Forms.ContextMenuStrip GridContextMenu;
         private System.Windows.Forms.ToolStripMenuItem изменитьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
+        public System.Windows.Forms.HelpProvider helpProvider1;
     }
 }
 

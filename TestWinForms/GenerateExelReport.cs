@@ -27,6 +27,8 @@ namespace TestWinForms
             {
                 MessageBox.Show("В этом временном промежутке нет ни одного заказа", "Заказов нет",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                GenerateReportB.Cursor = Cursors.Default;
+
                 return;
             }
             var excel = ReportCreator.GenerateExcelReport(orders);

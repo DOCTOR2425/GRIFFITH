@@ -52,7 +52,7 @@
             this.AddOrderB.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AddOrderB.Location = new System.Drawing.Point(336, 310);
             this.AddOrderB.Name = "AddOrderB";
-            this.AddOrderB.Size = new System.Drawing.Size(250, 57);
+            this.AddOrderB.Size = new System.Drawing.Size(299, 57);
             this.AddOrderB.TabIndex = 9;
             this.AddOrderB.Text = "Добавить заказ";
             this.AddOrderB.UseVisualStyleBackColor = true;
@@ -124,7 +124,7 @@
             this.ClientCB.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.ClientCB.Location = new System.Drawing.Point(12, 38);
             this.ClientCB.Name = "ClientCB";
-            this.ClientCB.Size = new System.Drawing.Size(574, 24);
+            this.ClientCB.Size = new System.Drawing.Size(623, 24);
             this.ClientCB.TabIndex = 29;
             this.ClientCB.SelectedValueChanged += new System.EventHandler(this.ClientCB_SelectedValueChanged);
             // 
@@ -135,7 +135,7 @@
             this.ServiceCB.FormattingEnabled = true;
             this.ServiceCB.Location = new System.Drawing.Point(336, 147);
             this.ServiceCB.Name = "ServiceCB";
-            this.ServiceCB.Size = new System.Drawing.Size(250, 24);
+            this.ServiceCB.Size = new System.Drawing.Size(299, 24);
             this.ServiceCB.TabIndex = 30;
             this.ServiceCB.SelectedValueChanged += new System.EventHandler(this.ServiceCB_SelectedValueChanged);
             // 
@@ -146,7 +146,7 @@
             this.EmployeeCB.FormattingEnabled = true;
             this.EmployeeCB.Location = new System.Drawing.Point(336, 237);
             this.EmployeeCB.Name = "EmployeeCB";
-            this.EmployeeCB.Size = new System.Drawing.Size(250, 24);
+            this.EmployeeCB.Size = new System.Drawing.Size(299, 24);
             this.EmployeeCB.TabIndex = 31;
             this.EmployeeCB.SelectedValueChanged += new System.EventHandler(this.EmployeeCB_SelectedValueChanged);
             // 
@@ -218,7 +218,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(605, 385);
+            this.ClientSize = new System.Drawing.Size(647, 385);
             this.Controls.Add(this.ClientInfoL);
             this.Controls.Add(this.EmployeeInfoL);
             this.Controls.Add(this.ServiceInfoL);

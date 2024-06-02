@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace TestWinForms
 {
@@ -28,6 +27,8 @@ namespace TestWinForms
                 { "<employee>", Grid.Rows[selectedRow].Cells[2].Value.ToString() },
                 { "<price>", Grid.Rows[selectedRow].Cells[4].Value.ToString() },
                 { "<discount>", Grid.Rows[selectedRow].Cells[5].Value.ToString() },
+                { "<telephone>", Algorithms.Notary.Client.FirstOrDefault(
+                    x=> x.Name == Grid.Rows[selectedRow].Cells[0].Value.ToString()).Telephone },
                 { "<day>", ((DateTime)Grid.Rows[selectedRow].Cells[3].Value).Day.ToString() },
                 { "<month>", ((DateTime)Grid.Rows[selectedRow].Cells[3].Value).ToString("MMMM") },
                 { "<year>", ((DateTime)Grid.Rows[selectedRow].Cells[3].Value).Year.ToString() }

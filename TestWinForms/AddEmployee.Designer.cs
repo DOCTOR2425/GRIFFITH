@@ -30,11 +30,11 @@
         {
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.SalaryTextBox = new System.Windows.Forms.TextBox();
-            this.NameTextBox = new System.Windows.Forms.TextBox();
+            this.SalaryTB = new System.Windows.Forms.TextBox();
+            this.NameTB = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.PostTextBox = new System.Windows.Forms.TextBox();
+            this.PostTB = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label3
@@ -55,20 +55,20 @@
             this.label2.TabIndex = 17;
             this.label2.Text = "ФИО работника";
             // 
-            // SalaryTextBox
+            // SalaryTB
             // 
-            this.SalaryTextBox.Location = new System.Drawing.Point(12, 173);
-            this.SalaryTextBox.Name = "SalaryTextBox";
-            this.SalaryTextBox.Size = new System.Drawing.Size(144, 22);
-            this.SalaryTextBox.TabIndex = 3;
-            this.SalaryTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.SalaryTB.Location = new System.Drawing.Point(12, 173);
+            this.SalaryTB.Name = "SalaryTB";
+            this.SalaryTB.Size = new System.Drawing.Size(144, 22);
+            this.SalaryTB.TabIndex = 3;
+            this.SalaryTB.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // NameTextBox
+            // NameTB
             // 
-            this.NameTextBox.Location = new System.Drawing.Point(12, 43);
-            this.NameTextBox.Name = "NameTextBox";
-            this.NameTextBox.Size = new System.Drawing.Size(378, 22);
-            this.NameTextBox.TabIndex = 1;
+            this.NameTB.Location = new System.Drawing.Point(12, 43);
+            this.NameTB.Name = "NameTB";
+            this.NameTB.Size = new System.Drawing.Size(378, 22);
+            this.NameTB.TabIndex = 1;
             // 
             // button1
             // 
@@ -89,12 +89,12 @@
             this.label1.TabIndex = 20;
             this.label1.Text = "Должность работника";
             // 
-            // PostTextBox
+            // PostTB
             // 
-            this.PostTextBox.Location = new System.Drawing.Point(12, 106);
-            this.PostTextBox.Name = "PostTextBox";
-            this.PostTextBox.Size = new System.Drawing.Size(378, 22);
-            this.PostTextBox.TabIndex = 2;
+            this.PostTB.Location = new System.Drawing.Point(12, 106);
+            this.PostTB.Name = "PostTB";
+            this.PostTB.Size = new System.Drawing.Size(378, 22);
+            this.PostTB.TabIndex = 2;
             // 
             // AddEmployee
             // 
@@ -103,11 +103,11 @@
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(402, 207);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.PostTextBox);
+            this.Controls.Add(this.PostTB);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.SalaryTextBox);
-            this.Controls.Add(this.NameTextBox);
+            this.Controls.Add(this.SalaryTB);
+            this.Controls.Add(this.NameTB);
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -124,10 +124,10 @@
 
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox SalaryTextBox;
-        private System.Windows.Forms.TextBox NameTextBox;
+        private System.Windows.Forms.TextBox SalaryTB;
+        private System.Windows.Forms.TextBox NameTB;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox PostTextBox;
+        private System.Windows.Forms.TextBox PostTB;
     }
 }

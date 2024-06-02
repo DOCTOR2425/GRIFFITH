@@ -19,6 +19,7 @@ namespace TestWinForms
                        Нотариус = order.Employee.Name,
                        Дата = order.Date,
                        Цена = order.Service.Price,
+                       Итого = order.Service.Price - (order.Service.Price * order.Discount.Percent / 100),
                        Скидка = order.Discount.Percent
                    };
         }
@@ -71,37 +72,6 @@ namespace TestWinForms
                        Статус = employee.DismissalDate == null ? "Работает" :
                        "Уволен " + employee.DismissalDate
                    };
-        }
-
-        public static IEnumerable<Client> GetClients()
-        {
-            return from cl in Notary.Client select cl;
-        }
-
-        public static IEnumerable<Order> GetOrders()
-        {
-            return from ord in Notary.Order select ord;
-        }
-
-        public static IEnumerable<Service> GetServices()
-        {
-            return from serv in Notary.Service
-                   where serv.NewFlag == 1
-                   select serv;
-        }
-
-        public static IEnumerable<Discount> GetDiscounts()
-        {
-            return from disc in Notary.Discount
-                   where disc.NewFlag == 1
-                   select disc;
-        }
-
-        public static IEnumerable<Employee> GetEmployees()
-        {
-            return from emp in Notary.Employee
-                   where emp.DismissalDate == null
-                   select emp;
         }
 
         public static double CalculateLastMonthlyProfit()

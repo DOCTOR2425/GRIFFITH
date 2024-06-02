@@ -34,60 +34,113 @@ namespace TestWinForms
             }
         }
 
-        private void DownNewFlag(object element)
+        //private void DownNewFlag(object element)
+        //{
+        //    if (typeOfElement == Algorithms.Type.Service)
+        //    {
+        //        (from serv in Algorithms.Notary.Service
+        //         where serv.Name == (element as Service).Name
+        //         select serv).ToList().ForEach(x => x.NewFlag = 0);
+        //    }
+        //    else
+        //    {
+        //        (from disc in Algorithms.Notary.Discount
+        //         where disc.Name == (element as Discount).Name
+        //         select disc).ToList().ForEach(x => x.NewFlag = 0);
+        //    }
+        //}
+
+        private object IsUnique(object element)
         {
+            object obj = null;
             if (typeOfElement == Algorithms.Type.Service)
             {
-                (from serv in Algorithms.Notary.Service
-                 where serv.Name == (element as Service).Name
-                 select serv).ToList().ForEach(x => x.NewFlag = 0);
-
-                return;
+                obj = Algorithms.Notary.Service.FirstOrDefault(x =>
+                       x.Name == (element as Service).Name &&
+                       x.NewFlag == 1);
             }
-             (from disc in Algorithms.Notary.Discount
-              where disc.Name == (element as Discount).Name
-              select disc).ToList().ForEach(x => x.NewFlag = 0);
+            else
+            {
+                obj = Algorithms.Notary.Discount.FirstOrDefault(x =>
+                       x.Name == (element as Discount).Name &&
+                       x.NewFlag == 1);
+            }
+            return obj;
         }
 
         private void AddButton_Click(object sender, EventArgs e)
         {
             if (NameTextBox.Text == "" || NumberTextBox.Text == "" || DescriptionTextBox.Text == "")
-                return;
+            {
+                MessageBox.Show("Вы не ввели все данные о" +
+                    (typeOfElement == Algorithms.Type.Service ? "б услуге" : " скидке"),
+                                "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
-            double number;
-            if (double.TryParse(NumberTextBox.Text, out number) == false)
+                return;
+            }
+
+            if (double.TryParse(NumberTextBox.Text, out double number) == false)
             {
                 NumberTextBox.Text = "";
-                MessageBox.Show("Неверно введённые данные\nПроверьте правильность формата введённ" +
+                MessageBox.Show("Неверно введённый формат данных\nПроверьте правильность формата введённ" +
                     (typeOfElement == Algorithms.Type.Service ? "ой цены услуги" : "ого процента скидки"),
                                 "Ошибка формата данных", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                return;
+            }
+            if (number < (typeOfElement == Algorithms.Type.Service ? 20 : 1))
+            {
+                NumberTextBox.Text = "";
+                MessageBox.Show("Неверно введённые данные\nВы ввели отрицательн" +
+                    (typeOfElement == Algorithms.Type.Service ? "ую цену услуги" : "оый процент скидки"),
+                                "Ошибка введённых данных", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
                 return;
             }
 
             if (typeOfElement == Algorithms.Type.Service)
             {
-                Service service = new Service();
-                service.Name = NameTextBox.Text;
-                service.Price = number;
-                service.Description = DescriptionTextBox.Text;
-                service.ServiceID = Guid.NewGuid();
-                service.NewFlag = 1;
+                Service service = new Service
+                {
+                    Name = NameTextBox.Text,
+                    Price = number,
+                    Description = DescriptionTextBox.Text,
+                    ServiceID = Guid.NewGuid(),
+                    NewFlag = 1
+                };
 
-                DownNewFlag(service);
+                if (IsUnique(service) != null)
+                {
+                    MessageBox.Show("Услуга с название " + service.Name + " уже есть\n" +
+                        "Цена: " + ((Service)IsUnique(service)).Price + "\nОписание: " +
+                        ((Service)IsUnique(service)).Description, "Ошибка добавления",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    return;
+                }
 
                 Algorithms.Notary.Service.InsertOnSubmit(service);
             }
             else
             {
-                Discount discount = new Discount();
-                discount.Name = NameTextBox.Text;
-                discount.Percent = number;
-                discount.Description = DescriptionTextBox.Text;
-                discount.DiscountID = Guid.NewGuid();
-                discount.NewFlag = 1;
+                Discount discount = new Discount
+                {
+                    Name = NameTextBox.Text,
+                    Percent = number,
+                    Description = DescriptionTextBox.Text,
+                    DiscountID = Guid.NewGuid(),
+                    NewFlag = 1
+                };
 
-                DownNewFlag(discount);
+                if (IsUnique(discount) != null)
+                {
+                    MessageBox.Show("Скидка с название " + discount.Name + " уже есть\n" +
+                        "Процент: " + ((Discount)IsUnique(discount)).Percent + "\nОписание: " +
+                        ((Discount)IsUnique(discount)).Description, "Ошибка добавления",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    return;
+                }
 
                 Algorithms.Notary.Discount.InsertOnSubmit(discount);
             }

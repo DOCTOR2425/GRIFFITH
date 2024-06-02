@@ -19,17 +19,6 @@ namespace TestWinForms
             ChangeCurrentTable(Algorithms.Type.Order);
         }
 
-        private void Grid_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            string toView = "";
-
-            for (int i = 0; i < Grid.Columns.Count; i++)
-                toView += Grid.Columns[i].Name + ":  " +
-                          Grid.Rows[e.RowIndex].Cells[i].Value + "\n";
-
-            MessageBox.Show(toView, "Выбранные элемент");
-        }
-
         private void ShowClientToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ChangeCurrentTable(Algorithms.Type.Client);
@@ -119,6 +108,8 @@ namespace TestWinForms
             }
 
             PropertyInfo field = list[0].GetType().GetProperty(TableSelectCB.Text);
+            if (field == null)
+                return;
 
             Grid.DataSource = (from obj in list
                                where field.GetValue(obj).ToString().ToLower()
@@ -147,6 +138,7 @@ namespace TestWinForms
                 case Algorithms.Type.Order:
                     TableSelectCB.DataSource = VisibleOrder.GetFieldsName();
                     Grid.DataSource = Algorithms.GetVisibleOrders();
+
                     MoneyTextBox.Text = Algorithms.CalculateLastMonthlyProfit().ToString();
                     break;
                 case Algorithms.Type.Discount:
@@ -204,8 +196,20 @@ namespace TestWinForms
                     }
                 case Algorithms.Type.Employee:
                     {
-                        ChangeElement changeElement = new ChangeElement(Algorithms.Notary.Employee.FirstOrDefault(
-                            x => x.Name == Grid.Rows[index].Cells[0].Value.ToString()));
+                        Employee toChange = Algorithms.Notary.Employee.FirstOrDefault(
+                            x => x.Name == Grid.Rows[index].Cells[0].Value.ToString() &&
+                            x.Post == Grid.Rows[index].Cells[2].Value.ToString() &&
+                            x.HireDate.Date == DateTime.Parse(Grid.Rows[index].Cells[3].Value.ToString()));
+
+                        if (toChange.DismissalDate != null)
+                        {
+                            MessageBox.Show("Нельзя изменить уже уволенного работника", "Ошибка изменения",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                            return;
+                        }
+
+                        ChangeElement changeElement = new ChangeElement(toChange);
                         changeElement.ShowDialog();
 
                         break;
@@ -236,30 +240,46 @@ namespace TestWinForms
 
         private void DeleteItemInLineTSMIClick(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Вы действительно хотите удалить этот объект из бд?\n" +
+            if (CurrentTable == Algorithms.Type.Client)
+            {
+                MessageBox.Show("Клиента нельзя удалять", "Ошибка удаления",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (MessageBox.Show("Вы действительно хотите удалить этот объект из базы данных?\n" +
                 "Для удаление нажмите \"Да\"", "Удаление объекта из базы",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                Visible obj = (Grid.DataSource as IEnumerable<Visible>).ToList()[Grid.CurrentRow.Index];
+                int index = Grid.CurrentCell.RowIndex;
 
-                switch (obj.GetType().Name)
+                switch (CurrentTable)
                 {
-                    case "VisibleService":
+                    case Algorithms.Type.Service:
                         Algorithms.Notary.Service.FirstOrDefault(x =>
-                        x.Name == (obj as VisibleService).Название && x.NewFlag == 1).NewFlag = 0;
+                        x.Name == Grid.Rows[index].Cells[0].Value.ToString() && x.NewFlag == 1).NewFlag = 0;
 
                         break;
-                    case "VisibleDiscount":
+                    case Algorithms.Type.Discount:
                         Algorithms.Notary.Discount.FirstOrDefault(x =>
-                        x.Name == (obj as VisibleDiscount).Название && x.NewFlag == 1).NewFlag = 0;
+                        x.Name == Grid.Rows[index].Cells[0].Value.ToString() && x.NewFlag == 1).NewFlag = 0;
 
                         break;
-                    case "VisibleEmployee":
-                        Algorithms.Notary.Employee.FirstOrDefault(x =>
-                        x.Name == (obj as VisibleEmployee).Имя && x.DismissalDate == null).DismissalDate = DateTime.Now;
+                    case Algorithms.Type.Employee:
+                        Employee toDismissal = Algorithms.Notary.Employee.FirstOrDefault(x =>
+                        x.Name == Grid.Rows[index].Cells[0].Value.ToString() && x.DismissalDate == null);
+
+                        if (toDismissal == null)
+                        {
+                            MessageBox.Show("Нельзя уволить уже уволенного работника", "Ошибка удаления",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
+                        toDismissal.DismissalDate = DateTime.Now;
 
                         break;
-                    case "VisibleOrder":
+                    case Algorithms.Type.Order:
                         if (DateTime.Now.Date.ToString() != Grid.Rows[Grid.CurrentCell.RowIndex].Cells[3].Value.ToString())
                         {
                             MessageBox.Show("Этот заказ оформлен более одного дня назад\n" +
@@ -270,10 +290,10 @@ namespace TestWinForms
 
                         Order toDelete = Algorithms.Notary.Order.FirstOrDefault(x =>
                         x.Date.Date == DateTime.Parse(Grid.Rows[Grid.CurrentRow.Index].Cells[3].Value.ToString()).Date &&
-                        x.Client.Name == (obj as VisibleOrder).Клиент &&
-                        x.Service.Name == (obj as VisibleOrder).Услуга &&
-                        x.Discount.Percent == (obj as VisibleOrder).Скидка &&
-                        x.Employee.Name == (obj as VisibleOrder).Нотариус);
+                        x.Client.Name == Grid.Rows[index].Cells[0].Value.ToString() &&
+                        x.Service.Name == Grid.Rows[index].Cells[1].Value.ToString() &&
+                        x.Employee.Name == Grid.Rows[index].Cells[2].Value.ToString() &&
+                        x.Discount.Percent == (double)Grid.Rows[index].Cells[6].Value);
 
                         Algorithms.Notary.Order.DeleteOnSubmit(toDelete);
 

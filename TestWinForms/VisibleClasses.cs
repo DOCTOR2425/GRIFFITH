@@ -4,7 +4,7 @@ namespace TestWinForms
 {
     public abstract class Visible
     {
-         
+        public static string[] GetFieldsName() { return new string[] { }; }
     }
     public class VisibleClient : Visible
     {
@@ -13,7 +13,7 @@ namespace TestWinForms
         public string Телефон { get; set; }
         public string Работа { get; set; }
 
-        public static string[] GetFieldsName()
+        public new static string[] GetFieldsName()
         {
             string[] fields = new string[typeof(VisibleClient).GetProperties().Length];
 
@@ -29,7 +29,7 @@ namespace TestWinForms
         public double Цена { get; set; }
         public string Описание { get; set; }
 
-        public static string[] GetFieldsName()
+        public new static string[] GetFieldsName()
         {
             string[] fields = new string[typeof(VisibleService).GetProperties().Length];
 
@@ -45,7 +45,7 @@ namespace TestWinForms
         public double Процент { get; set; }
         public string Описание { get; set; }
 
-        public static string[] GetFieldsName()
+        public new static string[] GetFieldsName()
         {
             string[] fields = new string[typeof(VisibleDiscount).GetProperties().Length];
 
@@ -63,7 +63,7 @@ namespace TestWinForms
         public DateTime Найм { get; set; }
         public string Статус { get; set; }
 
-        public static string[] GetFieldsName()
+        public new static string[] GetFieldsName()
         {
             string[] fields = new string[typeof(VisibleEmployee).GetProperties().Length];
 
@@ -80,9 +80,10 @@ namespace TestWinForms
         public string Нотариус { get; set; }
         public DateTime Дата { get; set; }
         public double Цена { get; set; }
+        public double Итого { get; set; }
         public double Скидка { get; set; }
 
-        public static string[] GetFieldsName()
+        public new static string[] GetFieldsName()
         {
             string[] fields = new string[typeof(VisibleOrder).GetProperties().Length];
 
